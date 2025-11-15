@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gen AI Mastery - Chota Bheem Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            min-height: 100vh;
+            color: #2C1810;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 60px rgba(255, 140, 0, 0.15);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FFB84D 100%);
+            color: white;
+            padding: 100px 40px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="3" fill="%23FFD700" opacity="0.3"/><circle cx="80" cy="40" r="2" fill="%23FFD700" opacity="0.3"/><circle cx="40" cy="80" r="2.5" fill="%23FFD700" opacity="0.3"/><circle cx="60" cy="30" r="2" fill="%23FFD700" opacity="0.3"/></svg>') repeat;
+            background-size: 100px;
+            animation: sparkle 20s linear infinite;
+        }
+
+        @keyframes sparkle {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 4em;
+            margin-bottom: 20px;
+            font-weight: 800;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .subtitle {
+            font-size: 1.8em;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+            margin-bottom: 16px;
+        }
+
+        .header .description {
+            font-size: 1.2em;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .license-banner {
+            background: linear-gradient(135deg, #2C1810 0%, #3E2723 100%);
+            color: #FFE4C4;
+            padding: 16px 40px;
+            text-align: center;
+            border-bottom: 3px solid #FFD700;
+            font-size: 0.9em;
+        }
+
+        .license-banner a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .license-banner a:hover {
+            text-decoration: underline;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .intro-section {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .intro-section h2 {
+            color: #FF8C00;
+            font-size: 2.8em;
+            margin-bottom: 24px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .intro-section p {
+            font-size: 1.25em;
+            line-height: 1.8;
+            color: #4A4A4A;
+            max-width: 900px;
+            margin: 0 auto 20px;
+        }
+
+        .modules-section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            color: #FF8C00;
+            font-size: 2.6em;
+            margin-bottom: 50px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+        }
+
+        .module-card {
+            background: linear-gradient(135deg, #FFFBF0 0%, white 100%);
+            border: 3px solid #FFD700;
+            padding: 50px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .module-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #FF8C00, #FFD700, #4CAF50);
+        }
+
+        .module-card:hover {
+            border-color: #FF8C00;
+            box-shadow: 0 20px 50px rgba(255, 140, 0, 0.3);
+            transform: translateY(-10px);
+        }
+
+        .module-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF8C00, #FFA500);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .module-card h3 {
+            color: #FF8C00;
+            margin-bottom: 20px;
+            font-size: 2em;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .module-card p {
+            color: #5D4037;
+            font-size: 1.1em;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .module-topics {
+            list-style: none;
+            padding: 0;
+        }
+
+        .module-topics li {
+            padding: 10px 0;
+            padding-left: 28px;
+            position: relative;
+            color: #4A4A4A;
+            font-size: 1.05em;
+        }
+
+        .module-topics li::before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 14px 35px;
+            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+            border: 2px solid #FFD700;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 10px;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .features-section {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            padding: 80px 40px;
+            border-radius: 30px;
+            border: 4px solid #4CAF50;
+            margin-bottom: 80px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.15));
+        }
+
+        .feature-item h3 {
+            color: #2E7D32;
+            font-size: 1.4em;
+            margin-bottom: 12px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .feature-item p {
+            color: #4A4A4A;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #795548 0%, #8D6E63 100%);
+            color: #FFE4C4;
+            text-align: center;
+            padding: 50px 40px;
+            border-top: 5px solid #FFD700;
+        }
+
+        .footer p {
+            margin: 8px 0;
+            font-size: 1.05em;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 60px 24px;
+            }
+
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .header .subtitle {
+                font-size: 1.3em;
+            }
+
+            .content {
+                padding: 60px 24px;
+            }
+
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>🏹 Gen AI Mastery</h1>
+                <div class="subtitle">Chota Bheem Edition</div>
+                <div class="description">
+                    Learn to build powerful AI applications with the courage of Dholakpur's heroes
+                </div>
+            </div>
+        </div>
+
+        <div class="license-banner">
+            Chota Bheem and all related characters © <a href="https://www.greengold.tv" target="_blank">Green Gold Animation Pvt. Ltd.</a> | Educational content inspired by themes of teamwork and learning
+        </div>
+
+        <div class="content">
+            <div class="intro-section">
+                <h2>Welcome to Your AI Journey! 🚀</h2>
+                <p>
+                    Join Bheem and his friends as they guide you through the exciting world of Generative AI. 
+                    This comprehensive course takes you from complete beginner to confident AI developer through 
+                    practical, hands-on projects.
+                </p>
+                <p>
+                    Just like the heroes of Dholakpur work together to overcome challenges, you'll learn step-by-step 
+                    how to harness the power of modern AI technologies to build real-world applications.
+                </p>
+            </div>
+
+            <div class="features-section">
+                <h2 class="section-title" style="color: #2E7D32;">Why This Course? 🌟</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">🎯</span>
+                        <h3>Practical & Hands-On</h3>
+                        <p>Learn by building real projects, not just theory</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">⚡</span>
+                        <h3>Beginner Friendly</h3>
+                        <p>Start from scratch with clear, step-by-step guidance</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🔧</span>
+                        <h3>Production Ready</h3>
+                        <p>Build applications you can deploy and share</p>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎨</span>
+                        <h3>Fun & Engaging</h3>
+                        <p>Learn with beloved characters from Dholakpur</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modules-section">
+                <h2 class="section-title">Course Modules 📚</h2>
+                <div class="module-grid">
+                    <a href="01-getting-started/index.html" class="module-card">
+                        <span class="module-number">MODULE 1</span>
+                        <h3>Getting Started</h3>
+                        <p>
+                            Begin your AI journey with the fundamentals. Learn what Generative AI is, 
+                            set up your development environment, and make your first API call.
+                        </p>
+                        <ul class="module-topics">
+                            <li>Understanding Generative AI</li>
+                            <li>Environment Setup</li>
+                            <li>Your First API Call</li>
+                            <li>Working with Responses</li>
+                        </ul>
+                        <span class="cta-button">Start Module 1 →</span>
+                    </a>
+
+                    <a href="02-embeddings-rag/index.html" class="module-card">
+                        <span class="module-number">MODULE 2</span>
+                        <h3>Embeddings & RAG</h3>
+                        <p>
+                            Master embeddings and build your first Retrieval-Augmented Generation (RAG) system 
+                            to create AI applications that can search and use your own data.
+                        </p>
+                        <ul class="module-topics">
+                            <li>Understanding Embeddings</li>
+                            <li>Similarity Search</li>
+                            <li>RAG Fundamentals</li>
+                            <li>Building a RAG System</li>
+                        </ul>
+                        <span class="cta-button">Start Module 2 →</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>🏹 Gen AI Mastery - Chota Bheem Edition</strong></p>
+            <p style="font-size: 0.95em; margin-top: 16px; opacity: 0.9;">
+                Chota Bheem © Green Gold Animation Pvt. Ltd.
+            </p>
+            <p style="font-size: 0.9em; margin-top: 12px; opacity: 0.85;">
+                Built with ❤️ for learners everywhere
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
+
