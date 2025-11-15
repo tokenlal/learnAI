@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embeddings & RAG - Chota Bheem Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            min-height: 100vh;
+            color: #2C1810;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 60px rgba(255, 140, 0, 0.15);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FFB84D 100%);
+            color: white;
+            padding: 70px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="3" fill="%23FFD700" opacity="0.3"/><circle cx="80" cy="40" r="2" fill="%23FFD700" opacity="0.3"/><circle cx="40" cy="80" r="2.5" fill="%23FFD700" opacity="0.3"/><circle cx="60" cy="30" r="2" fill="%23FFD700" opacity="0.3"/></svg>') repeat;
+            background-size: 100px;
+            animation: sparkle 20s linear infinite;
+        }
+
+        @keyframes sparkle {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .header-bheem {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #FFD700;
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
+            object-fit: cover;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.2em;
+            margin-bottom: 16px;
+            font-weight: 800;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.4em;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .character-showcase {
+            background: linear-gradient(to bottom, #4CAF50 0%, #66BB6A 100%);
+            padding: 50px 40px;
+            border-bottom: 5px solid #FFD700;
+            position: relative;
+        }
+
+        .character-showcase::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #FF8C00, #FFD700, #FF8C00);
+        }
+
+        .showcase-title {
+            text-align: center;
+            color: white;
+            font-size: 2em;
+            font-weight: 800;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .character-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            align-items: center;
+        }
+
+        .character-card {
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .character-card:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .character-image {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            border: 5px solid #FFD700;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .character-card:hover .character-image {
+            border-color: #FF8C00;
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.5);
+            transform: rotate(5deg);
+        }
+
+        .character-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .character-name {
+            color: white;
+            font-weight: 700;
+            font-size: 1.1em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .license-banner {
+            background: linear-gradient(135deg, #2C1810 0%, #3E2723 100%);
+            color: #FFE4C4;
+            padding: 20px 40px;
+            text-align: center;
+            border-bottom: 3px solid #FFD700;
+            font-size: 0.9em;
+        }
+
+        .license-banner a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .license-banner a:hover {
+            text-decoration: underline;
+        }
+
+        .nav {
+            background: white;
+            border-bottom: 3px solid #FFD700;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            padding: 0 40px;
+        }
+
+        .nav a {
+            padding: 20px 32px;
+            color: #5D4037;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1em;
+            transition: all 0.3s;
+            border-bottom: 4px solid transparent;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .nav a:hover {
+            color: #FF8C00;
+            background: #FFF9E6;
+            border-bottom-color: #FF8C00;
+        }
+
+        .nav a.active {
+            color: #FF8C00;
+            background: #FFF9E6;
+            border-bottom-color: #FFD700;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section h2 {
+            color: #FF8C00;
+            font-size: 2.6em;
+            margin-bottom: 24px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section h2::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, #FFD700, transparent);
+        }
+
+        .section p {
+            font-size: 1.15em;
+            line-height: 1.8;
+            color: #4A4A4A;
+            margin-bottom: 20px;
+        }
+
+        .journey-path {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+            border: 4px solid #4CAF50;
+        }
+
+        .journey-path h3 {
+            color: #2E7D32;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .path-steps {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .path-step {
+            background: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            border: 3px solid #FFD700;
+            font-weight: 700;
+            color: #FF8C00;
+            min-width: 140px;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .path-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.3);
+        }
+
+        .path-arrow {
+            font-size: 1.5em;
+            color: #4CAF50;
+            font-weight: 700;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 32px;
+            margin: 40px 0;
+        }
+
+        .video-card {
+            background: linear-gradient(135deg, #FFFBF0 0%, white 100%);
+            border: 3px solid #FFD700;
+            padding: 32px;
+            border-radius: 15px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #FF8C00, #FFD700, #4CAF50);
+        }
+
+        .video-card:hover {
+            border-color: #FF8C00;
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.3);
+            transform: translateY(-8px);
+        }
+
+        .video-card h3 {
+            color: #FF8C00;
+            margin: 0 0 16px 0;
+            font-size: 1.6em;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .video-card .icon {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.15));
+        }
+
+        .video-card p {
+            color: #5D4037;
+            margin-bottom: 20px;
+        }
+
+        .video-card .topics {
+            background: #FFF9E6;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+            border-left: 4px solid #FF8C00;
+        }
+
+        .video-card .topics h4 {
+            color: #FF8C00;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .video-card .topics ul {
+            margin-left: 16px;
+        }
+
+        .video-card .topics li {
+            color: #5D4037;
+            font-size: 0.95em;
+            margin-bottom: 6px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            border-left: 6px solid #FFD700;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .highlight-box strong {
+            color: #FF8C00;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .prerequisite-box {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            border-left: 6px solid #FF8C00;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.2);
+        }
+
+        .prerequisite-box strong {
+            color: #FF8C00;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+            border: 3px solid #FFD700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #795548 0%, #8D6E63 100%);
+            color: #FFE4C4;
+            text-align: center;
+            padding: 40px;
+            margin-top: 80px;
+            border-top: 5px solid #FFD700;
+        }
+
+        .footer p {
+            margin: 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 50px 24px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header h1 {
+                font-size: 2.2em;
+            }
+
+            .header-bheem {
+                width: 120px;
+                height: 120px;
+            }
+
+            .content {
+                padding: 60px 24px;
+            }
+
+            .nav-content {
+                padding: 0 24px;
+                overflow-x: auto;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .character-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .character-image {
+                width: 100px;
+                height: 100px;
+            }
+
+            .path-steps {
+                flex-direction: column;
+            }
+
+            .path-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>🔍 Embeddings & RAG Systems</h1>
+                    <p>Master the Magic of Semantic Search with Team Dholakpur</p>
+                </div>
+                <img src="images/chutki.jpeg" alt="Chutki" class="header-bheem">
+            </div>
+        </div>
+
+        <div class="character-showcase">
+            <h2 class="showcase-title">⭐ Your Learning Team ⭐</h2>
+            <div class="character-grid">
+                <div class="character-card">
+                    <div class="character-image">
+                        <img src="images/bheem.jpeg" alt="Bheem">
+                    </div>
+                    <div class="character-name">Bheem</div>
+                </div>
+                <div class="character-card">
+                    <div class="character-image">
+                        <img src="images/chutki.jpeg" alt="Chutki">
+                    </div>
+                    <div class="character-name">Chutki</div>
+                </div>
+                <div class="character-card">
+                    <div class="character-image">
+                        <img src="images/raju.jpeg" alt="Raju">
+                    </div>
+                    <div class="character-name">Raju</div>
+                </div>
+                <div class="character-card">
+                    <div class="character-image">
+                        <img src="images/kalia.jpeg" alt="Kalia">
+                    </div>
+                    <div class="character-name">Kalia</div>
+                </div>
+                <div class="character-card">
+                    <div class="character-image">
+                        <img src="images/dholu_molu.jpeg" alt="Dholu & Bholu">
+                    </div>
+                    <div class="character-name">Dholu & Bholu</div>
+                </div>
+                <div class="character-card">
+                    <div class="character-image">
+                        <img src="images/jaggu.jpeg" alt="Jaggu">
+                    </div>
+                    <div class="character-name">Jaggu</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="license-banner">
+            Chota Bheem and all related characters © <a href="https://www.greengold.tv" target="_blank">Green Gold Animation Pvt. Ltd.</a> | Educational content inspired by themes of teamwork and learning
+        </div>
+
+        <div class="nav">
+            <div class="nav-content">
+                <a href="index.html" class="active">🏠 Home</a>
+                <a href="embeddings-basics.html">🧠 Embeddings Basics</a>
+                <a href="similarity-search.html">🔍 Similarity Search</a>
+                <a href="rag-basics.html">🔗 RAG Fundamentals</a>
+                <a href="building-rag.html">🛠️ Building RAG</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>Welcome to Advanced GenAI! 🚀</h2>
+                <p>
+                    Just like Chutki's wisdom helps solve mysteries in Dholakpur, you'll learn how to give your AI the power to understand and search through vast amounts of knowledge! 
+                    In this module, we'll explore embeddings and RAG (Retrieval-Augmented Generation) - the magic that lets AI remember and use custom information.
+                </p>
+                <p>
+                    This comprehensive tutorial series takes you from understanding embeddings to building a full-fledged RAG system that can answer questions from your own documents!
+                </p>
+            </div>
+
+            <div class="prerequisite-box">
+                <strong>📋 Prerequisites - What You Need First!</strong>
+                <p>Make sure you've completed the getting started section:</p>
+                <ul>
+                    <li>✅ Understanding of LLMs and API calls</li>
+                    <li>✅ Python development environment setup</li>
+                    <li>✅ OpenAI API key configured</li>
+                    <li>✅ Basic familiarity with making API requests</li>
+                </ul>
+            </div>
+
+            <div class="journey-path">
+                <h3>🗺️ Your Learning Journey with Team Dholakpur</h3>
+                <div class="path-steps">
+                    <div class="path-step">Embeddings</div>
+                    <div class="path-arrow">→</div>
+                    <div class="path-step">Similarity Search</div>
+                    <div class="path-arrow">→</div>
+                    <div class="path-step">RAG Architecture</div>
+                    <div class="path-arrow">→</div>
+                    <div class="path-step">Build RAG System</div>
+                </div>
+                <p style="margin-top: 20px; color: #2E7D32; font-weight: 600;">
+                    From basic concepts to production-ready systems in this complete module!
+                </p>
+            </div>
+
+            <div class="video-grid">
+                <div class="video-card">
+                    <span class="icon">🧠</span>
+                    <h3>Embeddings & Similarity</h3>
+                    <p>Discover how computers understand and compare text meaning through vector representations - like teaching Jaggu to understand different fruits!</p>
+                    
+                    <div class="topics">
+                        <h4>What You'll Learn:</h4>
+                        <ul>
+                            <li>What embeddings are and why they're powerful</li>
+                            <li>Converting text into meaningful vectors</li>
+                            <li>Measuring similarity between documents</li>
+                            <li>Building a document similarity finder</li>
+                        </ul>
+                    </div>
+
+                    <div class="topics">
+                        <h4>Hands-On Projects:</h4>
+                        <ul>
+                            <li>📄 Document similarity calculator</li>
+                            <li>🔍 Semantic search engine</li>
+                            <li>📊 Visualizing embedding spaces</li>
+                        </ul>
+                    </div>
+                    
+                    <p style="text-align: center; margin-top: 20px;">
+                        <a href="embeddings-basics.html" class="cta-button">Start Learning →</a>
+                    </p>
+                </div>
+
+                <div class="video-card">
+                    <span class="icon">🔗</span>
+                    <h3>RAG Systems</h3>
+                    <p>Build systems that combine retrieval and generation to give LLMs access to your custom knowledge - like creating Dholakpur's own library system!</p>
+                    
+                    <div class="topics">
+                        <h4>What You'll Learn:</h4>
+                        <ul>
+                            <li>Why RAG solves LLM limitations</li>
+                            <li>RAG architecture and components</li>
+                            <li>Document chunking strategies</li>
+                            <li>Retrieval and generation pipeline</li>
+                        </ul>
+                    </div>
+
+                    <div class="topics">
+                        <h4>Hands-On Projects:</h4>
+                        <ul>
+                            <li>📚 Personal document Q&A system</li>
+                            <li>🏢 Company knowledge base</li>
+                            <li>📖 PDF question answering</li>
+                        </ul>
+                    </div>
+                    
+                    <p style="text-align: center; margin-top: 20px;">
+                        <a href="rag-basics.html" class="cta-button">Build RAG →</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Why These Topics Matter</h2>
+                
+                <div class="highlight-box">
+                    <strong>🎯 Real-World Impact - Just Like Bheem Protecting Dholakpur!</strong>
+                    <p>Embeddings and RAG are the foundation of most production AI applications:</p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Customer Support:</strong> AI that knows your product documentation</li>
+                        <li><strong>Content Discovery:</strong> Find similar articles, products, or documents</li>
+                        <li><strong>Personal Assistants:</strong> AI that can access your files and notes</li>
+                        <li><strong>Enterprise AI:</strong> Company-wide knowledge systems</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>What You'll Build</h2>
+                <p><strong>By the end of this module, you'll have created these amazing projects:</strong></p>
+                
+                <div class="video-grid">
+                    <div class="video-card">
+                        <span class="icon">🔍</span>
+                        <h3>Document Similarity Finder</h3>
+                        <p>Upload documents and find the most similar ones using semantic search - perfect for organizing knowledge!</p>
+                    </div>
+                    
+                    <div class="video-card">
+                        <span class="icon">🤖</span>
+                        <h3>Smart Q&A System</h3>
+                        <p>Ask questions about your documents and get accurate, source-referenced answers - your personal knowledge assistant!</p>
+                    </div>
+                    
+                    <div class="video-card">
+                        <span class="icon">📊</span>
+                        <h3>Knowledge Dashboard</h3>
+                        <p>Web interface to upload, search, and query your document collection - professional and beautiful!</p>
+                    </div>
+                    
+                    <div class="video-card">
+                        <span class="icon">⚡</span>
+                        <h3>Production-Ready Code</h3>
+                        <p>Scalable, error-handled code you can deploy and extend - ready for real-world use!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Technologies We'll Use</h2>
+                <ul style="font-size: 1.15em; line-height: 1.9;">
+                    <li><strong>OpenAI Embeddings API:</strong> Converting text to vectors - the foundation!</li>
+                    <li><strong>ChromaDB:</strong> Vector database for storing and searching embeddings - super fast!</li>
+                    <li><strong>LangChain:</strong> Framework for building RAG applications - powerful tools!</li>
+                    <li><strong>Streamlit:</strong> Creating web interfaces for your applications - make it beautiful!</li>
+                    <li><strong>PyPDF2:</strong> Processing PDF documents - handle any format!</li>
+                    <li><strong>NumPy:</strong> Vector operations and similarity calculations - the math magic!</li>
+                </ul>
+            </div>
+
+            <div class="section" style="text-align: center; padding: 60px 40px; background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); border-radius: 20px; border: 4px solid #4CAF50;">
+                <h2 style="color: #2E7D32; margin-bottom: 25px;">Ready to Start Your Adventure? 🛠️</h2>
+                <p style="font-size: 1.2em; color: #4A4A4A; max-width: 700px; margin: 0 auto 35px;">
+                    Choose your starting point and begin mastering the power of embeddings and RAG with Team Dholakpur!
+                </p>
+                
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <a href="embeddings-basics.html" class="cta-button">
+                        🧠 Start with Embeddings
+                    </a>
+                    <a href="rag-basics.html" class="cta-button">
+                        🔗 Jump to RAG Basics
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Gen AI Mastery - Chota Bheem Edition</strong> | Module 2: Embeddings and RAG</p>
+            <p style="font-size: 0.9em; margin-top: 12px; opacity: 0.9;">Chota Bheem © Green Gold Animation Pvt. Ltd.</p>
+        </div>
+    </div>
+
+    <script>
+        hljs.highlightAll();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Embeddings - Chota Bheem Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            min-height: 100vh;
+            padding: 0;
+            color: #2C1810;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 60px rgba(255, 140, 0, 0.15);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FFB84D 100%);
+            color: white;
+            padding: 70px 40px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px solid #FFD700;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="3" fill="%23FFD700" opacity="0.3"/><circle cx="80" cy="40" r="2" fill="%23FFD700" opacity="0.3"/><circle cx="40" cy="80" r="2.5" fill="%23FFD700" opacity="0.3"/></svg>') repeat;
+            background-size: 100px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .header-character {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 5px solid #FFD700;
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
+            object-fit: cover;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.2em;
+            margin-bottom: 16px;
+            font-weight: 800;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.4em;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav {
+            background: white;
+            border-bottom: 3px solid #FFD700;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            padding: 0 40px;
+        }
+
+        .nav a {
+            padding: 20px 32px;
+            color: #5D4037;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1em;
+            transition: all 0.3s;
+            border-bottom: 4px solid transparent;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .nav a:hover {
+            color: #FF8C00;
+            background: #FFF9E6;
+            border-bottom-color: #FF8C00;
+        }
+
+        .nav a.active {
+            color: #FF8C00;
+            background: #FFF9E6;
+            border-bottom-color: #FFD700;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section h2 {
+            color: #FF8C00;
+            font-size: 2.6em;
+            margin-bottom: 28px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section h2::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, #FFD700, transparent);
+        }
+
+        .section h3 {
+            color: #4CAF50;
+            font-size: 1.9em;
+            margin: 40px 0 20px 0;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .section p,
+        .section li {
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: #4a5568;
+            margin-bottom: 16px;
+        }
+
+        .section ul,
+        .section ol {
+            margin-left: 24px;
+        }
+
+        .section li {
+            margin-bottom: 12px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            border-left: 6px solid #FFD700;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .highlight-box strong {
+            color: #FF8C00;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .concept-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-left: 6px solid #4CAF50;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .concept-box strong {
+            color: #2E7D32;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .demo-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-left: 6px solid #4CAF50;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .demo-box strong {
+            color: #2E7D32;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        code {
+            background: #FFF9E6;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-family: 'SF Mono', 'Monaco', monospace;
+            color: #FF8C00;
+            font-size: 0.9em;
+            border: 2px solid #FFD700;
+        }
+
+        pre {
+            margin: 24px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        pre code {
+            padding: 24px;
+            display: block;
+            overflow-x: auto;
+            background: #1a202c;
+            color: #e2e8f0;
+            border: none;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .comparison-card {
+            background: linear-gradient(135deg, #FFFBF0 0%, white 100%);
+            border: 3px solid #FFD700;
+            padding: 36px;
+            border-radius: 15px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comparison-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #FF8C00, #FFD700, #4CAF50);
+        }
+
+        .comparison-card:hover {
+            border-color: #FF8C00;
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.3);
+            transform: translateY(-8px);
+        }
+
+        .comparison-card h4 {
+            color: #FF8C00;
+            margin: 0 0 16px 0;
+            font-size: 1.5em;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .comparison-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .vector-viz {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .vector-example {
+            font-family: 'SF Mono', monospace;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+            font-size: 0.9em;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #795548 0%, #8D6E63 100%);
+            color: #FFE4C4;
+            text-align: center;
+            padding: 40px;
+            margin-top: 80px;
+            border-top: 5px solid #FFD700;
+        }
+
+        .footer p {
+            margin: 8px 0;
+        }
+
+        .step-indicator {
+            display: inline-block;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1em;
+            margin-bottom: 40px;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+            font-family: 'Poppins', sans-serif;
+            border: 3px solid #FFD700;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+            border: 3px solid #FFD700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 40px 24px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 40px 24px;
+            }
+
+            .nav-content {
+                padding: 0 24px;
+                overflow-x: auto;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>🧠 Understanding Embeddings</h1>
+                    <p>Learn the Magic of Meaning with Raju's Strategic Mind</p>
+                </div>
+                <img src="images/raju.jpeg" alt="Raju" class="header-character">
+            </div>
+        </div>
+
+        <div class="nav">
+            <div class="nav-content">
+                <a href="index.html">🏠 Home</a>
+                <a href="embeddings-basics.html" class="active">🧠 Embeddings Basics</a>
+                <a href="similarity-search.html">🔍 Similarity Search</a>
+                <a href="rag-basics.html">🔗 RAG Fundamentals</a>
+                <a href="building-rag.html">🛠️ Building RAG</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="step-indicator">Understanding Embeddings with Team Dholakpur 🧠</div>
+
+            <div class="section">
+                <h2>What Are Embeddings? 🤔</h2>
+                
+                <div class="concept-box">
+                    <strong>🎯 Simple Definition - Like Raju's Strategic Planning!</strong>
+                    <p>Embeddings are numerical representations of text that capture meaning. Think of them as coordinates in a high-dimensional space where similar texts are close to each other - just like how Raju maps out strategies for Dholakpur!</p>
+                </div>
+
+                <p><strong>Imagine you could plot every word, sentence, or document on a map where:</strong></p>
+                <ul>
+                    <li>Similar meanings cluster together</li>
+                    <li>Distance represents semantic similarity</li>
+                    <li>You can mathematically calculate how "close" two texts are</li>
+                </ul>
+
+                <div class="vector-viz">
+                    <h3>📊 Embedding Visualization</h3>
+                    <p><strong>2D Example (simplified):</strong></p>
+                    <div class="vector-example">
+"dog" → [0.8, 0.2]<br>
+"puppy" → [0.7, 0.3]    ← Close to "dog"<br>
+"car" → [0.1, 0.9]      ← Far from "dog"<br>
+"vehicle" → [0.2, 0.8]  ← Close to "car"
+                    </div>
+                    <p><em>Real embeddings have 1,536+ dimensions!</em></p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Why Embeddings Are Powerful</h2>
+                
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <span class="icon">🔤</span>
+                        <h4>Traditional Search</h4>
+                        <p><strong>Keyword Matching</strong></p>
+                        <ul>
+                            <li>Searches for exact words</li>
+                            <li>Misses synonyms and context</li>
+                            <li>"Car" ≠ "Automobile"</li>
+                            <li>Limited understanding</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <span class="icon">🧠</span>
+                        <h4>Semantic Search</h4>
+                        <p><strong>Meaning-Based Matching</strong></p>
+                        <ul>
+                            <li>Understands concepts and context</li>
+                            <li>Finds similar meanings</li>
+                            <li>"Car" ≈ "Automobile" ≈ "Vehicle"</li>
+                            <li>Human-like understanding</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🔍 Real-World Example - Smart Search Like Bheem Finding Villains!</strong>
+                    <p><strong>Query:</strong> "I need help with Python loops"</p>
+                    <p><strong>Traditional search finds:</strong> Documents containing "Python" AND "loops"</p>
+                    <p><strong>Semantic search finds:</strong> Documents about iteration, for loops, while loops, list comprehension, even if they don't use the word "loops" - just like how Bheem finds trouble even when it's hiding!</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Types of Embeddings</h2>
+                
+                <h3>1. Text Embeddings</h3>
+                <ul>
+                    <li><strong>Word embeddings:</strong> Individual words → vectors</li>
+                    <li><strong>Sentence embeddings:</strong> Complete sentences → vectors</li>
+                    <li><strong>Document embeddings:</strong> Entire documents → vectors</li>
+                </ul>
+
+                <h3>2. Other Types</h3>
+                <ul>
+                    <li><strong>Image embeddings:</strong> Pictures → vectors</li>
+                    <li><strong>Audio embeddings:</strong> Sounds/music → vectors</li>
+                    <li><strong>Multimodal embeddings:</strong> Text + images → shared space</li>
+                </ul>
+
+                <div class="concept-box">
+                    <strong>🎯 Focus for This Series</strong>
+                    <p>We'll focus on <strong>text embeddings</strong> using OpenAI's embedding models, which are perfect for building RAG systems and semantic search.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Your First Embedding</h2>
+                
+                <h3>Setup</h3>
+                <pre><code class="language-bash"># Install required packages
+pip install openai numpy python-dotenv
+</code></pre>
+
+                <h3>Basic Embedding Example</h3>
+                <pre><code class="language-python">import os
+import numpy as np
+from openai import OpenAI
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+def get_embedding(text):
+    """Get embedding for a piece of text."""
+    response = client.embeddings.create(
+        model="text-embedding-3-small",  # Latest, efficient model
+        input=text
+    )
+    return response.data[0].embedding
+
+# Test it out
+text = "I love programming in Python"
+embedding = get_embedding(text)
+
+print(f"Text: {text}")
+print(f"Embedding dimension: {len(embedding)}")
+print(f"First 5 values: {embedding[:5]}")
+</code></pre>
+
+                <div class="demo-box">
+                    <strong>✅ Expected Output</strong>
+                    <pre style="background: white; color: #2d3748; margin-top: 10px;">
+Text: I love programming in Python
+Embedding dimension: 1536
+First 5 values: [0.123, -0.456, 0.789, -0.234, 0.567]
+                    </pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Calculating Similarity</h2>
+                
+                <p>Once you have embeddings, you can calculate how similar two pieces of text are using <strong>cosine similarity</strong>:</p>
+
+                <pre><code class="language-python">import numpy as np
+
+def cosine_similarity(vec1, vec2):
+    """Calculate cosine similarity between two vectors."""
+    # Convert to numpy arrays
+    vec1 = np.array(vec1)
+    vec2 = np.array(vec2)
+    
+    # Calculate cosine similarity
+    dot_product = np.dot(vec1, vec2)
+    norm1 = np.linalg.norm(vec1)
+    norm2 = np.linalg.norm(vec2)
+    
+    similarity = dot_product / (norm1 * norm2)
+    return similarity
+
+# Example: Compare similar and different texts
+text1 = "I love programming in Python"
+text2 = "Python programming is my passion"
+text3 = "I enjoy cooking Italian food"
+
+# Get embeddings
+embedding1 = get_embedding(text1)
+embedding2 = get_embedding(text2)
+embedding3 = get_embedding(text3)
+
+# Calculate similarities
+sim_1_2 = cosine_similarity(embedding1, embedding2)
+sim_1_3 = cosine_similarity(embedding1, embedding3)
+
+print(f"Similarity between text1 and text2: {sim_1_2:.3f}")
+print(f"Similarity between text1 and text3: {sim_1_3:.3f}")
+</code></pre>
+
+                <div class="demo-box">
+                    <strong>✅ Expected Output</strong>
+                    <pre style="background: white; color: #2d3748; margin-top: 10px;">
+Similarity between text1 and text2: 0.867  ← High similarity!
+Similarity between text1 and text3: 0.234  ← Low similarity
+                    </pre>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>📊 Similarity Scores</strong>
+                    <ul>
+                        <li><strong>1.0:</strong> Identical or nearly identical meaning</li>
+                        <li><strong>0.8-0.9:</strong> Very similar concepts</li>
+                        <li><strong>0.6-0.7:</strong> Somewhat related</li>
+                        <li><strong>0.3-0.5:</strong> Loosely related</li>
+                        <li><strong>0.0-0.2:</strong> Very different concepts</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Building a Document Similarity Finder</h2>
+                
+                <p>Let's build a practical application that finds the most similar documents:</p>
+
+                <pre><code class="language-python">import os
+import numpy as np
+from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+class DocumentSimilarityFinder:
+    def __init__(self):
+        self.documents = []
+        self.embeddings = []
+    
+    def get_embedding(self, text):
+        """Get embedding for text."""
+        response = client.embeddings.create(
+            model="text-embedding-3-small",
+            input=text
+        )
+        return response.data[0].embedding
+    
+    def add_document(self, document):
+        """Add a document to the collection."""
+        embedding = self.get_embedding(document)
+        self.documents.append(document)
+        self.embeddings.append(embedding)
+        print(f"Added document: {document[:50]}...")
+    
+    def cosine_similarity(self, vec1, vec2):
+        """Calculate cosine similarity."""
+        vec1 = np.array(vec1)
+        vec2 = np.array(vec2)
+        return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
+    
+    def find_similar(self, query, top_k=3):
+        """Find most similar documents to query."""
+        if not self.documents:
+            return []
+        
+        query_embedding = self.get_embedding(query)
+        similarities = []
+        
+        for i, doc_embedding in enumerate(self.embeddings):
+            similarity = self.cosine_similarity(query_embedding, doc_embedding)
+            similarities.append((similarity, i, self.documents[i]))
+        
+        # Sort by similarity (highest first)
+        similarities.sort(reverse=True)
+        return similarities[:top_k]
+
+# Demo usage
+finder = DocumentSimilarityFinder()
+
+# Add some documents
+documents = [
+    "Python is a great programming language for data science and machine learning.",
+    "I love cooking pasta with fresh tomatoes and basil.",
+    "Machine learning algorithms can predict future trends from historical data.",
+    "The best pizza has a crispy crust and fresh mozzarella cheese.",
+    "Data scientists use Python and R for statistical analysis.",
+    "Italian cuisine is known for its use of fresh herbs and quality ingredients."
+]
+
+for doc in documents:
+    finder.add_document(doc)
+
+# Search for similar documents
+print("\n" + "="*60)
+query = "What programming language is good for AI?"
+print(f"Query: {query}")
+print("\nMost similar documents:")
+
+results = finder.find_similar(query, top_k=3)
+for i, (similarity, idx, document) in enumerate(results, 1):
+    print(f"{i}. Similarity: {similarity:.3f}")
+    print(f"   Document: {document}")
+    print()
+</code></pre>
+
+                <div class="demo-box">
+                    <strong>🎯 Try This</strong>
+                    <p>Run this code and try different queries:</p>
+                    <ul>
+                        <li>"What's good for cooking?" → Should find cooking-related docs</li>
+                        <li>"Tell me about data analysis" → Should find data science docs</li>
+                        <li>"I want to make food" → Should find cooking docs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Understanding the Results</h2>
+                
+                <div class="highlight-box">
+                    <strong>🔍 Why This Works</strong>
+                    <p>The embedding model has learned that:</p>
+                    <ul>
+                        <li>"Programming language" and "Python" are related concepts</li>
+                        <li>"AI", "machine learning", and "data science" are connected</li>
+                        <li>"Cooking" and "food" share semantic space</li>
+                        <li>Even without exact keyword matches, it finds relevant content!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Next Steps</h2>
+                
+                <p>Great job! You now understand embeddings and can build semantic search. Next, we'll:</p>
+                
+                <ul>
+                    <li>✅ Scale this to handle thousands of documents</li>
+                    <li>✅ Use vector databases for efficient storage</li>
+                    <li>✅ Build the retrieval component for RAG systems</li>
+                    <li>✅ Add document chunking for long texts</li>
+                </ul>
+
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="similarity-search.html" class="cta-button">
+                        🔍 Advanced Similarity Search →
+                    </a>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Practice Exercises</h2>
+                
+                <div class="concept-box">
+                    <strong>🏠 Homework Challenges</strong>
+                    <ol>
+                        <li><strong>Movie Recommender:</strong> Build a system that recommends similar movies based on descriptions</li>
+                        <li><strong>Article Clustering:</strong> Group news articles by topic using similarity thresholds</li>
+                        <li><strong>FAQ Matcher:</strong> Create a system that matches user questions to FAQ answers</li>
+                        <li><strong>Code Search:</strong> Build a search engine for code snippets based on comments/descriptions</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Gen AI Mastery - Chota Bheem Edition</strong> | Understanding Embeddings</p>
+            <p style="font-size: 0.9em; margin-top: 12px; opacity: 0.9;">Chota Bheem © Green Gold Animation Pvt. Ltd.</p>
+        </div>
+    </div>
+
+    <script>
+        hljs.highlightAll();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Your RAG System - Chota Bheem Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            min-height: 100vh;
+            padding: 0;
+            color: #2C1810;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 60px rgba(255, 140, 0, 0.15);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FFB84D 100%);
+            color: white;
+            padding: 70px 40px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px solid #FFD700;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="3" fill="%23FFD700" opacity="0.3"/><circle cx="80" cy="40" r="2" fill="%23FFD700" opacity="0.3"/><circle cx="40" cy="80" r="2.5" fill="%23FFD700" opacity="0.3"/></svg>') repeat;
+            background-size: 100px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .header-character {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 5px solid #FFD700;
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
+            object-fit: cover;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.2em;
+            margin-bottom: 16px;
+            font-weight: 800;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.4em;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav {
+            background: white;
+            border-bottom: 3px solid #FFD700;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            padding: 0 40px;
+        }
+
+        .nav a {
+            padding: 20px 32px;
+            color: #5D4037;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1em;
+            transition: all 0.3s;
+            border-bottom: 4px solid transparent;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .nav a:hover {
+            color: #FF8C00;
+            background: #FFF9E6;
+            border-bottom-color: #FF8C00;
+        }
+
+        .nav a.active {
+            color: #FF8C00;
+            background: #FFF9E6;
+            border-bottom-color: #FFD700;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section h2 {
+            color: #FF8C00;
+            font-size: 2.6em;
+            margin-bottom: 28px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section h2::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, #FFD700, transparent);
+        }
+
+        .section h3 {
+            color: #4CAF50;
+            font-size: 1.9em;
+            margin: 40px 0 20px 0;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .section p,
+        .section li {
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: #4a5568;
+            margin-bottom: 16px;
+        }
+
+        .section ul,
+        .section ol {
+            margin-left: 24px;
+        }
+
+        .section li {
+            margin-bottom: 12px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            border-left: 6px solid #FFD700;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .highlight-box strong {
+            color: #FF8C00;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .demo-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-left: 6px solid #4CAF50;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .demo-box strong {
+            color: #2E7D32;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            border-left: 6px solid #FF8C00;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.2);
+        }
+
+        .warning-box strong {
+            color: #FF8C00;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        code {
+            background: #FFF9E6;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-family: 'SF Mono', 'Monaco', monospace;
+            color: #FF8C00;
+            font-size: 0.9em;
+            border: 2px solid #FFD700;
+        }
+
+        pre {
+            margin: 24px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        pre code {
+            padding: 24px;
+            display: block;
+            overflow-x: auto;
+            background: #1a202c;
+            color: #e2e8f0;
+            border: none;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .step-box {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 28px;
+            margin: 24px 0;
+            border-radius: 8px;
+        }
+
+        .step-number {
+            background: #3182ce;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-right: 12px;
+        }
+
+        .file-structure {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+            font-family: 'SF Mono', monospace;
+            font-size: 0.9em;
+        }
+
+        .output-example {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'SF Mono', monospace;
+            color: #2d3748;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #795548 0%, #8D6E63 100%);
+            color: #FFE4C4;
+            text-align: center;
+            padding: 40px;
+            margin-top: 80px;
+            border-top: 5px solid #FFD700;
+        }
+
+        .footer p {
+            margin: 8px 0;
+        }
+
+        .step-indicator {
+            background: #3182ce;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: 600;
+            margin-bottom: 32px;
+            font-size: 0.95em;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+            border: 3px solid #FFD700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #FFFBF0 0%, white 100%);
+            border: 3px solid #FFD700;
+            padding: 36px;
+            border-radius: 15px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #FF8C00, #FFD700, #4CAF50);
+        }
+
+        .feature-card:hover {
+            border-color: #FF8C00;
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.3);
+            transform: translateY(-8px);
+        }
+
+        .feature-card h4 {
+            color: #FF8C00;
+            margin: 0 0 16px 0;
+            font-size: 1.5em;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .feature-card .icon {
+            font-size: 2em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 40px 24px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 40px 24px;
+            }
+
+            .nav-content {
+                padding: 0 24px;
+                overflow-x: auto;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>🛠️ Building Your RAG System</h1>
+                    <p>Create Magic with Jaggu's Creative Skills</p>
+                </div>
+                <img src="images/jaggu.jpeg" alt="Jaggu" class="header-character">
+            </div>
+        </div>
+
+        <div class="nav">
+            <div class="nav-content">
+                <a href="index.html">🏠 Home</a>
+                <a href="embeddings-basics.html">🧠 Embeddings Basics</a>
+                <a href="similarity-search.html">🔍 Similarity Search</a>
+                <a href="rag-basics.html">🔗 RAG Fundamentals</a>
+                <a href="building-rag.html" class="active">🛠️ Building RAG</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>What We're Building 🎯</h2>
+                
+                <p>In this tutorial, we'll build a complete RAG system that can:</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">📁</span>
+                        <h4>Process Documents</h4>
+                        <p>Load and chunk text files, PDFs, and other documents automatically</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="icon">🔍</span>
+                        <h4>Smart Search</h4>
+                        <p>Find relevant information using semantic similarity search</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="icon">🤖</span>
+                        <h4>Generate Answers</h4>
+                        <p>Create natural responses based on retrieved context</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="icon">📋</span>
+                        <h4>Source Citations</h4>
+                        <p>Include references to source documents for verification</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Setup & Dependencies</h2>
+                
+                <div class="step-box">
+                    <p><span class="step-number">1</span> <strong>Install Required Packages</strong></p>
+                    
+                    <pre><code class="language-bash"># Core dependencies
+pip install openai chromadb python-dotenv
+
+# Document processing
+pip install pypdf2 python-docx
+
+# Text processing
+pip install langchain-text-splitters
+
+# Web interface (optional)
+pip install streamlit
+</code></pre>
+                </div>
+
+                <div class="step-box">
+                    <p><span class="step-number">2</span> <strong>Project Structure</strong></p>
+                    
+                    <div class="file-structure">
+rag_system/
+├── rag_system.py           # Main RAG implementation
+├── document_processor.py   # Document loading and chunking
+├── streamlit_app.py       # Web interface
+├── .env                   # API keys
+├── documents/             # Your source documents
+│   ├── company_handbook.pdf
+│   ├── product_docs.txt
+│   └── faq.md
+└── chroma_db/            # Vector database (auto-created)
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Step 1: Document Processing</h2>
+                
+                <p>First, let's create a document processor that can handle different file types:</p>
+
+                <pre><code class="language-python"># document_processor.py
+import os
+from typing import List, Dict, Any
+from pathlib import Path
+import PyPDF2
+import docx
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+class DocumentProcessor:
+    def __init__(self, chunk_size=800, chunk_overlap=200):
+        self.chunk_size = chunk_size
+        self.chunk_overlap = chunk_overlap
+        
+        # Initialize text splitter
+        self.text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            length_function=len,
+            separators=["\n\n", "\n", ". ", " ", ""]
+        )
+    
+    def load_txt_file(self, file_path: str) -> str:
+        """Load text from a .txt file."""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as file:
+                return file.read()
+        except Exception as e:
+            print(f"Error loading {file_path}: {e}")
+            return ""
+    
+    def load_pdf_file(self, file_path: str) -> str:
+        """Load text from a PDF file."""
+        try:
+            text = ""
+            with open(file_path, 'rb') as file:
+                pdf_reader = PyPDF2.PdfReader(file)
+                for page in pdf_reader.pages:
+                    text += page.extract_text() + "\n"
+            return text
+        except Exception as e:
+            print(f"Error loading PDF {file_path}: {e}")
+            return ""
+    
+    def load_docx_file(self, file_path: str) -> str:
+        """Load text from a Word document."""
+        try:
+            doc = docx.Document(file_path)
+            text = ""
+            for paragraph in doc.paragraphs:
+                text += paragraph.text + "\n"
+            return text
+        except Exception as e:
+            print(f"Error loading DOCX {file_path}: {e}")
+            return ""
+    
+    def load_document(self, file_path: str) -> str:
+        """Load document based on file extension."""
+        file_path = Path(file_path)
+        extension = file_path.suffix.lower()
+        
+        if extension == '.txt':
+            return self.load_txt_file(file_path)
+        elif extension == '.pdf':
+            return self.load_pdf_file(file_path)
+        elif extension in ['.docx', '.doc']:
+            return self.load_docx_file(file_path)
+        else:
+            print(f"Unsupported file type: {extension}")
+            return ""
+    
+    def chunk_text(self, text: str, metadata: Dict[str, Any] = None) -> List[Dict[str, Any]]:
+        """Split text into chunks with metadata."""
+        if not text.strip():
+            return []
+        
+        chunks = self.text_splitter.split_text(text)
+        
+        result = []
+        for i, chunk in enumerate(chunks):
+            chunk_metadata = {
+                "chunk_index": i,
+                "chunk_size": len(chunk),
+                **(metadata or {})
+            }
+            
+            result.append({
+                "text": chunk.strip(),
+                "metadata": chunk_metadata
+            })
+        
+        return result
+    
+    def process_document(self, file_path: str) -> List[Dict[str, Any]]:
+        """Process a single document into chunks."""
+        file_path = Path(file_path)
+        
+        # Load the document
+        text = self.load_document(file_path)
+        if not text:
+            return []
+        
+        # Create metadata
+        metadata = {
+            "source": str(file_path),
+            "filename": file_path.name,
+            "file_type": file_path.suffix.lower(),
+            "file_size": file_path.stat().st_size if file_path.exists() else 0
+        }
+        
+        # Chunk the text
+        chunks = self.chunk_text(text, metadata)
+        
+        print(f"Processed {file_path.name}: {len(chunks)} chunks")
+        return chunks
+    
+    def process_directory(self, directory_path: str) -> List[Dict[str, Any]]:
+        """Process all supported documents in a directory."""
+        directory_path = Path(directory_path)
+        supported_extensions = {'.txt', '.pdf', '.docx', '.doc'}
+        
+        all_chunks = []
+        
+        for file_path in directory_path.iterdir():
+            if file_path.is_file() and file_path.suffix.lower() in supported_extensions:
+                chunks = self.process_document(file_path)
+                all_chunks.extend(chunks)
+        
+        print(f"Processed directory {directory_path}: {len(all_chunks)} total chunks")
+        return all_chunks
+
+# Example usage
+if __name__ == "__main__":
+    processor = DocumentProcessor(chunk_size=600, chunk_overlap=100)
+    
+    # Process a single document
+    chunks = processor.process_document("documents/sample.txt")
+    
+    for i, chunk in enumerate(chunks[:3]):  # Show first 3 chunks
+        print(f"\nChunk {i+1}:")
+        print(f"Text: {chunk['text'][:200]}...")
+        print(f"Metadata: {chunk['metadata']}")
+</code></pre>
+
+                <div class="demo-box">
+                    <strong>✅ What This Does</strong>
+                    <ul>
+                        <li>Loads text from multiple file formats (TXT, PDF, Word)</li>
+                        <li>Intelligently chunks documents using RecursiveCharacterTextSplitter</li>
+                        <li>Preserves metadata (source file, chunk index, etc.)</li>
+                        <li>Can process individual files or entire directories</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Step 2: RAG System Implementation</h2>
+                
+                <p>Now let's build the main RAG system that combines everything:</p>
+
+                <pre><code class="language-python"># rag_system.py
+import os
+import logging
+from typing import List, Dict, Any, Optional
+import chromadb
+from openai import OpenAI
+from dotenv import load_dotenv
+from document_processor import DocumentProcessor
+
+class RAGSystem:
+    def __init__(self, 
+                 db_path="./chroma_db", 
+                 collection_name="knowledge_base",
+                 embedding_model="text-embedding-3-small",
+                 generation_model="gpt-4"):
+        
+        # Setup logging
+        logging.basicConfig(level=logging.INFO)
+        self.logger = logging.getLogger(__name__)
+        
+        # Load environment variables
+        load_dotenv()
+        
+        # Initialize OpenAI client
+        self.openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        self.embedding_model = embedding_model
+        self.generation_model = generation_model
+        
+        # Initialize ChromaDB
+        self.chroma_client = chromadb.PersistentClient(path=db_path)
+        
+        # Get or create collection
+        try:
+            self.collection = self.chroma_client.get_collection(name=collection_name)
+            self.logger.info(f"Loaded existing collection '{collection_name}'")
+        except:
+            self.collection = self.chroma_client.create_collection(name=collection_name)
+            self.logger.info(f"Created new collection '{collection_name}'")
+        
+        # Initialize document processor
+        self.doc_processor = DocumentProcessor()
+    
+    def get_embedding(self, text: str) -> List[float]:
+        """Generate embedding for text."""
+        try:
+            response = self.openai_client.embeddings.create(
+                model=self.embedding_model,
+                input=text.strip()
+            )
+            return response.data[0].embedding
+        except Exception as e:
+            self.logger.error(f"Error generating embedding: {e}")
+            raise
+    
+    def add_documents(self, documents: List[Dict[str, Any]]) -> None:
+        """Add documents to the knowledge base."""
+        if not documents:
+            self.logger.warning("No documents to add")
+            return
+        
+        embeddings = []
+        texts = []
+        metadatas = []
+        ids = []
+        
+        for i, doc in enumerate(documents):
+            text = doc['text']
+            metadata = doc['metadata']
+            
+            # Generate unique ID
+            doc_id = f"{metadata.get('filename', 'unknown')}_{metadata.get('chunk_index', i)}"
+            
+            # Generate embedding
+            embedding = self.get_embedding(text)
+            
+            embeddings.append(embedding)
+            texts.append(text)
+            metadatas.append(metadata)
+            ids.append(doc_id)
+            
+            if (i + 1) % 10 == 0:
+                self.logger.info(f"Processed {i + 1}/{len(documents)} documents")
+        
+        # Add to collection
+        self.collection.add(
+            embeddings=embeddings,
+            documents=texts,
+            metadatas=metadatas,
+            ids=ids
+        )
+        
+        self.logger.info(f"Successfully added {len(documents)} documents to knowledge base")
+    
+    def load_documents_from_directory(self, directory_path: str) -> None:
+        """Load and process all documents from a directory."""
+        chunks = self.doc_processor.process_directory(directory_path)
+        if chunks:
+            self.add_documents(chunks)
+        else:
+            self.logger.warning(f"No documents found in {directory_path}")
+    
+    def search(self, query: str, n_results: int = 5, where_filter: Dict = None) -> List[Dict]:
+        """Search for relevant documents."""
+        try:
+            # Generate query embedding
+            query_embedding = self.get_embedding(query)
+            
+            # Search the collection
+            results = self.collection.query(
+                query_embeddings=[query_embedding],
+                n_results=n_results,
+                where=where_filter
+            )
+            
+            # Format results
+            formatted_results = []
+            for i in range(len(results['documents'][0])):
+                formatted_results.append({
+                    'text': results['documents'][0][i],
+                    'metadata': results['metadatas'][0][i],
+                    'distance': results['distances'][0][i],
+                    'similarity': 1 - results['distances'][0][i],
+                    'id': results['ids'][0][i]
+                })
+            
+            return formatted_results
+            
+        except Exception as e:
+            self.logger.error(f"Error searching: {e}")
+            return []
+    
+    def generate_answer(self, 
+                       query: str, 
+                       context_docs: List[Dict], 
+                       max_context_length: int = 4000) -> Dict[str, Any]:
+        """Generate answer using retrieved context."""
+        
+        # Build context from retrieved documents
+        context_pieces = []
+        total_length = 0
+        used_sources = []
+        
+        for doc in context_docs:
+            doc_text = doc['text']
+            if total_length + len(doc_text) <= max_context_length:
+                context_pieces.append(doc_text)
+                used_sources.append({
+                    'filename': doc['metadata'].get('filename', 'unknown'),
+                    'similarity': doc['similarity']
+                })
+                total_length += len(doc_text)
+            else:
+                break
+        
+        context = "\n\n".join(context_pieces)
+        
+        # Create the prompt
+        prompt = f"""You are a helpful AI assistant. Answer the user's question based on the provided context.
+
+Context:
+{context}
+
+Question: {query}
+
+Instructions:
+1. Answer based only on the information provided in the context
+2. If the context doesn't contain enough information to answer the question, say so
+3. Be specific and cite relevant parts of the context when possible
+4. Keep your answer clear and concise
+
+Answer:"""
+        
+        try:
+            # Generate response
+            response = self.openai_client.chat.completions.create(
+                model=self.generation_model,
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant that answers questions based on provided context."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.3,
+                max_tokens=500
+            )
+            
+            answer = response.choices[0].message.content
+            
+            return {
+                'answer': answer,
+                'sources': used_sources,
+                'context_used': len(context_pieces),
+                'total_context_length': total_length
+            }
+            
+        except Exception as e:
+            self.logger.error(f"Error generating answer: {e}")
+            return {
+                'answer': "Sorry, I encountered an error while generating the answer.",
+                'sources': [],
+                'context_used': 0,
+                'total_context_length': 0
+            }
+    
+    def query(self, 
+              question: str, 
+              n_results: int = 5, 
+              similarity_threshold: float = 0.3) -> Dict[str, Any]:
+        """Complete RAG query: search + generate."""
+        
+        # Step 1: Search for relevant documents
+        search_results = self.search(question, n_results=n_results)
+        
+        # Step 2: Filter by similarity threshold
+        relevant_docs = [doc for doc in search_results if doc['similarity'] >= similarity_threshold]
+        
+        if not relevant_docs:
+            return {
+                'answer': "I couldn't find relevant information in the knowledge base to answer your question.",
+                'sources': [],
+                'search_results': len(search_results),
+                'relevant_docs': 0
+            }
+        
+        # Step 3: Generate answer
+        result = self.generate_answer(question, relevant_docs)
+        result.update({
+            'search_results': len(search_results),
+            'relevant_docs': len(relevant_docs)
+        })
+        
+        return result
+    
+    def get_stats(self) -> Dict[str, Any]:
+        """Get knowledge base statistics."""
+        try:
+            count = self.collection.count()
+            return {
+                'document_count': count,
+                'collection_name': self.collection.name
+            }
+        except Exception as e:
+            self.logger.error(f"Error getting stats: {e}")
+            return {}
+
+# Example usage
+if __name__ == "__main__":
+    # Initialize RAG system
+    rag = RAGSystem()
+    
+    # Load documents from directory
+    print("Loading documents...")
+    rag.load_documents_from_directory("./documents")
+    
+    # Get stats
+    stats = rag.get_stats()
+    print(f"Knowledge base loaded: {stats}")
+    
+    # Ask questions
+    questions = [
+        "What is the company vacation policy?",
+        "How do I submit an expense report?",
+        "What are the working hours?"
+    ]
+    
+    for question in questions:
+        print(f"\n{'='*60}")
+        print(f"Question: {question}")
+        print("-" * 60)
+        
+        result = rag.query(question)
+        
+        print(f"Answer: {result['answer']}")
+        print(f"\nSources used ({result['context_used']} documents):")
+        for source in result['sources']:
+            print(f"  - {source['filename']} (similarity: {source['similarity']:.3f})")
+</code></pre>
+
+                <div class="demo-box">
+                    <strong>🚀 System Features</strong>
+                    <ul>
+                        <li>Complete document processing pipeline</li>
+                        <li>Semantic search with similarity filtering</li>
+                        <li>Context-aware answer generation</li>
+                        <li>Source attribution and transparency</li>
+                        <li>Error handling and logging</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Step 3: Web Interface with Streamlit</h2>
+                
+                <p>Let's create a user-friendly web interface:</p>
+
+                <pre><code class="language-python"># streamlit_app.py
+import streamlit as st
+import os
+from rag_system import RAGSystem
+import tempfile
+from pathlib import Path
+
+# Configure page
+st.set_page_config(
+    page_title="RAG Q&A System",
+    page_icon="🔍",
+    layout="wide"
+)
+
+@st.cache_resource
+def load_rag_system():
+    """Load and cache the RAG system."""
+    return RAGSystem()
+
+def main():
+    st.title("🔍 RAG Question Answering System")
+    st.markdown("Ask questions about your documents and get AI-powered answers with source citations.")
+    
+    # Initialize RAG system
+    try:
+        rag = load_rag_system()
+        stats = rag.get_stats()
+    except Exception as e:
+        st.error(f"Error loading RAG system: {e}")
+        st.stop()
+    
+    # Sidebar for document management
+    with st.sidebar:
+        st.header("📁 Document Management")
+        
+        # Show current stats
+        st.metric("Documents in Knowledge Base", stats.get('document_count', 0))
+        
+        # File upload
+        st.subheader("Upload Documents")
+        uploaded_files = st.file_uploader(
+            "Choose files",
+            type=['txt', 'pdf', 'docx'],
+            accept_multiple_files=True,
+            help="Upload text files, PDFs, or Word documents"
+        )
+        
+        if uploaded_files:
+            if st.button("Process Uploaded Files"):
+                with st.spinner("Processing documents..."):
+                    try:
+                        # Save uploaded files temporarily and process
+                        temp_dir = tempfile.mkdtemp()
+                        documents = []
+                        
+                        for uploaded_file in uploaded_files:
+                            # Save file temporarily
+                            temp_file_path = Path(temp_dir) / uploaded_file.name
+                            with open(temp_file_path, "wb") as f:
+                                f.write(uploaded_file.getbuffer())
+                            
+                            # Process the document
+                            chunks = rag.doc_processor.process_document(temp_file_path)
+                            documents.extend(chunks)
+                        
+                        # Add to knowledge base
+                        if documents:
+                            rag.add_documents(documents)
+                            st.success(f"✅ Successfully processed {len(documents)} document chunks!")
+                            st.rerun()
+                        else:
+                            st.error("No content could be extracted from the uploaded files.")
+                            
+                    except Exception as e:
+                        st.error(f"Error processing files: {e}")
+        
+        # Clear knowledge base
+        if st.button("🗑️ Clear Knowledge Base", type="secondary"):
+            if st.confirm("Are you sure? This will delete all documents."):
+                try:
+                    # Recreate collection (clears all data)
+                    rag.chroma_client.delete_collection(rag.collection.name)
+                    rag.collection = rag.chroma_client.create_collection(rag.collection.name)
+                    st.success("Knowledge base cleared!")
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Error clearing knowledge base: {e}")
+    
+    # Main interface
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        st.header("💬 Ask a Question")
+        
+        # Question input
+        question = st.text_area(
+            "Your Question:",
+            height=100,
+            placeholder="e.g., What is the company's vacation policy? How do I submit an expense report?"
+        )
+        
+        # Advanced options
+        with st.expander("🔧 Advanced Options"):
+            col_a, col_b = st.columns(2)
+            with col_a:
+                n_results = st.slider("Number of documents to retrieve", 1, 10, 5)
+                similarity_threshold = st.slider("Similarity threshold", 0.0, 1.0, 0.3, 0.1)
+            with col_b:
+                include_metadata = st.checkbox("Show document metadata", value=False)
+                show_context = st.checkbox("Show retrieved context", value=False)
+        
+        # Submit button
+        if st.button("🔍 Get Answer", type="primary", disabled=not question):
+            if stats.get('document_count', 0) == 0:
+                st.warning("Please upload some documents first!")
+            else:
+                with st.spinner("Searching and generating answer..."):
+                    try:
+                        # Query the RAG system
+                        result = rag.query(
+                            question, 
+                            n_results=n_results, 
+                            similarity_threshold=similarity_threshold
+                        )
+                        
+                        # Display answer
+                        st.subheader("✅ Answer")
+                        st.write(result['answer'])
+                        
+                        # Display sources
+                        if result['sources']:
+                            st.subheader("📚 Sources")
+                            for i, source in enumerate(result['sources'], 1):
+                                st.write(f"{i}. **{source['filename']}** (similarity: {source['similarity']:.3f})")
+                        
+                        # Show search stats
+                        st.info(f"Found {result['search_results']} documents, used {result['relevant_docs']} relevant ones")
+                        
+                        # Show retrieved context if requested
+                        if show_context:
+                            search_results = rag.search(question, n_results=n_results)
+                            relevant_docs = [doc for doc in search_results if doc['similarity'] >= similarity_threshold]
+                            
+                            st.subheader("📄 Retrieved Context")
+                            for i, doc in enumerate(relevant_docs, 1):
+                                with st.expander(f"Document {i} (similarity: {doc['similarity']:.3f})"):
+                                    st.write(doc['text'])
+                                    if include_metadata:
+                                        st.json(doc['metadata'])
+                        
+                    except Exception as e:
+                        st.error(f"Error processing question: {e}")
+    
+    with col2:
+        st.header("📊 System Status")
+        
+        # System metrics
+        if stats:
+            st.metric("Total Documents", stats.get('document_count', 0))
+            st.metric("Collection Name", stats.get('collection_name', 'N/A'))
+        
+        # Sample questions
+        st.subheader("💡 Sample Questions")
+        sample_questions = [
+            "What is the vacation policy?",
+            "How do I submit expenses?",
+            "What are the working hours?",
+            "Who do I contact for IT support?",
+            "What benefits are available?"
+        ]
+        
+        for q in sample_questions:
+            if st.button(f"📝 {q}", key=f"sample_{q}"):
+                st.session_state.question = q
+                st.rerun()
+        
+        # Tips
+        st.subheader("💡 Tips")
+        st.markdown("""
+        - **Be specific**: Ask clear, focused questions
+        - **Use keywords**: Include relevant terms from your documents
+        - **Check sources**: Verify answers against the cited documents
+        - **Adjust threshold**: Lower similarity threshold for broader results
+        """)
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+                <div class="demo-box">
+                    <strong>🌐 Web Interface Features</strong>
+                    <ul>
+                        <li>File upload with drag-and-drop support</li>
+                        <li>Real-time document processing</li>
+                        <li>Interactive question-answer interface</li>
+                        <li>Source citation and verification</li>
+                        <li>Advanced search options and settings</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Step 4: Testing Your RAG System</h2>
+                
+                <div class="step-box">
+                    <p><span class="step-number">1</span> <strong>Create Test Documents</strong></p>
+                    
+                    <p>Create a <code>documents/</code> folder and add some test files:</p>
+                    
+                    <pre><code class="language-text"># documents/company_policy.txt
+Vacation Policy:
+All full-time employees are entitled to 15 vacation days per year.
+Part-time employees receive vacation days prorated based on hours worked.
+Vacation requests must be submitted at least 2 weeks in advance.
+Maximum of 5 vacation days can be carried over to the next year.
+
+Expense Policy:
+Submit expense reports within 30 days of incurring the expense.
+All expenses over $100 require a receipt.
+Travel expenses must be pre-approved by your manager.
+Reimbursement will be processed within 5-7 business days.
+
+Working Hours:
+Standard working hours are 9 AM to 5 PM, Monday through Friday.
+Flexible working arrangements are available with manager approval.
+Remote work is permitted up to 3 days per week.
+</code></pre>
+                </div>
+
+                <div class="step-box">
+                    <p><span class="step-number">2</span> <strong>Run the System</strong></p>
+                    
+                    <pre><code class="language-bash"># Method 1: Command line testing
+python rag_system.py
+
+# Method 2: Web interface
+streamlit run streamlit_app.py
+</code></pre>
+                </div>
+
+                <div class="step-box">
+                    <p><span class="step-number">3</span> <strong>Test Questions</strong></p>
+                    
+                    <p>Try asking these questions:</p>
+                    <ul>
+                        <li>"How many vacation days do I get?"</li>
+                        <li>"What's the expense report deadline?"</li>
+                        <li>"Can I work from home?"</li>
+                        <li>"What are the standard working hours?"</li>
+                    </ul>
+                </div>
+
+                <div class="output-example">
+<strong>Example Output:</strong><br><br>
+<strong>Question:</strong> How many vacation days do I get?<br><br>
+<strong>Answer:</strong> According to the company policy, all full-time employees are entitled to 15 vacation days per year. Part-time employees receive vacation days that are prorated based on the hours they work.<br><br>
+<strong>Sources:</strong><br>
+- company_policy.txt (similarity: 0.847)<br><br>
+<strong>Context used:</strong> 1 document
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Advanced Optimizations</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">⚡</span>
+                        <h4>Performance Tuning</h4>
+                        <ul>
+                            <li>Optimize chunk sizes for your content</li>
+                            <li>Implement caching for embeddings</li>
+                            <li>Use batch processing for large uploads</li>
+                            <li>Monitor API usage and costs</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="icon">🎯</span>
+                        <h4>Relevance Improvements</h4>
+                        <ul>
+                            <li>Implement query preprocessing</li>
+                            <li>Add metadata filtering capabilities</li>
+                            <li>Use re-ranking algorithms</li>
+                            <li>Experiment with different embedding models</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="icon">🔒</span>
+                        <h4>Production Features</h4>
+                        <ul>
+                            <li>Add user authentication</li>
+                            <li>Implement usage analytics</li>
+                            <li>Set up proper error monitoring</li>
+                            <li>Add data backup and recovery</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="icon">📈</span>
+                        <h4>Scaling Options</h4>
+                        <ul>
+                            <li>Deploy on cloud platforms</li>
+                            <li>Use distributed vector databases</li>
+                            <li>Implement horizontal scaling</li>
+                            <li>Add load balancing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Congratulations! 🎉</h2>
+                
+                <div class="highlight-box">
+                    <strong>🎯 What You've Built</strong>
+                    <ul>
+                        <li>✅ Complete RAG system from scratch</li>
+                        <li>✅ Multi-format document processing</li>
+                        <li>✅ Semantic search with vector database</li>
+                        <li>✅ Context-aware answer generation</li>
+                        <li>✅ Source citation and verification</li>
+                        <li>✅ Web interface for easy interaction</li>
+                        <li>✅ Production-ready error handling</li>
+                    </ul>
+                </div>
+
+                <p>You now have a fully functional RAG system that can handle real-world document Q&A scenarios. This foundation can be extended for enterprise use cases, specialized domains, and custom applications.</p>
+
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="index.html" class="cta-button">
+                        🏠 Back to Course Home
+                    </a>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Next Steps & Advanced Topics</h2>
+                
+                <p>Ready to take your RAG system further? Consider exploring:</p>
+                
+                <ul>
+                    <li><strong>Advanced RAG:</strong> Optimization techniques and performance tuning</li>
+                    <li><strong>Vector Databases:</strong> Deep dive into scaling and production deployment</li>
+                    <li><strong>AI Agents:</strong> Building agents that use RAG for enhanced capabilities</li>
+                    <li><strong>Multi-Agent Systems:</strong> Coordinating multiple AI agents for complex workflows</li>
+                </ul>
+
+                <div class="warning-box">
+                    <strong>🏠 Practice Project Ideas</strong>
+                    <ul>
+                        <li>Build a personal knowledge assistant for your notes</li>
+                        <li>Create a customer support bot for a business</li>
+                        <li>Develop a research assistant for academic papers</li>
+                        <li>Build a code documentation Q&A system</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Gen AI Mastery - Chota Bheem Edition</strong> | Building RAG Systems</p>
+            <p style="font-size: 0.9em; margin-top: 12px; opacity: 0.9;">Chota Bheem © Green Gold Animation Pvt. Ltd.</p>
+        </div>
+    </div>
+
+    <script>
+        hljs.highlightAll();
+    </script>
+</body>
+
+</html>

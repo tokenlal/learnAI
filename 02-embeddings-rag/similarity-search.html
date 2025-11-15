@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Similarity Search - Chota Bheem Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            min-height: 100vh;
+            padding: 0;
+            color: #2C1810;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 60px rgba(255, 140, 0, 0.15);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FFB84D 100%);
+            color: white;
+            padding: 70px 40px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px solid #FFD700;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="3" fill="%23FFD700" opacity="0.3"/><circle cx="80" cy="40" r="2" fill="%23FFD700" opacity="0.3"/><circle cx="40" cy="80" r="2.5" fill="%23FFD700" opacity="0.3"/></svg>') repeat;
+            background-size: 100px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .header-character {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 5px solid #FFD700;
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
+            object-fit: cover;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.2em;
+            margin-bottom: 16px;
+            font-weight: 800;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.4em;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav {
+            background: white;
+            border-bottom: 3px solid #FFD700;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            padding: 0 40px;
+        }
+
+        .nav a {
+            padding: 20px 32px;
+            color: #5D4037;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1em;
+            transition: all 0.3s;
+            border-bottom: 4px solid transparent;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .nav a:hover {
+            color: #FF8C00;
+            background: #FFF9E6;
+            border-bottom-color: #FF8C00;
+        }
+
+        .nav a.active {
+            color: #FF8C00;
+            background: #FFF9E6;
+            border-bottom-color: #FFD700;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section h2 {
+            color: #FF8C00;
+            font-size: 2.6em;
+            margin-bottom: 28px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section h2::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, #FFD700, transparent);
+        }
+
+        .section h3 {
+            color: #4CAF50;
+            font-size: 1.9em;
+            margin: 40px 0 20px 0;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .section p,
+        .section li {
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: #4a5568;
+            margin-bottom: 16px;
+        }
+
+        .section ul,
+        .section ol {
+            margin-left: 24px;
+        }
+
+        .section li {
+            margin-bottom: 12px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            border-left: 6px solid #FFD700;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .highlight-box strong {
+            color: #FF8C00;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .demo-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-left: 6px solid #4CAF50;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .demo-box strong {
+            color: #2E7D32;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            border-left: 6px solid #FF8C00;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.2);
+        }
+
+        .warning-box strong {
+            color: #FF8C00;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        code {
+            background: #FFF9E6;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-family: 'SF Mono', 'Monaco', monospace;
+            color: #FF8C00;
+            font-size: 0.9em;
+            border: 2px solid #FFD700;
+        }
+
+        pre {
+            margin: 24px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        pre code {
+            padding: 24px;
+            display: block;
+            overflow-x: auto;
+            background: #1a202c;
+            color: #e2e8f0;
+            border: none;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .comparison-card {
+            background: linear-gradient(135deg, #FFFBF0 0%, white 100%);
+            border: 3px solid #FFD700;
+            padding: 36px;
+            border-radius: 15px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comparison-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #FF8C00, #FFD700, #4CAF50);
+        }
+
+        .comparison-card:hover {
+            border-color: #FF8C00;
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.3);
+            transform: translateY(-8px);
+        }
+
+        .comparison-card h4 {
+            color: #FF8C00;
+            margin: 0 0 16px 0;
+            font-size: 1.5em;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .comparison-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #795548 0%, #8D6E63 100%);
+            color: #FFE4C4;
+            text-align: center;
+            padding: 40px;
+            margin-top: 80px;
+            border-top: 5px solid #FFD700;
+        }
+
+        .footer p {
+            margin: 8px 0;
+        }
+
+        .step-indicator {
+            display: inline-block;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1em;
+            margin-bottom: 40px;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+            font-family: 'Poppins', sans-serif;
+            border: 3px solid #FFD700;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+            border: 3px solid #FFD700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .performance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .performance-table th {
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .performance-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .performance-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .performance-table tr:hover {
+            background: #e8f4fd;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 40px 24px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 40px 24px;
+            }
+
+            .nav-content {
+                padding: 0 24px;
+                overflow-x: auto;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>🔍 Advanced Similarity Search</h1>
+                    <p>Scale Your Search Like Kalia's Team Strategies</p>
+                </div>
+                <img src="images/kalia.jpeg" alt="Kalia" class="header-character">
+            </div>
+        </div>
+
+        <div class="nav">
+            <div class="nav-content">
+                <a href="index.html">🏠 Home</a>
+                <a href="embeddings-basics.html">🧠 Embeddings Basics</a>
+                <a href="similarity-search.html" class="active">🔍 Similarity Search</a>
+                <a href="rag-basics.html">🔗 RAG Fundamentals</a>
+                <a href="building-rag.html">🛠️ Building RAG</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="step-indicator">Advanced Similarity Search with Team Dholakpur 🔍</div>
+
+            <div class="section">
+                <h2>The Problem with Basic Similarity Search 🚨</h2>
+                
+                <p>Our previous approach works great for a few documents, but what happens when you have:</p>
+                <ul>
+                    <li>📚 10,000 documents</li>
+                    <li>📚 100,000 documents</li>
+                    <li>📚 1,000,000 documents</li>
+                </ul>
+
+                <div class="warning-box">
+                    <strong>⚠️ Performance Issues</strong>
+                    <ul>
+                        <li><strong>Memory:</strong> Storing all embeddings in RAM becomes expensive</li>
+                        <li><strong>Speed:</strong> Calculating similarity against every document takes too long</li>
+                        <li><strong>Scalability:</strong> Linear search doesn't scale</li>
+                    </ul>
+                </div>
+
+                <table class="performance-table">
+                    <thead>
+                        <tr>
+                            <th>Document Count</th>
+                            <th>Memory Usage</th>
+                            <th>Search Time</th>
+                            <th>User Experience</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>100</td>
+                            <td>~1MB</td>
+                            <td>~10ms</td>
+                            <td>✅ Great</td>
+                        </tr>
+                        <tr>
+                            <td>10,000</td>
+                            <td>~100MB</td>
+                            <td>~1s</td>
+                            <td>⚠️ Slow</td>
+                        </tr>
+                        <tr>
+                            <td>1,000,000</td>
+                            <td>~10GB</td>
+                            <td>~100s</td>
+                            <td>❌ Unusable</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>Solution: Vector Database 🗄️</h2>
+                
+                <div class="highlight-box">
+                    <strong>💡 What's a Vector Database?</strong>
+                    <p>A specialized database designed to store, index, and search high-dimensional vectors (embeddings) efficiently. Think of it as a search engine optimized for similarity search.</p>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <span class="icon">🐌</span>
+                        <h4>Traditional Approach</h4>
+                        <ul>
+                            <li>Store embeddings in memory</li>
+                            <li>Compare query to every document</li>
+                            <li>O(n) time complexity</li>
+                            <li>Linear scaling issues</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <span class="icon">🚀</span>
+                        <h4>Vector Database</h4>
+                        <ul>
+                            <li>Intelligent indexing (HNSW, IVF)</li>
+                            <li>Approximate nearest neighbor search</li>
+                            <li>O(log n) time complexity</li>
+                            <li>Scales to millions of vectors</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Introduction to Milvus</h2>
+                
+                <p>Milvus is a powerful open-source vector database designed for AI applications. It's:</p>
+                <ul>
+                    <li>🎯 <strong>Highly Scalable:</strong> Handles billions of vectors</li>
+                    <li>🔧 <strong>Production-Ready:</strong> Battle-tested in large-scale applications</li>
+                    <li>⚡ <strong>Blazing Fast:</strong> Optimized for high-performance similarity search</li>
+                    <li>🐍 <strong>Python-friendly:</strong> Great API and comprehensive documentation</li>
+                </ul>
+
+                <h3>Installation</h3>
+                <pre><code class="language-bash"># Install Milvus Python SDK
+pip install pymilvus
+</code></pre>
+
+                <h3>Basic Usage</h3>
+                <pre><code class="language-python">from pymilvus import connections, Collection, FieldSchema, CollectionSchema, DataType, utility
+import os
+from openai import OpenAI
+from dotenv import load_dotenv
+
+# Setup
+load_dotenv()
+client_openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# Connect to Milvus (using local Milvus Lite for simplicity)
+connections.connect(host='localhost', port='19530')
+
+def get_embedding(text):
+    """Get embedding using OpenAI."""
+    response = client_openai.embeddings.create(
+        model="text-embedding-3-small",
+        input=text
+    )
+    return response.data[0].embedding
+
+# Define collection schema
+fields = [
+    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
+    FieldSchema(name="document", dtype=DataType.VARCHAR, max_length=5000),
+    FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=1536)  # text-embedding-3-small is 1536 dimensions
+]
+
+schema = CollectionSchema(fields=fields, description="Document collection")
+
+# Create collection
+collection_name = "my_documents"
+if utility.has_collection(collection_name):
+    utility.drop_collection(collection_name)
+    
+collection = Collection(name=collection_name, schema=schema)
+
+# Add documents to the collection
+documents = [
+    "Python is great for machine learning and data science.",
+    "I love cooking pasta with fresh ingredients.",
+    "Machine learning algorithms can predict patterns in data.",
+    "The best pizza has thin crust and quality toppings.",
+    "Data scientists use statistical methods to analyze information."
+]
+
+# Prepare data
+embeddings = [get_embedding(doc) for doc in documents]
+
+# Insert data
+collection.insert([documents, embeddings])
+
+# Create index for fast similarity search
+index_params = {
+    "index_type": "IVF_FLAT",
+    "metric_type": "L2",
+    "params": {"nlist": 128}
+}
+collection.create_index(field_name="embedding", index_params=index_params)
+collection.load()
+
+print(f"Added {len(documents)} documents to Milvus")
+</code></pre>
+
+                <div class="demo-box">
+                    <strong>✅ What Just Happened?</strong>
+                    <ul>
+                        <li>Connected to Milvus database</li>
+                        <li>Defined a schema for the collection</li>
+                        <li>Generated embeddings for each document</li>
+                        <li>Stored both embeddings and original text</li>
+                        <li>Created an index for fast similarity search</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Querying Milvus</h2>
+                
+                <p>Now the magic happens - fast similarity search:</p>
+
+                <pre><code class="language-python">def search_documents(query, n_results=3):
+    """Search for similar documents."""
+    # Get embedding for the query
+    query_embedding = get_embedding(query)
+    
+    # Define search parameters
+    search_params = {
+        "metric_type": "L2",
+        "params": {"nprobe": 10}
+    }
+    
+    # Search the collection
+    results = collection.search(
+        data=[query_embedding],
+        anns_field="embedding",
+        param=search_params,
+        limit=n_results,
+        output_fields=["document"]
+    )
+    
+    return results
+
+# Test the search
+query = "What programming language is good for AI?"
+print(f"Query: {query}")
+print("\nResults:")
+
+results = search_documents(query)
+
+for i, hits in enumerate(results):
+    for rank, hit in enumerate(hits):
+        distance = hit.distance
+        similarity = 1 / (1 + distance)  # Convert L2 distance to similarity
+        print(f"{rank+1}. Similarity: {similarity:.3f}")
+        print(f"   Document: {hit.entity.get('document')}")
+        print()
+</code></pre>
+
+                <div class="demo-box">
+                    <strong>🎯 Expected Results</strong>
+                    <p>Should find Python/ML documents first, even though the query doesn't contain "Python"!</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Advanced Milvus Features</h2>
+                
+                <h3>1. Metadata Filtering</h3>
+                <p>Add metadata to documents for more precise filtering:</p>
+
+                <pre><code class="language-python"># Define schema with metadata fields
+fields_with_meta = [
+    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
+    FieldSchema(name="document", dtype=DataType.VARCHAR, max_length=5000),
+    FieldSchema(name="category", dtype=DataType.VARCHAR, max_length=100),
+    FieldSchema(name="level", dtype=DataType.VARCHAR, max_length=50),
+    FieldSchema(name="language", dtype=DataType.VARCHAR, max_length=50),
+    FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=1536)
+]
+
+schema_with_meta = CollectionSchema(fields=fields_with_meta, description="Documents with metadata")
+
+# Create collection
+meta_collection_name = "documents_with_metadata"
+if utility.has_collection(meta_collection_name):
+    utility.drop_collection(meta_collection_name)
+    
+meta_collection = Collection(name=meta_collection_name, schema=schema_with_meta)
+
+# Documents with metadata
+docs_with_meta = [
+    {
+        "text": "Python machine learning tutorial for beginners",
+        "category": "programming", "level": "beginner", "language": "python"
+    },
+    {
+        "text": "Advanced deep learning with PyTorch and GPU acceleration", 
+        "category": "programming", "level": "advanced", "language": "python"
+    },
+    {
+        "text": "Italian cooking recipes with traditional techniques",
+        "category": "cooking", "level": "intermediate", "language": "english"
+    },
+    {
+        "text": "Quick and easy pasta dishes for busy weeknights",
+        "category": "cooking", "level": "beginner", "language": "english"
+    }
+]
+
+# Prepare data
+texts = [doc["text"] for doc in docs_with_meta]
+categories = [doc["category"] for doc in docs_with_meta]
+levels = [doc["level"] for doc in docs_with_meta]
+languages = [doc["language"] for doc in docs_with_meta]
+embeddings = [get_embedding(doc["text"]) for doc in docs_with_meta]
+
+# Insert data
+meta_collection.insert([texts, categories, levels, languages, embeddings])
+
+# Create index and load
+meta_collection.create_index(field_name="embedding", index_params=index_params)
+meta_collection.load()
+
+# Search with metadata filter
+def search_with_filter(query, filter_expr=None, n_results=3):
+    """Search with optional metadata filtering."""
+    query_embedding = get_embedding(query)
+    
+    results = meta_collection.search(
+        data=[query_embedding],
+        anns_field="embedding",
+        param=search_params,
+        limit=n_results,
+        expr=filter_expr,  # Milvus uses expression-based filtering
+        output_fields=["document", "category", "level"]
+    )
+    
+    return results
+
+# Example: Find programming content only
+programming_results = search_with_filter(
+    query="machine learning tutorial",
+    filter_expr='category == "programming"'
+)
+
+print("Programming content only:")
+for hits in programming_results:
+    for hit in hits:
+        print(f"- {hit.entity.get('document')}")
+</code></pre>
+
+                <h3>2. Persistent Storage</h3>
+                <p>Data persistence in Milvus:</p>
+
+                <pre><code class="language-python"># Milvus automatically persists data
+# All collections are saved to disk by default
+
+# To work with existing collections:
+existing_collection = Collection(name="my_documents")
+existing_collection.load()  # Load into memory for querying
+
+# Data is automatically persisted!
+</code></pre>
+            </div>
+
+            <div class="section">
+                <h2>Building a Production Search System</h2>
+                
+                <p>Let's build a more robust search system with error handling and optimization:</p>
+
+                <pre><code class="language-python">from pymilvus import connections, Collection, FieldSchema, CollectionSchema, DataType, utility
+import os
+import logging
+from typing import List, Dict, Any
+from openai import OpenAI
+from dotenv import load_dotenv
+
+class ProductionSearchSystem:
+    def __init__(self, host='localhost', port='19530', collection_name="documents"):
+        self.setup_logging()
+        load_dotenv()
+        
+        # Initialize clients
+        self.openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        self.collection_name = collection_name
+        
+        # Connect to Milvus
+        connections.connect(host=host, port=port)
+        self.logger.info(f"Connected to Milvus at {host}:{port}")
+        
+        # Get or create collection
+        if utility.has_collection(collection_name):
+            self.collection = Collection(name=collection_name)
+            self.collection.load()
+            self.logger.info(f"Loaded existing collection '{collection_name}'")
+        else:
+            self._create_collection()
+            self.logger.info(f"Created new collection '{collection_name}'")
+    
+    def _create_collection(self):
+        """Create a new collection with schema."""
+        fields = [
+            FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
+            FieldSchema(name="document", dtype=DataType.VARCHAR, max_length=5000),
+            FieldSchema(name="category", dtype=DataType.VARCHAR, max_length=100),
+            FieldSchema(name="topic", dtype=DataType.VARCHAR, max_length=100),
+            FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=1536)
+        ]
+        
+        schema = CollectionSchema(fields=fields, description="Document collection")
+        self.collection = Collection(name=self.collection_name, schema=schema)
+        
+        # Create index
+        index_params = {
+            "index_type": "IVF_FLAT",
+            "metric_type": "L2",
+            "params": {"nlist": 128}
+        }
+        self.collection.create_index(field_name="embedding", index_params=index_params)
+        self.collection.load()
+    
+    def setup_logging(self):
+        """Setup logging configuration."""
+        logging.basicConfig(level=logging.INFO)
+        self.logger = logging.getLogger(__name__)
+    
+    def get_embedding(self, text: str) -> List[float]:
+        """Get embedding with error handling."""
+        try:
+            response = self.openai_client.embeddings.create(
+                model="text-embedding-3-small",
+                input=text.strip()
+            )
+            return response.data[0].embedding
+        except Exception as e:
+            self.logger.error(f"Error getting embedding: {e}")
+            raise
+    
+    def add_document(self, text: str, category: str = "", topic: str = ""):
+        """Add a single document."""
+        try:
+            embedding = self.get_embedding(text)
+            
+            self.collection.insert([[text], [category], [topic], [embedding]])
+            
+            self.logger.info(f"Added document")
+            
+        except Exception as e:
+            self.logger.error(f"Error adding document: {e}")
+            raise
+    
+    def add_documents_batch(self, documents: List[Dict[str, Any]], batch_size: int = 50):
+        """Add multiple documents in batches for better performance."""
+        total_docs = len(documents)
+        self.logger.info(f"Adding {total_docs} documents in batches of {batch_size}")
+        
+        for i in range(0, total_docs, batch_size):
+            batch = documents[i:i + batch_size]
+            
+            # Prepare batch data
+            texts = []
+            categories = []
+            topics = []
+            embeddings = []
+            
+            for doc in batch:
+                text = doc['text']
+                category = doc.get('metadata', {}).get('category', '')
+                topic = doc.get('metadata', {}).get('topic', '')
+                
+                embedding = self.get_embedding(text)
+                
+                texts.append(text)
+                categories.append(category)
+                topics.append(topic)
+                embeddings.append(embedding)
+            
+            # Add batch to collection
+            self.collection.insert([texts, categories, topics, embeddings])
+            
+            self.logger.info(f"Added batch {i//batch_size + 1}/{(total_docs-1)//batch_size + 1}")
+    
+    def search(self, query: str, n_results: int = 5, filter_expr: str = None) -> List[Dict]:
+        """Search for similar documents."""
+        try:
+            query_embedding = self.get_embedding(query)
+            
+            search_params = {
+                "metric_type": "L2",
+                "params": {"nprobe": 10}
+            }
+            
+            results = self.collection.search(
+                data=[query_embedding],
+                anns_field="embedding",
+                param=search_params,
+                limit=n_results,
+                expr=filter_expr,
+                output_fields=["document", "category", "topic"]
+            )
+            
+            # Format results
+            formatted_results = []
+            for hits in results:
+                for hit in hits:
+                    formatted_results.append({
+                        'document': hit.entity.get('document'),
+                        'category': hit.entity.get('category'),
+                        'topic': hit.entity.get('topic'),
+                        'distance': hit.distance,
+                        'similarity': 1 / (1 + hit.distance),
+                        'id': hit.id
+                    })
+            
+            return formatted_results
+            
+        except Exception as e:
+            self.logger.error(f"Error searching: {e}")
+            raise
+    
+    def get_stats(self) -> Dict[str, Any]:
+        """Get collection statistics."""
+        try:
+            count = self.collection.num_entities
+            return {
+                'document_count': count,
+                'collection_name': self.collection.name
+            }
+        except Exception as e:
+            self.logger.error(f"Error getting stats: {e}")
+            return {}
+
+# Example usage
+if __name__ == "__main__":
+    # Initialize the search system
+    search_system = ProductionSearchSystem()
+    
+    # Add some test documents
+    test_docs = [
+        {
+            'text': 'Python is excellent for machine learning and artificial intelligence projects.',
+            'metadata': {'category': 'programming', 'topic': 'ml'}
+        },
+        {
+            'text': 'Deep learning models require large datasets and significant computational resources.',
+            'metadata': {'category': 'programming', 'topic': 'deep_learning'}
+        },
+        {
+            'text': 'Mediterranean cuisine features fresh vegetables, olive oil, and herbs.',
+            'metadata': {'category': 'cooking', 'topic': 'mediterranean'}
+        }
+    ]
+    
+    # Add documents
+    search_system.add_documents_batch(test_docs)
+    
+    # Print stats
+    stats = search_system.get_stats()
+    print(f"Database stats: {stats}")
+    
+    # Search
+    results = search_system.search("artificial intelligence programming", n_results=2)
+    
+    print("\nSearch results:")
+    for result in results:
+        print(f"Similarity: {result['similarity']:.3f}")
+        print(f"Document: {result['document']}")
+        print(f"Category: {result['category']}")
+        print(f"Topic: {result['topic']}")
+        print()
+</code></pre>
+
+                <div class="highlight-box">
+                    <strong>🚀 Production Features</strong>
+                    <ul>
+                        <li><strong>Persistent storage:</strong> Data survives restarts</li>
+                        <li><strong>Batch processing:</strong> Efficiently add many documents</li>
+                        <li><strong>Error handling:</strong> Graceful failure management</li>
+                        <li><strong>Logging:</strong> Track system operations</li>
+                        <li><strong>Metadata support:</strong> Rich filtering with expressions</li>
+                        <li><strong>Scalability:</strong> Handles millions of vectors efficiently</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Performance Optimization Tips</h2>
+                
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <span class="icon">⚡</span>
+                        <h4>Embedding Optimization</h4>
+                        <ul>
+                            <li>Cache embeddings to avoid recomputation</li>
+                            <li>Use smaller models for faster generation</li>
+                            <li>Batch API calls when possible</li>
+                            <li>Implement rate limiting for API calls</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <span class="icon">🗄️</span>
+                        <h4>Database Optimization</h4>
+                        <ul>
+                            <li>Use appropriate batch sizes (50-100 docs)</li>
+                            <li>Implement smart metadata indexing</li>
+                            <li>Monitor memory usage and disk space</li>
+                            <li>Regular database maintenance</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <span class="icon">🔍</span>
+                        <h4>Search Optimization</h4>
+                        <ul>
+                            <li>Use filters to narrow search space</li>
+                            <li>Implement result caching for common queries</li>
+                            <li>Optimize n_results parameter</li>
+                            <li>Consider approximate vs exact search</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <span class="icon">🎯</span>
+                        <h4>Application Optimization</h4>
+                        <ul>
+                            <li>Implement connection pooling</li>
+                            <li>Use async operations for better concurrency</li>
+                            <li>Monitor and log performance metrics</li>
+                            <li>Implement graceful degradation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Next: RAG Systems</h2>
+                
+                <p>Excellent! You now know how to build scalable similarity search systems. This is the foundation for RAG (Retrieval-Augmented Generation) systems.</p>
+                
+                <div class="highlight-box">
+                    <strong>🎯 What You've Learned</strong>
+                    <ul>
+                        <li>✅ Vector Database concepts and benefits</li>
+                        <li>✅ Milvus setup and usage</li>
+                        <li>✅ Metadata filtering and advanced queries</li>
+                        <li>✅ Production-ready search system architecture</li>
+                        <li>✅ Performance optimization techniques</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="rag-basics.html" class="cta-button">
+                        🔗 Build RAG Systems →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Gen AI Mastery - Chota Bheem Edition</strong> | Similarity Search</p>
+            <p style="font-size: 0.9em; margin-top: 12px; opacity: 0.9;">Chota Bheem © Green Gold Animation Pvt. Ltd.</p>
+        </div>
+    </div>
+
+    <script>
+        hljs.highlightAll();
+    </script>
+</body>
+
+</html>

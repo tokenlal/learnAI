@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Setup - Chota Bheem Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            min-height: 100vh;
+            color: #2C1810;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 60px rgba(255, 140, 0, 0.15);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #E91E63 0%, #F06292 50%, #F8BBD0 100%);
+            color: white;
+            padding: 70px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="3" fill="%23FFD700" opacity="0.3"/><circle cx="80" cy="40" r="2" fill="%23FFD700" opacity="0.3"/><circle cx="40" cy="80" r="2.5" fill="%23FFD700" opacity="0.3"/></svg>') repeat;
+            background-size: 100px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .header-character {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 5px solid #FFD700;
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
+            object-fit: cover;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.2em;
+            margin-bottom: 16px;
+            font-weight: 800;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.4em;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav {
+            background: white;
+            border-bottom: 3px solid #FFD700;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            padding: 0 40px;
+        }
+
+        .nav a {
+            padding: 20px 32px;
+            color: #5D4037;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1em;
+            transition: all 0.3s;
+            border-bottom: 4px solid transparent;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .nav a:hover {
+            color: #E91E63;
+            background: #FFF9E6;
+            border-bottom-color: #E91E63;
+        }
+
+        .nav a.active {
+            color: #E91E63;
+            background: #FFF9E6;
+            border-bottom-color: #FFD700;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .step-indicator {
+            display: inline-block;
+            background: linear-gradient(135deg, #E91E63, #F06292);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1em;
+            margin-bottom: 40px;
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.3);
+            font-family: 'Poppins', sans-serif;
+            border: 3px solid #FFD700;
+        }
+
+        .section {
+            margin-bottom: 70px;
+            position: relative;
+        }
+
+        .section h2 {
+            color: #E91E63;
+            font-size: 2.6em;
+            margin-bottom: 28px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section h2::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, #FFD700, transparent);
+        }
+
+        .section h3 {
+            color: #FF8C00;
+            font-size: 1.8em;
+            margin: 35px 0 16px 0;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .section p,
+        .section li {
+            font-size: 1.15em;
+            line-height: 1.9;
+            color: #4A4A4A;
+            margin-bottom: 20px;
+        }
+
+        .section ul,
+        .section ol {
+            margin-left: 30px;
+        }
+
+        .section li {
+            margin-bottom: 16px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            border-left: 6px solid #2196F3;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+        }
+
+        .highlight-box strong {
+            color: #1565C0;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+            border-left: 6px solid #FF9800;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.2);
+        }
+
+        .warning-box strong {
+            color: #E65100;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-left: 6px solid #4CAF50;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .success-box strong {
+            color: #2E7D32;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .step-box {
+            background: linear-gradient(135deg, #FFFBF0 0%, white 100%);
+            border: 3px solid #FFD700;
+            padding: 40px;
+            margin: 32px 0;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #E91E63, #F06292);
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.4em;
+            margin-right: 16px;
+            box-shadow: 0 6px 15px rgba(233, 30, 99, 0.3);
+            border: 3px solid #FFD700;
+        }
+
+        code {
+            background: #FFF9E6;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-family: 'SF Mono', 'Monaco', monospace;
+            color: #E91E63;
+            font-size: 0.9em;
+            border: 2px solid #FFD700;
+        }
+
+        pre {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 3px solid #FFD700;
+        }
+
+        pre code {
+            padding: 24px;
+            display: block;
+            overflow-x: auto;
+            background: #1a202c;
+            color: #e2e8f0;
+            border: none;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+            border: 3px solid #FFD700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #795548 0%, #8D6E63 100%);
+            color: #FFE4C4;
+            text-align: center;
+            padding: 40px;
+            margin-top: 80px;
+            border-top: 5px solid #FFD700;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 50px 24px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header h1 {
+                font-size: 2.2em;
+            }
+
+            .content {
+                padding: 60px 24px;
+            }
+
+            .nav-content {
+                padding: 0 24px;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>👧 Chutki's Workshop</h1>
+                    <p>Setting Up Your AI Development Environment</p>
+                </div>
+                <img src="images/chutki.jpeg" alt="Chutki" class="header-character">
+            </div>
+        </div>
+
+        <div class="nav">
+            <div class="nav-content">
+                <a href="index.html">🏠 Home</a>
+                <a href="overview.html">📚 Overview</a>
+                <a href="setup.html" class="active">⚙️ Setup</a>
+                <a href="first-api-call.html">🔌 First API Call</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="step-indicator">Step 2: Chutki's Smart Environment Setup 🛠️</div>
+
+            <div class="section">
+                <h2>What We'll Set Up Today 📋</h2>
+                <p><strong>Chutki says:</strong> "Just like preparing ingredients before cooking laddoos, we need our tools ready before coding!"</p>
+                <ul style="font-size: 1.15em; margin-top: 24px;">
+                    <li>✅ <strong>Python 3.8+</strong> - Our main programming language</li>
+                    <li>✅ <strong>Virtual Environment</strong> - Keeps project packages organized</li>
+                    <li>✅ <strong>OpenAI API Key</strong> - Your access pass to AI models</li>
+                    <li>✅ <strong>Required Packages</strong> - Special libraries we need</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Step 1: Check Your Python 🐍</h2>
+
+                <div class="step-box">
+                    <p><span class="step-number">1</span> <strong>Open your terminal and check if Python is installed:</strong></p>
+
+                    <pre><code class="language-bash">python --version
+# or
+python3 --version
+</code></pre>
+
+                    <div class="success-box">
+                        <strong>✅ Perfect!</strong>
+                        <p>You should see: Python 3.8.0 or higher</p>
+                        <p style="font-style: italic; margin-top: 10px;">"Great! Your Python is ready!" - Chutki</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Python Not Installed?</strong>
+                        <p><strong>Install instructions:</strong></p>
+                        <ul style="margin-top: 16px;">
+                            <li><strong>Windows:</strong> Download from <a href="https://www.python.org/downloads/" target="_blank" style="color: #E91E63; font-weight: 700;">python.org</a></li>
+                            <li><strong>Mac:</strong> <code>brew install python3</code></li>
+                            <li><strong>Linux:</strong> <code>sudo apt install python3 python3-pip python3-venv</code></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Step 2: Create Your Project Home 🏠</h2>
+
+                <div class="step-box">
+                    <p><span class="step-number">2</span> <strong>Create your project folder:</strong></p>
+
+                    <pre><code class="language-bash"># Create main project directory
+mkdir genai-tutorial
+cd genai-tutorial
+
+# Create subfolder for this lesson
+mkdir 01-getting-started
+cd 01-getting-started
+</code></pre>
+
+                    <div class="highlight-box">
+                        <strong>💡 Chutki's Organization Tip</strong>
+                        <p>"Keeping code organized in folders makes everything easier to find and manage, just like organizing the kitchen!"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Step 3: Create Virtual Environment 🎪</h2>
+
+                <div class="step-box">
+                    <p><span class="step-number">3</span> <strong>Set up your isolated workspace:</strong></p>
+
+                    <h3>On Mac/Linux:</h3>
+                    <pre><code class="language-bash"># Create virtual environment
+python3 -m venv venv
+
+# Activate it
+source venv/bin/activate
+</code></pre>
+
+                    <h3>On Windows:</h3>
+                    <pre><code class="language-bash"># Create virtual environment
+python -m venv venv
+
+# Activate it
+venv\Scripts\activate
+</code></pre>
+
+                    <div class="success-box">
+                        <strong>✅ You Did It!</strong>
+                        <p>You should see <code>(venv)</code> at the start of your terminal!</p>
+                        <p style="font-style: italic; margin-top: 10px;">"Perfect! Now we have our own workspace!" - Chutki</p>
+                    </div>
+
+                    <div class="highlight-box">
+                        <strong>💡 Why Virtual Environments?</strong>
+                        <p>"Think of it like separate bowls for different recipes - each project gets its own set of packages so they don't mix and cause problems!"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Step 4: Install AI Packages 🪄</h2>
+
+                <div class="step-box">
+                    <p><span class="step-number">4</span> <strong>Install the required libraries:</strong></p>
+
+                    <pre><code class="language-bash"># Install OpenAI SDK
+pip install openai
+
+# Install python-dotenv for managing secrets
+pip install python-dotenv
+</code></pre>
+
+                    <p style="margin-top: 24px;"><strong>Check installation:</strong></p>
+                    <pre><code class="language-bash">pip list | grep openai
+pip list | grep python-dotenv
+</code></pre>
+
+                    <div class="success-box">
+                        <strong>✅ Packages Installed!</strong>
+                        <p>Both should appear in the list with version numbers.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Step 5: Get Your API Key 🔑</h2>
+
+                <div class="step-box">
+                    <p><span class="step-number">5</span> <strong>Get your magic key from OpenAI:</strong></p>
+
+                    <ol style="font-size: 1.1em; line-height: 2;">
+                        <li>Visit <a href="https://platform.openai.com/signup" target="_blank" style="color: #E91E63; font-weight: 700;">platform.openai.com/signup</a></li>
+                        <li>Create an account or sign in</li>
+                        <li>Go to <strong>API Keys</strong> section</li>
+                        <li>Click <strong>"Create new secret key"</strong></li>
+                        <li>Copy the key immediately (you won't see it again!)</li>
+                    </ol>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Security Important!</strong>
+                        <ul style="margin-top: 16px;">
+                            <li><strong>Never</strong> share your API key publicly</li>
+                            <li><strong>Never</strong> commit it to GitHub</li>
+                            <li><strong>Always</strong> use environment variables</li>
+                            <li><strong>Keep it secret</strong> like a special recipe!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Step 6: Store Your Key Securely 🔐</h2>
+
+                <div class="step-box">
+                    <p><span class="step-number">6</span> <strong>Create secure storage:</strong></p>
+
+                    <pre><code class="language-bash"># Create .env file
+touch .env
+</code></pre>
+
+                    <p style="margin-top: 24px;"><strong>Add your API key to .env:</strong></p>
+                    <pre><code class="language-bash">OPENAI_API_KEY=sk-your-actual-api-key-here
+</code></pre>
+
+                    <p style="margin-top: 24px;"><strong>Create .gitignore:</strong></p>
+                    <pre><code class="language-bash"># Create .gitignore file
+touch .gitignore
+</code></pre>
+
+                    <p style="margin-top: 24px;"><strong>Add to .gitignore:</strong></p>
+                    <pre><code class="language-bash">.env
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+</code></pre>
+
+                    <div class="success-box">
+                        <strong>✅ Super Safe!</strong>
+                        <p>Your API key is protected and won't accidentally get shared!</p>
+                        <p style="font-style: italic; margin-top: 10px;">"Excellent! Your secret is safe!" - Chutki</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Step 7: Test Everything! 🧪</h2>
+
+                <div class="step-box">
+                    <p><span class="step-number">7</span> <strong>Create test script <code>test_setup.py</code>:</strong></p>
+
+                    <pre><code class="language-python">import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Check if API key is loaded
+api_key = os.getenv("OPENAI_API_KEY")
+
+if api_key:
+    print("✅ API key loaded successfully!")
+    print(f"🔑 Key starts with: {api_key[:12]}...")
+    print("\n🎉 Chutki says: Your workshop is ready!")
+else:
+    print("❌ API key not found")
+    print("💡 Check your .env file!")
+</code></pre>
+
+                    <p style="margin-top: 24px;"><strong>Run the test:</strong></p>
+                    <pre><code class="language-bash">python test_setup.py
+</code></pre>
+
+                    <div class="success-box">
+                        <strong>✅ Expected Output:</strong>
+                        <pre style="background: white; padding: 20px; border-radius: 8px; margin-top: 12px; border: 2px solid #4CAF50;">
+✅ API key loaded successfully!
+🔑 Key starts with: sk-proj-...
+
+🎉 Chutki says: Your workshop is ready!
+</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Your Project Structure 📁</h2>
+                <p><strong>After setup, your folders should look like:</strong></p>
+
+                <pre><code class="language-bash">genai-tutorial/
+└── 01-getting-started/
+    ├── venv/                 # Virtual environment
+    ├── .env                  # Secret API keys
+    ├── .gitignore           # Git ignore file
+    └── test_setup.py        # Test script
+</code></pre>
+
+                <div class="highlight-box">
+                    <strong>🎯 Chutki's Success Tips</strong>
+                    <ul style="margin-top: 16px;">
+                        <li>Always activate virtual environment before coding</li>
+                        <li>Never move the .env file outside the project</li>
+                        <li>The venv folder stays on your computer only</li>
+                        <li>Keep everything organized and documented!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Quick Reference 📋</h2>
+
+                <div class="highlight-box">
+                    <strong>🔧 Essential Commands</strong>
+                    <pre style="background: white; padding: 20px; border-radius: 8px; margin-top: 12px; border: 2px solid #2196F3;"><code class="language-bash"># Activate virtual environment
+source venv/bin/activate      # Mac/Linux
+venv\Scripts\activate         # Windows
+
+# Deactivate virtual environment
+deactivate
+
+# Install a package
+pip install package-name
+
+# List installed packages
+pip list
+
+# Save dependencies
+pip freeze > requirements.txt
+
+# Install from requirements
+pip install -r requirements.txt
+</code></pre>
+                </div>
+            </div>
+
+            <div class="section" style="text-align: center; padding: 60px 40px; background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); border-radius: 20px; border: 4px solid #4CAF50;">
+                <h2 style="color: #2E7D32; margin-bottom: 25px;">Workshop Complete! 🎊</h2>
+                <p style="font-size: 1.2em; color: #4A4A4A; max-width: 700px; margin: 0 auto 35px;">
+                    <strong>Chutki says:</strong> "Fantastic! Your development environment is all set. Now let's make your first API call!"
+                </p>
+                <a href="first-api-call.html" class="cta-button">
+                    🔌 Next: First API Call →
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Gen AI Mastery - Chota Bheem Edition</strong> | Module 1 of 12</p>
+            <p style="font-size: 0.9em; margin-top: 12px; opacity: 0.9;">Chota Bheem © Green Gold Animation Pvt. Ltd.</p>
+        </div>
+    </div>
+
+    <script>
+        hljs.highlightAll();
+    </script>
+</body>
+
+</html>
