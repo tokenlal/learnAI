@@ -459,7 +459,7 @@
 "car" → [0.1, 0.9]      ← Far from "dog"<br>
 "vehicle" → [0.2, 0.8]  ← Close to "car"
                     </div>
-                    <p><em>Real embeddings have 1,536+ dimensions!</em></p>
+                    <p><em>Real embeddings have 768+ dimensions!</em></p>
                 </div>
             </div>
 
@@ -519,7 +519,7 @@
 
                 <div class="concept-box">
                     <strong>🎯 Focus for This Series</strong>
-                    <p>We'll focus on <strong>text embeddings</strong> using OpenAI's embedding models, which are perfect for building RAG systems and semantic search.</p>
+                    <p>We'll focus on <strong>text embeddings</strong> using Sentence Transformers (local models like all-mpnet-base-v2), which are perfect for building RAG systems and semantic search without API costs.</p>
                 </div>
             </div>
 
@@ -528,26 +528,20 @@
                 
                 <h3>Setup</h3>
                 <pre><code class="language-bash"># Install required packages
-pip install openai numpy python-dotenv
+pip install sentence-transformers numpy
 </code></pre>
 
                 <h3>Basic Embedding Example</h3>
-                <pre><code class="language-python">import os
-import numpy as np
-from openai import OpenAI
-from dotenv import load_dotenv
+                <pre><code class="language-python">import numpy as np
+from sentence_transformers import SentenceTransformer
 
-# Load environment variables
-load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Load the embedding model locally
+model = SentenceTransformer("all-mpnet-base-v2")
 
 def get_embedding(text):
     """Get embedding for a piece of text."""
-    response = client.embeddings.create(
-        model="text-embedding-3-small",  # Latest, efficient model
-        input=text
-    )
-    return response.data[0].embedding
+    # Encode the text and convert to list
+    return model.encode(text).tolist()
 
 # Test it out
 text = "I love programming in Python"
@@ -562,7 +556,7 @@ print(f"First 5 values: {embedding[:5]}")
                     <strong>✅ Expected Output</strong>
                     <pre style="background: white; color: #2d3748; margin-top: 10px;">
 Text: I love programming in Python
-Embedding dimension: 1536
+Embedding dimension: 768
 First 5 values: [0.123, -0.456, 0.789, -0.234, 0.567]
                     </pre>
                 </div>
@@ -610,8 +604,8 @@ print(f"Similarity between text1 and text3: {sim_1_3:.3f}")
                 <div class="demo-box">
                     <strong>✅ Expected Output</strong>
                     <pre style="background: white; color: #2d3748; margin-top: 10px;">
-Similarity between text1 and text2: 0.867  ← High similarity!
-Similarity between text1 and text3: 0.234  ← Low similarity
+Similarity between text1 and text2: 0.850  ← High similarity!
+Similarity between text1 and text3: 0.360  ← Low similarity
                     </pre>
                 </div>
 
@@ -632,26 +626,19 @@ Similarity between text1 and text3: 0.234  ← Low similarity
                 
                 <p>Let's build a practical application that finds the most similar documents:</p>
 
-                <pre><code class="language-python">import os
-import numpy as np
-from openai import OpenAI
-from dotenv import load_dotenv
-
-load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+                <pre><code class="language-python">import numpy as np
+from sentence_transformers import SentenceTransformer
 
 class DocumentSimilarityFinder:
     def __init__(self):
         self.documents = []
         self.embeddings = []
+        # Load the embedding model locally
+        self.model = SentenceTransformer("all-mpnet-base-v2")
     
     def get_embedding(self, text):
         """Get embedding for text."""
-        response = client.embeddings.create(
-            model="text-embedding-3-small",
-            input=text
-        )
-        return response.data[0].embedding
+        return self.model.encode(text).tolist()
     
     def add_document(self, document):
         """Add a document to the collection."""

@@ -531,6 +531,117 @@
             </div>
 
             <div class="section">
+                <h2>Types of Vector Databases 🗂️</h2>
+                
+                <p>Not all vector databases are created equal! Let's explore the different types and their use cases:</p>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <span class="icon">🏠</span>
+                        <h4>Self-Hosted Solutions</h4>
+                        <ul>
+                            <li><strong>Milvus:</strong> Open-source, highly scalable</li>
+                            <li><strong>Weaviate:</strong> GraphQL API, ML-first design</li>
+                            <li><strong>Qdrant:</strong> Rust-based, high performance</li>
+                            <li><strong>Chroma:</strong> Simple, developer-friendly</li>
+                        </ul>
+                        <p><strong>Pros:</strong> Full control, cost-effective at scale</p>
+                        <p><strong>Cons:</strong> Setup complexity, maintenance overhead</p>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <span class="icon">☁️</span>
+                        <h4>Cloud-Managed Services</h4>
+                        <ul>
+                            <li><strong>Pinecone:</strong> Fully managed, easy to start</li>
+                            <li><strong>Zilliz Cloud:</strong> Managed Milvus service</li>
+                            <li><strong>Weaviate Cloud:</strong> Hosted Weaviate</li>
+                            <li><strong>Qdrant Cloud:</strong> Managed Qdrant service</li>
+                        </ul>
+                        <p><strong>Pros:</strong> Zero maintenance, instant scaling</p>
+                        <p><strong>Cons:</strong> Higher costs, vendor lock-in</p>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <span class="icon">🔧</span>
+                        <h4>Embedded Solutions</h4>
+                        <ul>
+                            <li><strong>ChromaDB:</strong> Lightweight, in-process</li>
+                            <li><strong>LanceDB:</strong> Columnar format, analytics-focused</li>
+                            <li><strong>DuckDB Vector:</strong> SQL-compatible vectors</li>
+                            <li><strong>SQLite VSS:</strong> Vector search in SQLite</li>
+                        </ul>
+                        <p><strong>Pros:</strong> Simple deployment, no network latency</p>
+                        <p><strong>Cons:</strong> Limited scalability, single-process</p>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <span class="icon">📊</span>
+                        <h4>Traditional DB Extensions</h4>
+                        <ul>
+                            <li><strong>PostgreSQL pgvector:</strong> SQL + vectors</li>
+                            <li><strong>Redis Vector:</strong> In-memory speed</li>
+                            <li><strong>Elasticsearch:</strong> Full-text + vector search</li>
+                            <li><strong>MongoDB Atlas:</strong> Document + vector store</li>
+                        </ul>
+                        <p><strong>Pros:</strong> Familiar tools, unified data model</p>
+                        <p><strong>Cons:</strong> Less optimized for pure vector ops</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🎯 Choosing the Right Vector Database</strong>
+                    <p><strong>For Learning & Prototyping:</strong> ChromaDB or local Milvus</p>
+                    <p><strong>For Production (Small-Medium):</strong> Pinecone or managed services</p>
+                    <p><strong>For Production (Large Scale):</strong> Self-hosted Milvus or Qdrant</p>
+                    <p><strong>For Existing PostgreSQL Apps:</strong> pgvector extension</p>
+                    <p><strong>For Analytics Workloads:</strong> LanceDB or DuckDB Vector</p>
+                </div>
+
+                <table class="performance-table">
+                    <thead>
+                        <tr>
+                            <th>Database</th>
+                            <th>Setup Complexity</th>
+                            <th>Scalability</th>
+                            <th>Cost (10M vectors)</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ChromaDB</td>
+                            <td>🟢 Very Easy</td>
+                            <td>🟡 Limited</td>
+                            <td>🟢 Free</td>
+                            <td>Learning, Prototypes</td>
+                        </tr>
+                        <tr>
+                            <td>Milvus (Self-hosted)</td>
+                            <td>🟡 Moderate</td>
+                            <td>🟢 Excellent</td>
+                            <td>🟢 Low</td>
+                            <td>Production, Large Scale</td>
+                        </tr>
+                        <tr>
+                            <td>Pinecone</td>
+                            <td>🟢 Very Easy</td>
+                            <td>🟢 Excellent</td>
+                            <td>🟡 Medium</td>
+                            <td>Quick Production Deploy</td>
+                        </tr>
+                        <tr>
+                            <td>PostgreSQL pgvector</td>
+                            <td>🟢 Easy</td>
+                            <td>🟡 Good</td>
+                            <td>🟢 Low</td>
+                            <td>Existing SQL Apps</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
                 <h2>Introduction to Milvus</h2>
                 
                 <p>Milvus is a powerful open-source vector database designed for AI applications. It's:</p>
@@ -548,30 +659,23 @@ pip install pymilvus
 
                 <h3>Basic Usage</h3>
                 <pre><code class="language-python">from pymilvus import connections, Collection, FieldSchema, CollectionSchema, DataType, utility
-import os
-from openai import OpenAI
-from dotenv import load_dotenv
+from sentence_transformers import SentenceTransformer
 
-# Setup
-load_dotenv()
-client_openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Setup - Load the embedding model locally
+model = SentenceTransformer("all-mpnet-base-v2")
 
-# Connect to Milvus (using local Milvus Lite for simplicity)
-connections.connect(host='localhost', port='19530')
+# Connect to Milvus
+connections.connect("default", host="localhost", port="19530")
 
 def get_embedding(text):
-    """Get embedding using OpenAI."""
-    response = client_openai.embeddings.create(
-        model="text-embedding-3-small",
-        input=text
-    )
-    return response.data[0].embedding
+    """Get embedding using Sentence Transformers."""
+    return model.encode(text).tolist()
 
 # Define collection schema
 fields = [
     FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
-    FieldSchema(name="document", dtype=DataType.VARCHAR, max_length=5000),
-    FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=1536)  # text-embedding-3-small is 1536 dimensions
+    FieldSchema(name="chunk", dtype=DataType.VARCHAR, max_length=2048),
+    FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=768)  # all-mpnet-base-v2 is 768 dimensions
 ]
 
 schema = CollectionSchema(fields=fields, description="Document collection")
@@ -644,7 +748,7 @@ print(f"Added {len(documents)} documents to Milvus")
         anns_field="embedding",
         param=search_params,
         limit=n_results,
-        output_fields=["document"]
+        output_fields=["chunk"]
     )
     
     return results
@@ -661,7 +765,7 @@ for i, hits in enumerate(results):
         distance = hit.distance
         similarity = 1 / (1 + distance)  # Convert L2 distance to similarity
         print(f"{rank+1}. Similarity: {similarity:.3f}")
-        print(f"   Document: {hit.entity.get('document')}")
+        print(f"   Document: {hit.entity.get('chunk')}")
         print()
 </code></pre>
 
@@ -680,11 +784,11 @@ for i, hits in enumerate(results):
                 <pre><code class="language-python"># Define schema with metadata fields
 fields_with_meta = [
     FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
-    FieldSchema(name="document", dtype=DataType.VARCHAR, max_length=5000),
+    FieldSchema(name="chunk", dtype=DataType.VARCHAR, max_length=2048),
     FieldSchema(name="category", dtype=DataType.VARCHAR, max_length=100),
     FieldSchema(name="level", dtype=DataType.VARCHAR, max_length=50),
     FieldSchema(name="language", dtype=DataType.VARCHAR, max_length=50),
-    FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=1536)
+    FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=768)
 ]
 
 schema_with_meta = CollectionSchema(fields=fields_with_meta, description="Documents with metadata")
@@ -741,7 +845,7 @@ def search_with_filter(query, filter_expr=None, n_results=3):
         param=search_params,
         limit=n_results,
         expr=filter_expr,  # Milvus uses expression-based filtering
-        output_fields=["document", "category", "level"]
+        output_fields=["chunk", "category", "level"]
     )
     
     return results
@@ -755,7 +859,7 @@ programming_results = search_with_filter(
 print("Programming content only:")
 for hits in programming_results:
     for hit in hits:
-        print(f"- {hit.entity.get('document')}")
+        print(f"- {hit.entity.get('chunk')}")
 </code></pre>
 
                 <h3>2. Persistent Storage</h3>
@@ -781,20 +885,18 @@ existing_collection.load()  # Load into memory for querying
 import os
 import logging
 from typing import List, Dict, Any
-from openai import OpenAI
-from dotenv import load_dotenv
+from sentence_transformers import SentenceTransformer
 
 class ProductionSearchSystem:
     def __init__(self, host='localhost', port='19530', collection_name="documents"):
         self.setup_logging()
-        load_dotenv()
         
-        # Initialize clients
-        self.openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        # Initialize Sentence Transformer model
+        self.model = SentenceTransformer("all-mpnet-base-v2")
         self.collection_name = collection_name
         
         # Connect to Milvus
-        connections.connect(host=host, port=port)
+        connections.connect("default", host=host, port=port)
         self.logger.info(f"Connected to Milvus at {host}:{port}")
         
         # Get or create collection
@@ -810,10 +912,10 @@ class ProductionSearchSystem:
         """Create a new collection with schema."""
         fields = [
             FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
-            FieldSchema(name="document", dtype=DataType.VARCHAR, max_length=5000),
+            FieldSchema(name="chunk", dtype=DataType.VARCHAR, max_length=2048),
             FieldSchema(name="category", dtype=DataType.VARCHAR, max_length=100),
             FieldSchema(name="topic", dtype=DataType.VARCHAR, max_length=100),
-            FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=1536)
+            FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=768)
         ]
         
         schema = CollectionSchema(fields=fields, description="Document collection")
@@ -836,11 +938,7 @@ class ProductionSearchSystem:
     def get_embedding(self, text: str) -> List[float]:
         """Get embedding with error handling."""
         try:
-            response = self.openai_client.embeddings.create(
-                model="text-embedding-3-small",
-                input=text.strip()
-            )
-            return response.data[0].embedding
+            return self.model.encode(text.strip()).tolist()
         except Exception as e:
             self.logger.error(f"Error getting embedding: {e}")
             raise
@@ -905,20 +1003,20 @@ class ProductionSearchSystem:
                 param=search_params,
                 limit=n_results,
                 expr=filter_expr,
-                output_fields=["document", "category", "topic"]
+                output_fields=["chunk", "category", "topic"]
             )
             
             # Format results
             formatted_results = []
             for hits in results:
                 for hit in hits:
+                    distance = hit.distance
+                    similarity = 1 / (1 + distance)
                     formatted_results.append({
-                        'document': hit.entity.get('document'),
+                        'similarity': similarity,
+                        'document': hit.entity.get('chunk'),
                         'category': hit.entity.get('category'),
-                        'topic': hit.entity.get('topic'),
-                        'distance': hit.distance,
-                        'similarity': 1 / (1 + hit.distance),
-                        'id': hit.id
+                        'topic': hit.entity.get('topic')
                     })
             
             return formatted_results

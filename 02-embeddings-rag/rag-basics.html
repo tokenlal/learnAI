@@ -821,18 +821,18 @@
                 <div class="demo-box">
                     <strong>Phase 2: Query Processing (Real-time)</strong>
                     <ol>
-                        <li><strong>Query Analysis:</strong> Parse and understand the user's question</li>
-                        <li><strong>Query Embedding:</strong> Convert the question to a vector representation</li>
-                        <li><strong>Similarity Search:</strong> Find most relevant document chunks using vector similarity</li>
-                        <li><strong>Context Assembly:</strong> Compile retrieved chunks into coherent context</li>
-                        <li><strong>Prompt Construction:</strong> Combine user query + retrieved context + instructions</li>
-                        <li><strong>LLM Generation:</strong> Generate response using the enhanced prompt</li>
-                        <li><strong>Response Formatting:</strong> Format answer with source citations</li>
+                        <li><strong>Query Analysis:</strong> FastAPI endpoint receives user's question</li>
+                        <li><strong>Query Embedding:</strong> Sentence Transformers converts question to 768D vector locally</li>
+                        <li><strong>Similarity Search:</strong> Milvus performs L2 distance search with IVF_FLAT indexing</li>
+                        <li><strong>Context Assembly:</strong> Retrieve chunks with metadata (source, category, topic)</li>
+                        <li><strong>Prompt Construction:</strong> Combine user query + retrieved context + system instructions</li>
+                        <li><strong>LLM Generation:</strong> Google Gemini generates response using enhanced prompt</li>
+                        <li><strong>Response Formatting:</strong> FastAPI returns JSON with answer and source citations</li>
                     </ol>
                 </div>
 
                 <h3>🔄 Detailed Workflow Example</h3>
-                <p>Let's trace through a complete RAG interaction:</p>
+                <p>Let's trace through a complete RAG interaction using our actual technology stack:</p>
 
                 <div class="feature-card" style="margin: 20px 0;">
                     <h4>📝 Scenario: Employee asks "What's our vacation policy?"</h4>
@@ -840,31 +840,34 @@
                     <p><strong>Step 1 - Query Processing:</strong></p>
                     <ul>
                         <li>System receives: "What's our vacation policy?"</li>
-                        <li>Query is converted to embedding vector</li>
-                        <li>System prepares to search knowledge base</li>
+                        <li>Sentence Transformers (all-mpnet-base-v2) converts query to 768-dimensional vector</li>
+                        <li>No API calls needed - embedding generated locally</li>
+                        <li>System prepares to search Milvus vector database</li>
                     </ul>
 
                     <p><strong>Step 2 - Retrieval Phase:</strong></p>
                     <ul>
-                        <li>Vector search finds similar content in employee handbook</li>
+                        <li>Milvus performs L2 distance similarity search</li>
+                        <li>Searches through document chunks stored with IVF_FLAT index</li>
                         <li>Retrieves chunks about vacation days, PTO, leave policies</li>
                         <li>Ranks results by relevance score (e.g., 0.89, 0.76, 0.71)</li>
-                        <li>Selects top 3-5 most relevant chunks</li>
+                        <li>Selects top 3-5 most relevant chunks with metadata</li>
                     </ul>
 
                     <p><strong>Step 3 - Context Assembly:</strong></p>
                     <ul>
                         <li>Combines retrieved chunks into coherent context</li>
                         <li>Maintains source attribution (file names, page numbers)</li>
-                        <li>Ensures context fits within LLM's token limits</li>
+                        <li>Includes metadata like document categories and topics</li>
+                        <li>Ensures context fits within LLM's token limits (typically 4-8K tokens)</li>
                     </ul>
 
                     <p><strong>Step 4 - Generation Phase:</strong></p>
                     <ul>
-                        <li>LLM receives: Query + Retrieved context + Instructions</li>
-                        <li>Generates response based on provided information</li>
-                        <li>Includes source citations for verification</li>
-                        <li>Returns formatted answer to user</li>
+                        <li>Google Gemini API receives: Query + Retrieved context + Instructions</li>
+                        <li>Generates response based on provided company information</li>
+                        <li>Includes source citations for verification and compliance</li>
+                        <li>FastAPI endpoint returns formatted JSON response to user</li>
                     </ul>
                 </div>
 
@@ -885,9 +888,10 @@
                         <span class="icon">🔧</span>
                         <h4>Embedding Model Selection</h4>
                         <ul>
-                            <li><strong>OpenAI:</strong> text-embedding-3-small/large</li>
-                            <li><strong>Open Source:</strong> Sentence Transformers</li>
-                            <li><strong>Domain-Specific:</strong> Fine-tuned models</li>
+                            <li><strong>Local (Recommended):</strong> Sentence Transformers all-mpnet-base-v2</li>
+                            <li><strong>Commercial:</strong> OpenAI text-embedding-3-small/large</li>
+                            <li><strong>Domain-Specific:</strong> Fine-tuned models for specialized content</li>
+                            <li><strong>Multilingual:</strong> sentence-transformers/paraphrase-multilingual</li>
                         </ul>
                     </div>
                     
@@ -1028,28 +1032,6 @@
                 </div>
             </div>
 
-                <h3>2. Embedding & Storage</h3>
-                <ul>
-                    <li><strong>Vectorization:</strong> Convert text chunks to embeddings</li>
-                    <li><strong>Vector database:</strong> Store and index embeddings efficiently</li>
-                    <li><strong>Metadata indexing:</strong> Enable filtering and routing</li>
-                </ul>
-
-                <h3>3. Retrieval</h3>
-                <ul>
-                    <li><strong>Query processing:</strong> Understand user intent</li>
-                    <li><strong>Similarity search:</strong> Find relevant document chunks</li>
-                    <li><strong>Ranking:</strong> Order results by relevance</li>
-                </ul>
-
-                <h3>4. Generation</h3>
-                <ul>
-                    <li><strong>Prompt engineering:</strong> Combine query + context effectively</li>
-                    <li><strong>LLM inference:</strong> Generate natural language response</li>
-                    <li><strong>Response formatting:</strong> Include sources and citations</li>
-                </ul>
-            </div>
-
             <div class="section">
                 <h2>Document Processing Architecture</h2>
                 
@@ -1127,7 +1109,8 @@
                             <ul>
                                 <li>Smaller chunks: More precise matching, less context</li>
                                 <li>Larger chunks: More context, potentially noisy results</li>
-                                <li>Optimal range: 200-800 tokens for most use cases</li>
+                                <li>Optimal range: 200-800 tokens (our system uses ~512 token chunks)</li>
+                                <li>768-dimensional embeddings work best with medium-sized chunks</li>
                             </ul>
                         </li>
                         <li><strong>Overlap Strategy:</strong>
@@ -1166,6 +1149,69 @@
                             <li>Confidence scores and quality metrics</li>
                         </ul>
                     </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Our Production RAG Stack 🛠️</h2>
+                
+                <p>Here's the exact technology stack used in our rag_poc implementation:</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">🧠</span>
+                        <h4>Embeddings: Sentence Transformers</h4>
+                        <ul>
+                            <li><strong>Model:</strong> all-mpnet-base-v2</li>
+                            <li><strong>Dimensions:</strong> 768</li>
+                            <li><strong>Benefits:</strong> Local processing, no API costs</li>
+                            <li><strong>Performance:</strong> High quality semantic understanding</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="icon">🗄️</span>
+                        <h4>Vector Database: Milvus</h4>
+                        <ul>
+                            <li><strong>Version:</strong> 2.5.7</li>
+                            <li><strong>Index:</strong> IVF_FLAT with L2 distance</li>
+                            <li><strong>Deployment:</strong> Docker Compose</li>
+                            <li><strong>Storage:</strong> Persistent volumes for data retention</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="icon">🚀</span>
+                        <h4>API Framework: FastAPI</h4>
+                        <ul>
+                            <li><strong>Endpoints:</strong> /upload, /query, /health</li>
+                            <li><strong>Features:</strong> Auto-generated docs, async support</li>
+                            <li><strong>Performance:</strong> High-throughput request handling</li>
+                            <li><strong>Development:</strong> Hot reload, easy testing</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="icon">✨</span>
+                        <h4>LLM: Google Gemini</h4>
+                        <ul>
+                            <li><strong>Model:</strong> gemini-2.0-flash</li>
+                            <li><strong>Use:</strong> Text generation only (not embeddings)</li>
+                            <li><strong>Integration:</strong> API-based with context injection</li>
+                            <li><strong>Benefits:</strong> High quality, cost-effective responses</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>💡 Key Architecture Benefits</strong>
+                    <ul>
+                        <li><strong>Cost Efficient:</strong> Local embeddings eliminate per-request API costs</li>
+                        <li><strong>Fast Response:</strong> Optimized vector search with proper indexing</li>
+                        <li><strong>Scalable:</strong> Milvus handles millions of vectors efficiently</li>
+                        <li><strong>Self-Contained:</strong> Works offline for embedding generation</li>
+                        <li><strong>Production Ready:</strong> Docker deployment with persistent storage</li>
+                    </ul>
                 </div>
             </div>
 
