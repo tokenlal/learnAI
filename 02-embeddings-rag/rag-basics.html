@@ -7,7 +7,7 @@
     <title>RAG Fundamentals - Chota Bheem Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,7 +16,7 @@
         }
 
         body {
-            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
             min-height: 100vh;
             padding: 0;
@@ -81,7 +81,7 @@
         }
 
         .header h1 {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 3.2em;
             margin-bottom: 16px;
             font-weight: 800;
@@ -119,7 +119,7 @@
             font-size: 1em;
             transition: all 0.3s;
             border-bottom: 4px solid transparent;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         .nav a:hover {
@@ -150,7 +150,7 @@
             font-size: 2.6em;
             margin-bottom: 32px;
             font-weight: 800;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             position: relative;
             display: inline-block;
         }
@@ -170,7 +170,7 @@
             font-size: 1.9em;
             margin: 40px 0 20px 0;
             font-weight: 700;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         .section p,
@@ -207,7 +207,7 @@
             display: block;
             margin-bottom: 16px;
             font-weight: 800;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         .highlight-box p {
@@ -237,7 +237,7 @@
             display: block;
             margin-bottom: 16px;
             font-weight: 800;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         .demo-box p {
@@ -580,8 +580,23 @@
             border-radius: 6px;
             display: inline-block;
             font-weight: 600;
-            margin-bottom: 32px;
+            margin-bottom: 20px;
             font-size: 0.95em;
+        }
+
+        .reading-time {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            color: #FF8C00;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            margin-left: 15px;
+            border: 2px solid #FFD700;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.2);
+            font-family: 'Inter', sans-serif;
         }
 
         .cta-button {
@@ -596,13 +611,165 @@
             transition: all 0.3s;
             box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
             border: 3px solid #FFD700;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         .cta-button:hover {
             background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
             box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5);
             transform: translateY(-3px) scale(1.05);
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #FF8C00 0%, #FFD700 100%);
+            z-index: 9999;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px rgba(255, 140, 0, 0.8);
+        }
+
+        /* Progress Tracker */
+        .progress-tracker {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border: 3px solid #FFD700;
+            border-radius: 15px;
+            padding: 15px 20px;
+            z-index: 9998;
+            box-shadow: 0 8px 32px rgba(255, 140, 0, 0.3);
+            min-width: 220px;
+        }
+
+        /* Home Button */
+        .home-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.5);
+            border: 3px solid #FFD700;
+            z-index: 9997;
+            transition: all 0.3s ease;
+        }
+
+        .home-button:hover {
+            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5);
+        }
+
+        .home-button::after {
+            content: "Main Home";
+            position: absolute;
+            right: 70px;
+            background: rgba(255, 140, 0, 0.95);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.5em;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            border: 2px solid #FFD700;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .home-button:hover::after {
+            opacity: 1;
+        }
+
+        .progress-tracker h4 {
+            color: #FF8C00;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+            font-weight: 700;
+        }
+
+        .progress-bar-container {
+            background: #FFF9E6;
+            border-radius: 10px;
+            height: 12px;
+            overflow: hidden;
+            margin-bottom: 8px;
+            border: 2px solid #FFD700;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF8C00 0%, #FFA500 100%);
+            border-radius: 8px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(255, 140, 0, 0.6);
+        }
+
+        .progress-text {
+            color: #5D4037;
+            font-size: 0.85em;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .badges {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .badge {
+            font-size: 1.3em;
+            opacity: 0.3;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .badge.earned {
+            opacity: 1;
+            animation: badgePop 0.5s ease;
+        }
+
+        .badge:hover::after {
+            content: attr(data-title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 140, 0, 0.95);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 0.65em;
+            border: 2px solid #FFD700;
+            margin-bottom: 5px;
+        }
+
+        @keyframes badgePop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
 
         @media (max-width: 768px) {
@@ -664,11 +831,64 @@
             .section h3 {
                 margin: 32px 0 16px 0;
             }
+
+            .progress-tracker {
+                top: 10px;
+                right: 10px;
+                min-width: 180px;
+                padding: 12px 15px;
+            }
+
+            .progress-tracker h4 {
+                font-size: 0.85em;
+            }
+
+            .badges {
+                gap: 5px;
+            }
+
+            .badge {
+                font-size: 1.1em;
+            }
+
+            .home-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5em;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .home-button::after {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Home Button -->
+    <a href="../index.html" class="home-button" title="Back to Main Home">🏠</a>
+
+    <!-- Progress Tracker -->
+    <div class="progress-tracker">
+        <h4>🔍 Embeddings & RAG Progress</h4>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBar" style="width: 80%;"></div>
+        </div>
+        <div class="progress-text" id="progressText">Lesson 4 of 5 (80%)</div>
+        <div class="badges">
+            <span class="badge earned" data-title="Home">🏠</span>
+            <span class="badge earned" data-title="Embeddings Basics">🧠</span>
+            <span class="badge earned" data-title="Similarity Search">🔍</span>
+            <span class="badge earned" data-title="RAG Fundamentals">🔗</span>
+            <span class="badge" data-title="Building RAG">🛠️</span>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
             <div class="header-content">
@@ -691,8 +911,13 @@
         </div>
 
         <div class="content">
+            <div class="reading-time">⏱️ 15 min read</div>
+            
             <div class="section">
                 <h2>The LLM Knowledge Problem 🤔</h2>
+                <div style="text-align: center; margin: 30px 0;">
+                    <img src="images/18ad60a19e65fdc55b4d778d5d51690a.gif" alt="Thinking" style="max-width: 300px; border-radius: 15px; box-shadow: 0 10px 40px rgba(255, 140, 0, 0.3); border: 5px solid #FFD700;">
+                </div>
                 
                 <p>LLMs are incredibly powerful, but they have a fundamental limitation:</p>
 
@@ -722,6 +947,9 @@
 
             <div class="section">
                 <h2>What is RAG? 🔗</h2>
+                <div style="text-align: center; margin: 30px 0;">
+                    <img src="images/cb-target-board-2.gif" alt="RAG Target" style="max-width: 200px; border-radius: 15px; box-shadow: 0 10px 40px rgba(76, 175, 80, 0.3); border: 5px solid #4CAF50;">
+                </div>
                 
                 <div class="highlight-box">
                     <strong>💡 RAG = Retrieval-Augmented Generation</strong>
@@ -775,6 +1003,9 @@
 
             <div class="section">
                 <h2>RAG Architecture & Pipeline</h2>
+                <div style="text-align: center; margin: 30px 0;">
+                    <img src="images/200w.gif" alt="RAG Architecture" style="max-width: 300px; border-radius: 15px; box-shadow: 0 10px 40px rgba(255, 140, 0, 0.3); border: 5px solid #FFD700;">
+                </div>
                 
                 <h3>🏗️ High-Level Architecture</h3>
                 <p>RAG systems consist of two main components working together:</p>
@@ -1034,6 +1265,9 @@
 
             <div class="section">
                 <h2>Document Processing Architecture</h2>
+                <div style="text-align: center; margin: 30px 0;">
+                    <img src="images/bhojan-karna-kalia.gif" alt="Document Processing" style="max-width: 250px; border-radius: 15px; box-shadow: 0 10px 40px rgba(76, 175, 80, 0.3); border: 5px solid #4CAF50;">
+                </div>
                 
                 <p>The foundation of any RAG system is how documents are processed and stored. This determines retrieval quality and system performance.</p>
 
@@ -1295,6 +1529,8 @@
                 </div>
 
                 <div style="text-align: center; margin-top: 40px;">
+                    <img src="images/bola-tha-maine-chhota-bheem.gif" alt="Ready to Build" style="max-width: 300px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3); border: 5px solid #FFD700;">
+                    <br>
                     <a href="building-rag.html" class="cta-button">
                         🛠️ Build Your RAG System →
                     </a>
@@ -1317,6 +1553,15 @@
 
     <script>
         hljs.highlightAll();
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = (window.scrollY / documentHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        });
     </script>
 </body>
 
