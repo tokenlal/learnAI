@@ -37,7 +37,7 @@ def create_collection():
         collection.create_index(
             field_name="embedding",
             index_params={
-                "metric_type": "L2",
+                "metric_type": "COSINE",
                 "index_type": "IVF_FLAT",
                 "params": {"nlist": 128}
             }
@@ -52,7 +52,7 @@ def create_collection():
             collection.create_index(
                 field_name="embedding",
                 index_params={
-                    "metric_type": "L2",
+                    "metric_type": "COSINE",
                     "index_type": "IVF_FLAT",
                     "params": {"nlist": 128}
                 }
@@ -82,7 +82,7 @@ def search_embeddings(query_embedding, k=5):
     results = collection.search(
         data=[query_embedding],
         anns_field="embedding",
-        param={"metric_type": "L2", "params": {"nprobe": 10}},
+        param={"metric_type": "COSINE", "params": {"nprobe": 10}},
         limit=k,
         output_fields=["chunk"]
     )

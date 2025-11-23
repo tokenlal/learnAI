@@ -95,6 +95,7 @@ Once both backend and frontend are running:
 
 - **API Documentation**: http://localhost:8000/docs (Interactive Swagger UI)
 - **FastAPI App**: http://localhost:8000
+- **Attu (Milvus GUI)**: http://localhost:3000 (Visualize collections and data)
 - **MinIO Console**: http://localhost:9001 (admin/minioadmin)
 - **Milvus**: localhost:19530
 
