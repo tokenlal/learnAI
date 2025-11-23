@@ -552,45 +552,123 @@
             100% { transform: scale(1); }
         }
 
+        /* Tablet Styles */
+        @media (max-width: 1024px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .content {
+                padding: 50px 40px;
+            }
+
+            .progress-tracker {
+                min-width: 200px;
+                padding: 15px 18px;
+            }
+        }
+
+        /* Mobile Styles */
         @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+
             .header {
-                padding: 40px 24px;
+                padding: 30px 20px;
             }
 
             .header h1 {
                 font-size: 2em;
+                margin-bottom: 10px;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .header-character {
+                max-width: 80px;
+                max-height: 80px;
             }
 
             .content {
-                padding: 40px 24px;
+                padding: 30px 20px;
+            }
+
+            .section h2 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+
+            .section h3 {
+                font-size: 1.4em;
+                margin: 30px 0 15px 0;
+            }
+
+            .nav {
+                position: sticky;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            .nav::-webkit-scrollbar {
+                display: none;
             }
 
             .nav-content {
-                padding: 0 24px;
+                padding: 0 20px;
                 overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                white-space: nowrap;
+            }
+
+            .nav a {
+                padding: 12px 20px;
+                font-size: 0.95em;
+                white-space: nowrap;
             }
 
             .comparison-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .highlight-box,
+            .warning-box,
+            .success-box,
+            .output-box,
+            .step-box {
+                padding: 20px 16px;
+                margin: 20px 0;
+            }
+
+            pre {
+                padding: 15px;
+                font-size: 0.85em;
             }
 
             .progress-tracker {
                 top: 10px;
                 right: 10px;
-                min-width: 180px;
-                padding: 12px 15px;
+                min-width: 160px;
+                padding: 10px 12px;
             }
 
             .progress-tracker h4 {
-                font-size: 0.85em;
+                font-size: 0.8em;
             }
 
             .badges {
-                gap: 5px;
+                gap: 4px;
             }
 
             .badge {
-                font-size: 1.1em;
+                font-size: 1em;
+                width: 28px;
+                height: 28px;
             }
 
             .home-button {
@@ -603,6 +681,91 @@
 
             .home-button::after {
                 display: none;
+            }
+
+            .section {
+                margin-bottom: 50px;
+            }
+        }
+
+        /* Small Mobile Styles */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .header p {
+                font-size: 0.9em;
+            }
+
+            .header-character {
+                max-width: 60px;
+                max-height: 60px;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .section h2 {
+                font-size: 1.5em;
+            }
+
+            .section h3 {
+                font-size: 1.2em;
+            }
+
+            .nav-content {
+                padding: 0 15px;
+            }
+
+            .nav a {
+                padding: 10px 16px;
+                font-size: 0.9em;
+            }
+
+            .progress-tracker {
+                min-width: 140px;
+                padding: 8px 10px;
+            }
+
+            .progress-tracker h4 {
+                font-size: 0.75em;
+            }
+
+            .badge {
+                font-size: 0.9em;
+                width: 26px;
+                height: 26px;
+            }
+
+            .home-button {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3em;
+                bottom: 15px;
+                right: 15px;
+            }
+
+            pre {
+                font-size: 0.75em;
+                padding: 12px;
+            }
+        }
+
+        /* Extra Small Mobile */
+        @media (max-width: 320px) {
+            .header h1 {
+                font-size: 1.4em;
+            }
+
+            .progress-tracker {
+                min-width: 120px;
+            }
+
+            .badge {
+                width: 24px;
+                height: 24px;
             }
         }
     </style>

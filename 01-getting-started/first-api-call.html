@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First API Call - Harry Potter Edition</title>
+    <title>Your First LLM API Call - Harry Potter Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -508,31 +508,154 @@
             opacity: 1;
         }
 
+        /* Tablet and below */
+        @media (max-width: 1024px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Mobile devices */
         @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
             .header {
-                padding: 50px 24px;
+                padding: 40px 20px;
             }
 
             .header-content {
                 flex-direction: column;
                 text-align: center;
+                gap: 20px;
             }
 
             .header h1 {
-                font-size: 2.2em;
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .header-character {
+                width: 140px;
+                height: 140px;
             }
 
             .content {
-                padding: 60px 24px;
+                padding: 40px 20px;
             }
 
             .nav-content {
-                padding: 0 24px;
+                padding: 0 10px;
                 overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .nav-content::-webkit-scrollbar {
+                display: none;
+            }
+
+            .nav a {
+                padding: 18px 20px;
+                font-size: 0.9em;
+                white-space: nowrap;
+            }
+
+            .section h2 {
+                font-size: 2em;
+            }
+
+            .section h3 {
+                font-size: 1.4em;
+            }
+
+            .step-indicator {
+                font-size: 0.9em;
+                padding: 12px 24px;
+            }
+
+            .step-box {
+                padding: 30px;
+            }
+
+            .step-number {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2em;
             }
 
             .comparison-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .comparison-card {
+                padding: 25px;
+            }
+
+            .highlight-box,
+            .warning-box,
+            .success-box {
+                padding: 25px;
+            }
+
+            pre code {
+                padding: 20px;
+                font-size: 0.85em;
+            }
+
+            .footer {
+                padding: 35px 20px;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .header-character {
+                width: 120px;
+                height: 120px;
+            }
+
+            .content {
+                padding: 30px 16px;
+            }
+
+            .nav a {
+                padding: 16px 16px;
+                font-size: 0.85em;
+            }
+
+            .section h2 {
+                font-size: 1.6em;
+            }
+
+            .step-indicator {
+                font-size: 0.85em;
+                padding: 10px 20px;
+            }
+
+            .step-box {
+                padding: 25px;
+            }
+
+            .comparison-card {
+                padding: 20px;
+            }
+
+            pre code {
+                font-size: 0.8em;
             }
         }
 
@@ -557,7 +680,42 @@
         .sticky-nav { position: sticky; top: 0; z-index: 999; transition: all 0.3s ease; }
         .sticky-nav.scrolled { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); }
         .reading-time { display: inline-block; background: rgba(139, 92, 246, 0.1); color: #8b5cf6; padding: 5px 12px; border-radius: 20px; font-size: 0.9em; margin-left: 10px; }
-        @media (max-width: 768px) { .progress-tracker { top: 10px; right: 10px; padding: 10px 15px; min-width: 150px; } .home-button { width: 50px; height: 50px; font-size: 1.5em; bottom: 20px; right: 20px; } .home-button::after { display: none; } }
+        @media (max-width: 768px) { 
+            .progress-tracker { 
+                top: 10px; 
+                right: 10px; 
+                padding: 10px 15px; 
+                min-width: 140px; 
+            } 
+            .progress-tracker h4 { 
+                font-size: 0.8em; 
+            } 
+            .progress-text { 
+                font-size: 0.75em; 
+            } 
+            .home-button { 
+                width: 50px; 
+                height: 50px; 
+                font-size: 1.5em; 
+                bottom: 20px; 
+                right: 20px; 
+            } 
+            .home-button::after { 
+                display: none; 
+            } 
+        }
+        
+        @media (max-width: 480px) { 
+            .progress-tracker { 
+                min-width: 120px; 
+                padding: 8px 12px; 
+            } 
+            .home-button { 
+                width: 45px; 
+                height: 45px; 
+                font-size: 1.3em; 
+            } 
+        }
     </style>
 </head>
 
@@ -577,15 +735,15 @@
             <span class="badge earned" data-title="Home">🏠</span>
             <span class="badge earned" data-title="Overview">📚</span>
             <span class="badge earned" data-title="Setup">⚙️</span>
-            <span class="badge earned" data-title="First API Call">🔌</span>
+            <span class="badge earned" data-title="First LLM Call">🔌</span>
         </div>
     </div>
     <div class="container">
         <div class="header">
             <div class="header-content">
                 <div class="header-text">
-                    <h1>🧪 Professor Snape's Advanced Potions</h1>
-                    <p>The Art of Brewing Your First API Call</p>
+                    <h1>🧪 Your First LLM API Call</h1>
+                    <p>Professor Snape's Guide to Brewing AI Magic</p>
                 </div>
                 <img src="images/snape_class.gif" alt="Professor Snape" class="header-character">
             </div>
@@ -596,7 +754,7 @@
                 <a href="index.html">🏠 Home</a>
                 <a href="overview.html">📚 Overview</a>
                 <a href="setup.html">⚙️ Setup</a>
-                <a href="first-api-call.html" class="active">🔌 First API Call</a>
+                <a href="first-api-call.html" class="active">🔌 First LLM Call</a>
             </div>
         </div>
 
@@ -1160,7 +1318,7 @@ print(f"💰 Cost: ${cost:.6f}")
         </div>
 
         <div class="footer">
-            <p><strong>Gen AI Mastery - Harry Potter Edition</strong> | Module 1 of 12 | <a href="index.html">🏠 Back to Home</a></p>
+            <p><strong>Learn AI Development - Harry Potter Edition</strong> | Module 1: Getting Started | <a href="index.html">🏠 Back to Home</a></p>
             <p style="margin-top: 15px; font-size: 1em;">
                 Created with ✨ by <strong><a href="https://youtube.com/@tokenlal" target="_blank" style="color: rgba(203, 166, 97, 1); text-decoration: none; border-bottom: 2px solid rgba(203, 166, 97, 0.5);">@tokenlal</a></strong>
             </p>
@@ -1214,7 +1372,7 @@ print(f"💰 Cost: ${cost:.6f}")
             }, 50);
         });
 
-        console.log('%c🔮 First API Call - Harry Potter Edition!', 'font-size: 18px; color: #8b5cf6; font-weight: bold;');
+        console.log('%c🔮 Your First LLM API Call - Harry Potter Edition!', 'font-size: 18px; color: #8b5cf6; font-weight: bold;');
     </script>
 </body>
 

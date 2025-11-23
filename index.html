@@ -325,29 +325,141 @@
             font-size: 1.05em;
         }
 
+        /* Tablet and below */
+        @media (max-width: 1024px) {
+            .module-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+        }
+
+        /* Mobile devices */
         @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
             .header {
-                padding: 60px 24px;
+                padding: 40px 20px;
             }
 
             .header h1 {
-                font-size: 2.5em;
+                font-size: 2em;
             }
 
             .header .subtitle {
-                font-size: 1.3em;
+                font-size: 1.1em;
+            }
+
+            .header .description {
+                font-size: 0.95em;
             }
 
             .content {
-                padding: 60px 24px;
+                padding: 40px 20px;
+            }
+
+            .section-title {
+                font-size: 1.8em;
+            }
+
+            .intro-section h2 {
+                font-size: 1.8em;
+            }
+
+            .intro-section p {
+                font-size: 1em;
             }
 
             .module-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .module-card {
+                padding: 25px;
+            }
+
+            .module-card h3 {
+                font-size: 1.3em;
+            }
+
+            .module-number {
+                font-size: 0.75em;
+                padding: 6px 14px;
             }
 
             .features-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .feature-item {
+                padding: 25px;
+            }
+
+            .feature-icon {
+                font-size: 2.5em;
+            }
+
+            .feature-item h3 {
+                font-size: 1.2em;
+            }
+
+            .cta-button {
+                padding: 14px 32px;
+                font-size: 1em;
+            }
+
+            .footer {
+                padding: 35px 20px;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .header .subtitle {
+                font-size: 1em;
+            }
+
+            .content {
+                padding: 30px 16px;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+            }
+
+            .module-card {
+                padding: 20px;
+            }
+
+            .module-card h3 {
+                font-size: 1.2em;
+            }
+
+            .feature-item {
+                padding: 20px;
+            }
+
+            .cta-button {
+                padding: 12px 24px;
+                font-size: 0.95em;
+                width: 100%;
+                text-align: center;
             }
         }
     </style>

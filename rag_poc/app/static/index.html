@@ -338,6 +338,175 @@
             margin-bottom: 20px;
             opacity: 0.5;
         }
+
+        /* Tablet Styles */
+        @media (max-width: 1024px) {
+            .container {
+                max-width: 90%;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .card {
+                padding: 25px;
+            }
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .card {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .file-upload-container {
+                flex-direction: column;
+            }
+
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            input[type="number"] {
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 14px 30px;
+            }
+
+            .query-display p {
+                font-size: 1.1rem;
+            }
+
+            .answer-box p {
+                font-size: 1.1rem;
+            }
+
+            .chunk-content {
+                padding-left: 0;
+                margin-top: 10px;
+            }
+
+            .chunk-title {
+                font-size: 1rem;
+            }
+        }
+
+        /* Small Mobile Styles */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            .header {
+                margin-bottom: 25px;
+            }
+
+            .card {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+
+            .section-title::before {
+                height: 20px;
+            }
+
+            input[type="text"],
+            input[type="number"],
+            input[type="file"] {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+
+            .query-display,
+            .answer-box {
+                padding: 15px;
+            }
+
+            .query-display h3,
+            .answer-box h3 {
+                font-size: 0.9rem;
+            }
+
+            .query-display p {
+                font-size: 1rem;
+            }
+
+            .answer-box p {
+                font-size: 1rem;
+            }
+
+            .chunk-card {
+                padding: 15px;
+            }
+
+            .chunk-number {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+
+            .chunk-title {
+                font-size: 0.95rem;
+            }
+
+            .chunk-content {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Extra Small Mobile */
+        @media (max-width: 320px) {
+            .header h1 {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 1rem;
+            }
+
+            .card {
+                padding: 12px;
+            }
+        }
     </style>
 </head>
 <body>
