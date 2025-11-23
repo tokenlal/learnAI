@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gen AI Overview - Chota Bheem Edition</title>
+    <title>Gen AI Overview - Harry Potter Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,25 +16,76 @@
         }
 
         body {
-            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             min-height: 100vh;
-            color: #2C1810;
+            color: #1e293b;
             line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, rgba(203, 166, 97, 0.4), transparent),
+                radial-gradient(2px 2px at 60% 70%, rgba(203, 166, 97, 0.3), transparent),
+                radial-gradient(1px 1px at 50% 50%, rgba(203, 166, 97, 0.4), transparent),
+                radial-gradient(3px 3px at 10% 80%, rgba(139, 92, 246, 0.2), transparent);
+            background-size: 200% 200%;
+            animation: magicFloat 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        body::after {
+            content: "🪄";
+            position: fixed;
+            font-size: 22px;
+            color: rgba(203, 166, 97, 0.6);
+            animation: wandFloat 16s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes magicFloat {
+            0%, 100% { 
+                background-position: 0% 0%, 100% 100%, 100% 0%;
+                opacity: 0.5;
+            }
+            50% { 
+                background-position: 100% 100%, 0% 0%, 0% 100%;
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes wandFloat {
+            0% { left: -50px; top: 25%; transform: rotate(-45deg); }
+            25% { left: 35%; top: 65%; transform: rotate(45deg); }
+            50% { left: 65%; top: 25%; transform: rotate(135deg); }
+            75% { left: 45%; top: 70%; transform: rotate(225deg); }
+            100% { left: 110%; top: 40%; transform: rotate(315deg); }
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
+            background: #ffffff;
             min-height: 100vh;
-            box-shadow: 0 0 60px rgba(255, 140, 0, 0.15);
+            box-shadow: 0 0 100px rgba(139, 92, 46, 0.3);
+            position: relative;
+            z-index: 2;
         }
 
         .header {
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FFB84D 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
             color: white;
-            padding: 70px 40px;
+            padding: 80px 60px;
             position: relative;
             overflow: hidden;
         }
@@ -46,8 +97,15 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="3" fill="%23FFD700" opacity="0.3"/><circle cx="80" cy="40" r="2" fill="%23FFD700" opacity="0.3"/><circle cx="40" cy="80" r="2.5" fill="%23FFD700" opacity="0.3"/></svg>') repeat;
-            background-size: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 20 L52 28 L60 28 L54 33 L56 41 L50 36 L44 41 L46 33 L40 28 L48 28 Z" fill="rgba(203,166,97,0.2)"/></svg>') repeat;
+            background-size: 80px;
+            animation: sparkleMove 30s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes sparkleMove {
+            from { background-position: 0 0; }
+            to { background-position: 80px 80px; }
         }
 
         .header-content {
@@ -65,11 +123,11 @@
         }
 
         .header-character {
-            width: 140px;
-            height: 140px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
-            border: 5px solid #FFD700;
-            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
+            border: 4px solid rgba(203, 166, 97, 0.8);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(203, 166, 97, 0.3);
             object-fit: cover;
             animation: float 3s ease-in-out infinite;
         }
@@ -79,27 +137,34 @@
             50% { transform: translateY(-15px); }
         }
 
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+
         .header h1 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 3.2em;
-            margin-bottom: 16px;
-            font-weight: 800;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            font-family: 'Cinzel', serif;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
         }
 
         .header p {
             font-size: 1.4em;
-            font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+            font-weight: 400;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+            opacity: 0.95;
         }
 
         .nav {
             background: white;
-            border-bottom: 3px solid #FFD700;
+            border-bottom: 2px solid rgba(139, 92, 46, 0.2);
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .nav-content {
@@ -111,26 +176,26 @@
         }
 
         .nav a {
-            padding: 20px 32px;
-            color: #5D4037;
+            padding: 22px 35px;
+            color: #334155;
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 1em;
-            transition: all 0.3s;
-            border-bottom: 4px solid transparent;
-            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            position: relative;
         }
 
         .nav a:hover {
-            color: #FF8C00;
-            background: #FFF9E6;
-            border-bottom-color: #FF8C00;
+            color: #8b5cf6;
+            background: linear-gradient(to bottom, transparent, rgba(139, 92, 246, 0.05));
+            border-bottom-color: rgba(203, 166, 97, 0.5);
         }
 
         .nav a.active {
-            color: #FF8C00;
-            background: #FFF9E6;
-            border-bottom-color: #FFD700;
+            color: #8b5cf6;
+            background: linear-gradient(to bottom, transparent, rgba(139, 92, 246, 0.08));
+            border-bottom-color: rgba(203, 166, 97, 1);
         }
 
         .content {
@@ -141,16 +206,15 @@
 
         .step-indicator {
             display: inline-block;
-            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
             color: white;
             padding: 14px 32px;
             border-radius: 50px;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 1em;
             margin-bottom: 40px;
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
-            font-family: 'Poppins', sans-serif;
-            border: 3px solid #FFD700;
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+            border: 2px solid rgba(203, 166, 97, 0.3);
         }
 
         .section {
@@ -159,11 +223,11 @@
         }
 
         .section h2 {
-            color: #FF8C00;
-            font-size: 2.6em;
-            margin-bottom: 28px;
-            font-weight: 800;
-            font-family: 'Poppins', sans-serif;
+            color: #8b5cf6;
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
             position: relative;
             display: inline-block;
         }
@@ -171,26 +235,26 @@
         .section h2::after {
             content: "";
             position: absolute;
-            bottom: -8px;
+            bottom: -10px;
             left: 0;
             width: 60%;
-            height: 4px;
-            background: linear-gradient(90deg, #FFD700, transparent);
+            height: 3px;
+            background: linear-gradient(90deg, rgba(203, 166, 97, 0.8), transparent);
         }
 
         .section h3 {
-            color: #4CAF50;
-            font-size: 1.9em;
-            margin: 40px 0 20px 0;
-            font-weight: 700;
-            font-family: 'Poppins', sans-serif;
+            color: #6d28d9;
+            font-size: 1.8em;
+            margin: 35px 0 16px 0;
+            font-weight: 600;
+            font-family: 'Cinzel', serif;
         }
 
         .section p,
         .section li {
-            font-size: 1.15em;
-            line-height: 1.9;
-            color: #4A4A4A;
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #475569;
             margin-bottom: 20px;
         }
 
@@ -203,21 +267,126 @@
         }
 
         .highlight-box {
-            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
-            border-left: 6px solid #FFD700;
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            border-left: 6px solid #2196F3;
             padding: 32px;
             margin: 35px 0;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
         }
 
         .highlight-box strong {
-            color: #FF8C00;
+            color: #1565C0;
             font-size: 1.3em;
             display: block;
             margin-bottom: 16px;
             font-weight: 800;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Cinzel', sans-serif;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+            border-left: 6px solid #FF9800;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.2);
+        }
+
+        .warning-box strong {
+            color: #E65100;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Cinzel', sans-serif;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-left: 6px solid #4CAF50;
+            padding: 32px;
+            margin: 35px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .success-box strong {
+            color: #2E7D32;
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-family: 'Cinzel', sans-serif;
+        }
+
+        .step-box {
+            background: linear-gradient(135deg, #fff5e6 0%, white 100%);
+            border: 3px solid #D3A625;
+            padding: 40px;
+            margin: 32px 0;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(211, 166, 37, 0.2);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #FF6F00, #FF8F00);
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.4em;
+            margin-right: 16px;
+            box-shadow: 0 6px 15px rgba(255, 111, 0, 0.4);
+            border: 3px solid #D3A625;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin: 40px 0;
+        }
+
+        .comparison-card {
+            background: linear-gradient(135deg, #fff5e6 0%, white 100%);
+            border: 3px solid #D3A625;
+            padding: 36px;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .comparison-card:hover {
+            border-color: #FF6F00;
+            box-shadow: 0 15px 40px rgba(255, 111, 0, 0.3);
+            transform: translateY(-8px);
+        }
+
+        .comparison-card h4 {
+            color: #8b5cf6;
+            margin-bottom: 16px;
+            font-size: 1.6em;
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
+        }
+
+        .comparison-card p {
+            margin: 12px 0;
+        }
+
+        .output-box {
+            background: #F5F5F5;
+            border: 3px solid #FF6F00;
+            padding: 24px;
+            margin: 24px 0;
+            border-radius: 12px;
+            font-family: 'SF Mono', 'Monaco', monospace;
+            font-size: 0.95em;
+            color: #2C2C2C;
         }
 
         .use-case-grid {
@@ -228,16 +397,28 @@
         }
 
         .use-case-card {
-            background: linear-gradient(135deg, #FFFBF0 0%, white 100%);
-            border: 3px solid #FFD700;
-            padding: 36px;
-            border-radius: 15px;
-            transition: all 0.3s;
+            background: linear-gradient(135deg, #ffffff 0%, #fafaf9 100%);
+            border: 2px solid rgba(139, 92, 46, 0.15);
+            padding: 40px;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .use-case-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, rgba(203, 166, 97, 0.8));
         }
 
         .use-case-card:hover {
-            border-color: #FF8C00;
-            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.3);
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 20px 50px rgba(139, 92, 246, 0.15);
             transform: translateY(-8px);
         }
 
@@ -248,85 +429,137 @@
         }
 
         .use-case-card h3 {
-            color: #FF8C00;
-            margin: 0 0 16px 0;
+            color: #8b5cf6;
+            margin: 0 0 18px 0;
             font-size: 1.5em;
             font-weight: 700;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Cinzel', serif;
         }
 
         .use-case-card p {
-            color: #5D4037;
+            color: #64748b;
             margin: 0;
             font-size: 1.05em;
         }
 
         .insight-box {
-            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             color: white;
-            padding: 40px;
-            margin: 45px 0;
-            border-radius: 15px;
-            border: 5px solid #FFD700;
-            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+            padding: 45px;
+            margin: 50px 0;
+            border-radius: 16px;
+            border: 2px solid rgba(203, 166, 97, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .insight-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(203, 166, 97, 0.1) 0%, transparent 70%);
         }
 
         .insight-box strong {
-            color: #FFD700;
+            color: rgba(203, 166, 97, 1);
             font-size: 1.4em;
             display: block;
             margin-bottom: 18px;
-            font-weight: 800;
-            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
+            position: relative;
+            z-index: 1;
         }
 
         .insight-box p, .insight-box li {
-            color: white;
+            color: rgba(255, 255, 255, 0.9);
             line-height: 1.9;
+            position: relative;
+            z-index: 1;
         }
 
         .insight-box ul {
             margin-top: 16px;
+            position: relative;
+            z-index: 1;
         }
 
         .cta-button {
             display: inline-block;
-            padding: 20px 50px;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             color: white;
             text-decoration: none;
             border-radius: 50px;
-            font-size: 1.3em;
-            font-weight: 700;
-            transition: all 0.3s;
-            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
-            border: 3px solid #FFD700;
-            font-family: 'Poppins', sans-serif;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            border: 2px solid rgba(203, 166, 97, 0.3);
         }
 
         .cta-button:hover {
-            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
-            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5);
-            transform: translateY(-3px) scale(1.05);
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.6);
+            transform: translateY(-3px);
+            border-color: rgba(203, 166, 97, 0.6);
         }
 
         code {
-            background: #FFF9E6;
+            background: #f1f5f9;
             padding: 4px 10px;
             border-radius: 5px;
             font-family: 'SF Mono', 'Monaco', monospace;
-            color: #FF8C00;
+            color: #8b5cf6;
             font-size: 0.9em;
-            border: 2px solid #FFD700;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        pre {
+            margin: 24px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 3px solid #D3A625;
+        }
+
+        pre code {
+            padding: 24px;
+            display: block;
+            overflow-x: auto;
+            background: #1a202c;
+            color: #e2e8f0;
+            border: none;
+            font-size: 0.9em;
+            line-height: 1.6;
         }
 
         .footer {
-            background: linear-gradient(135deg, #795548 0%, #8D6E63 100%);
-            color: #FFE4C4;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: rgba(203, 166, 97, 0.9);
             text-align: center;
-            padding: 40px;
-            margin-top: 80px;
-            border-top: 5px solid #FFD700;
+            padding: 50px;
+            margin-top: 0;
+            border-top: 3px solid rgba(203, 166, 97, 0.3);
+        }
+
+        .footer p {
+            margin: 10px 0;
+            color: rgba(203, 166, 97, 0.8);
+        }
+
+        .footer a {
+            color: rgba(203, 166, 97, 1);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
         }
 
         @media (max-width: 768px) {
@@ -355,23 +588,94 @@
             .use-case-grid {
                 grid-template-columns: 1fr;
             }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
         }
+
+        /* ========== ENHANCED FEATURES (Same as index.html) ========== */
+        .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: linear-gradient(90deg, #cba661 0%, #8b5cf6 100%); z-index: 9999; transition: width 0.1s ease; box-shadow: 0 0 10px rgba(203, 166, 97, 0.8); }
+        .progress-tracker { position: fixed; top: 20px; right: 20px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(203, 166, 97, 0.4); border-radius: 15px; padding: 15px 20px; z-index: 9998; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); min-width: 200px; }
+        .progress-tracker h4 { color: rgba(203, 166, 97, 1); font-family: 'Cinzel', serif; margin-bottom: 10px; font-size: 0.9em; }
+        .progress-bar-container { background: rgba(30, 41, 59, 0.8); border-radius: 10px; height: 12px; overflow: hidden; margin-bottom: 8px; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #cba661 0%, #8b5cf6 100%); border-radius: 10px; transition: width 0.5s ease; box-shadow: 0 0 10px rgba(203, 166, 97, 0.6); }
+        .progress-text { color: rgba(203, 166, 97, 0.8); font-size: 0.85em; text-align: center; }
+        .badges { display: flex; gap: 5px; margin-top: 10px; flex-wrap: wrap; }
+        .badge { font-size: 1.2em; opacity: 0.3; transition: all 0.3s ease; cursor: pointer; position: relative; }
+        .badge.earned { opacity: 1; animation: badgePop 0.5s ease; }
+        .badge:hover::after { content: attr(data-title); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.95); color: rgba(203, 166, 97, 1); padding: 5px 10px; border-radius: 5px; white-space: nowrap; font-size: 0.7em; border: 1px solid rgba(203, 166, 97, 0.3); }
+        @keyframes badgePop { 0% { transform: scale(0); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+        .card-3d { transform-style: preserve-3d; transition: transform 0.3s ease; }
+        .card-3d:hover { transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02); }
+        .fade-in-section { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .fade-in-section.visible { opacity: 1; transform: translateY(0); }
+        .cursor-trail { position: fixed; width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle, rgba(203, 166, 97, 0.6) 0%, transparent 70%); pointer-events: none; z-index: 9997; animation: trailFade 0.8s ease forwards; }
+        @keyframes trailFade { to { transform: scale(2); opacity: 0; } }
+        .tooltip { position: relative; cursor: help; color: #8b5cf6; font-weight: 600; border-bottom: 2px dotted #8b5cf6; }
+        .tooltip:hover::after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.98); color: rgba(203, 166, 97, 1); padding: 10px 15px; border-radius: 8px; white-space: nowrap; font-size: 0.85em; font-weight: 400; border: 2px solid rgba(203, 166, 97, 0.4); z-index: 1000; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+        .social-proof { background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(203, 166, 97, 0.1) 100%); border: 2px solid rgba(203, 166, 97, 0.2); border-radius: 12px; padding: 20px; margin: 30px 0; text-align: center; }
+        .social-proof .counter { font-size: 2.5em; font-weight: 700; color: #8b5cf6; font-family: 'Cinzel', serif; }
+        .social-proof .label { color: rgba(30, 41, 59, 0.8); font-size: 1.1em; margin-top: 5px; }
+        .quiz-container { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 15px; padding: 40px; margin: 40px 0; border: 3px solid rgba(139, 92, 246, 0.3); box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2); }
+        .quiz-container h3 { color: #8b5cf6; font-family: 'Cinzel', serif; margin-bottom: 25px; font-size: 1.8em; text-align: center; }
+        .quiz-question { background: white; border-radius: 12px; padding: 25px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
+        .quiz-question h4 { color: #1e293b; margin-bottom: 15px; font-size: 1.1em; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+        .quiz-option { background: #f1f5f9; border: 2px solid transparent; border-radius: 8px; padding: 15px; cursor: pointer; transition: all 0.3s ease; }
+        .quiz-option:hover { background: #e2e8f0; border-color: #8b5cf6; transform: translateX(5px); }
+        .quiz-option.selected { background: rgba(139, 92, 246, 0.1); border-color: #8b5cf6; }
+        .quiz-option.correct { background: rgba(34, 197, 94, 0.1); border-color: #22c55e; }
+        .quiz-option.incorrect { background: rgba(239, 68, 68, 0.1); border-color: #ef4444; }
+        .quiz-submit { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; border: none; border-radius: 10px; padding: 15px 40px; font-size: 1.1em; font-weight: 600; cursor: pointer; margin-top: 20px; transition: all 0.3s ease; }
+        .quiz-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4); }
+        .quiz-result { margin-top: 20px; padding: 20px; border-radius: 10px; text-align: center; font-size: 1.2em; font-weight: 600; }
+        .quiz-result.success { background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 2px solid #22c55e; }
+        .quiz-result.partial { background: rgba(234, 179, 8, 0.1); color: #eab308; border: 2px solid #eab308; }
+        .sticky-nav { position: sticky; top: 0; z-index: 999; transition: all 0.3s ease; }
+        .sticky-nav.scrolled { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); }
+        .nav-arrows { display: flex; justify-content: space-between; margin: 30px 0; gap: 20px; }
+        .nav-arrow { flex: 1; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(203, 166, 97, 0.1) 100%); border: 2px solid rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 20px; text-decoration: none; color: #1e293b; transition: all 0.3s ease; display: flex; align-items: center; gap: 15px; }
+        .nav-arrow:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3); border-color: rgba(139, 92, 246, 0.6); }
+        .nav-arrow .arrow { font-size: 2em; color: #8b5cf6; }
+        .nav-arrow .text { flex: 1; }
+        .nav-arrow .title { font-weight: 700; color: #8b5cf6; font-size: 1.1em; }
+        .nav-arrow .desc { font-size: 0.9em; color: rgba(30, 41, 59, 0.7); }
+        .reading-time { display: inline-block; background: rgba(139, 92, 246, 0.1); color: #8b5cf6; padding: 5px 12px; border-radius: 20px; font-size: 0.9em; margin-left: 10px; }
+        @keyframes particleBurst { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } }
+        .particle { position: fixed; width: 8px; height: 8px; border-radius: 50%; background: radial-gradient(circle, rgba(203, 166, 97, 1) 0%, rgba(139, 92, 246, 1) 100%); pointer-events: none; z-index: 9999; animation: particleBurst 1s ease forwards; }
+        @media (max-width: 768px) { .progress-tracker { top: 10px; right: 10px; padding: 10px 15px; min-width: 150px; } .nav-arrows { flex-direction: column; } .quiz-container { padding: 20px; } }
     </style>
 </head>
 
 <body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="progress-tracker">
+        <h4>⚡ Getting Started Progress</h4>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: 50%;"></div>
+        </div>
+        <div class="progress-text">Lesson 2 of 4 (50%)</div>
+        <div class="badges">
+            <span class="badge earned" data-title="Home">🏠</span>
+            <span class="badge earned" data-title="Overview">📚</span>
+            <span class="badge" data-title="Setup">⚙️</span>
+            <span class="badge" data-title="First API Call">🔌</span>
+        </div>
+    </div>
     <div class="container">
-        <div class="header">
-            <div class="header-content">
+        <div class="header" style="position: relative; background: linear-gradient(135deg, rgba(139, 92, 246, 0.85) 0%, rgba(124, 58, 237, 0.85) 50%, rgba(109, 40, 217, 0.85) 100%);">
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('images/hogwarts.gif'); background-size: cover; background-position: center; opacity: 1; z-index: 0; filter: brightness(1.2) contrast(1.1);"></div>
+            <div class="header-content" style="position: relative; z-index: 1;">
                 <div class="header-text">
-                    <h1>💪 Understanding Gen AI</h1>
-                    <p>Discover the Power of Artificial Intelligence</p>
+                    <h1>⚡ Understanding Gen AI</h1>
+                    <p>Professor McGonagall's Transfiguration of AI Magic</p>
                 </div>
-                <img src="images/bheem.jpeg" alt="Bheem" class="header-character">
+                <img src="images/macgonical.gif" alt="Professor McGonagall" class="header-character">
             </div>
         </div>
 
-        <div class="nav">
+        <div class="nav sticky-nav" id="stickyNav">
             <div class="nav-content">
                 <a href="index.html">🏠 Home</a>
                 <a href="overview.html" class="active">📚 Overview</a>
@@ -381,12 +685,27 @@
         </div>
 
         <div class="content">
+            <!-- Professor McGonagall's Welcome -->
+            <div class="section fade-in-section" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(203, 166, 97, 0.05) 100%); border-left: 5px solid rgba(139, 92, 246, 0.6); padding: 30px; border-radius: 12px; margin-bottom: 40px;">
+                <img src="images/macgonical.gif" alt="Professor McGonagall" style="float: left; width: 120px; height: 120px; border-radius: 50%; border: 3px solid rgba(139, 92, 246, 0.6); margin-right: 25px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);">
+                <p style="font-size: 1.15em; line-height: 1.8; color: #1e293b; font-style: italic;">
+                    <strong style="color: #8b5cf6; font-size: 1.2em;">"Welcome to your first proper lesson in Artificial Intelligence."</strong><br><br>
+                    Today, we shall be exploring the fascinating world of <span class="tooltip" data-tooltip="AI that creates new content">Generative AI</span>. 
+                    Pay close attention, as this knowledge will form the foundation of your entire magical—I mean, technical—journey. 
+                    Unlike ordinary programming where every instruction must be explicitly written, Generative AI performs what appears to be... transfiguration of sorts.
+                    <br><br>
+                    <em style="color: rgba(30, 41, 59, 0.8);">— Professor McGonagall</em>
+                </p>
+                <div style="clear: both;"></div>
+            </div>
+
             <div class="step-indicator">Step 1: Understanding the AI Landscape 🗺️</div>
 
-            <div class="section">
+            <div class="section fade-in-section" style="position: relative;">
+                <img src="images/hermione.gif" alt="Hermione" style="position: absolute; right: -60px; top: 0; width: 150px; height: 150px; border-radius: 50%; border: 4px solid rgba(203, 166, 97, 0.6); box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4); animation: gentleFloat 5s ease-in-out infinite; opacity: 0.9; z-index: 5;">
                 <h2>What is Generative AI? 🤖</h2>
                 <p>
-                    Just like Bheem has the power to protect Dholakpur, Generative AI has the power to <strong>create</strong>! 
+                    Just like Harry has the power to cast spells, Generative AI has the power to <strong>create</strong>! 
                     Unlike traditional AI that only analyzes or categorizes, Generative AI can create entirely new content - 
                     text, images, code, audio, and more that never existed before.
                 </p>
@@ -397,42 +716,51 @@
                 </p>
 
                 <div class="highlight-box">
-                    <strong>🎯 Key Understanding</strong>
+                    <strong>⚡ Key Understanding</strong>
                     <p>Traditional AI analyzes existing data and makes predictions. Generative AI creates brand new data 
                     that looks and feels like it was made by humans. Think of it like this: Traditional AI can tell you 
-                    what's in a picture. Generative AI can paint a completely new picture!</p>
+                    what spell was cast. Generative AI can invent a completely new spell!</p>
                 </div>
 
                 <h3>How Gen AI Works: The Complete Journey 🚀</h3>
 
                 <div class="highlight-box">
-                    <strong>📋 The Flow (Like Delivering a Message in Dholakpur!)</strong>
+                    <strong>📋 The Flow (Like Sending an Owl to Hogwarts!)</strong>
                     <ul style="margin-top: 12px;">
-                        <li><strong>1. You Ask:</strong> Give your question or request (like asking Bheem for help)</li>
+                        <li><strong>1. You Ask:</strong> Give your question or request (like writing a letter)</li>
                         <li><strong>2. Your App:</strong> Processes and formats your request nicely</li>
-                        <li><strong>3. API Gateway:</strong> Securely sends it to the AI brain (like a messenger)</li>
-                        <li><strong>4. The AI Brain (LLM):</strong> Thinks with billions of parameters (like the wise king making decisions)</li>
+                        <li><strong>3. API Gateway:</strong> Securely sends it to the AI brain (like Hedwig delivering mail)</li>
+                        <li><strong>4. The AI Brain (LLM):</strong> Thinks with billions of parameters (like the Sorting Hat making decisions)</li>
                         <li><strong>5. Response Created:</strong> Generates a smart, helpful answer</li>
                         <li><strong>6. Back to You:</strong> Your app shows you the result!</li>
                     </ul>
                 </div>
 
                 <div class="insight-box">
-                    <strong>💡 Training vs. Using AI (Important!)</strong>
+                    <strong>✨ Training vs. Using AI (Important!)</strong>
                     <ul>
                         <li><strong>Training (Done by AI Companies):</strong> Companies like OpenAI spend months training models on 
-                        billions of examples. It's like teaching Bheem all his fighting skills - takes a lot of time and effort!</li>
+                        billions of examples. It's like professors teaching all the magic at Hogwarts - takes years of study!</li>
                         <li><strong>Using AI (What You Do):</strong> You just call the API and get instant responses. It's like 
-                        asking Bheem for help when you need it - super quick!</li>
+                        using your wand once you've learned the spell - super quick!</li>
                         <li><strong>The Best Part:</strong> You don't need to train anything! The hard work is already done. 
-                        You just build cool apps on top of it.</li>
+                        You just cast cool AI spells on top of it.</li>
                     </ul>
                 </div>
             </div>
 
-            <div class="section">
+            <!-- McGonagall's Transfiguration Demonstration -->
+            <div style="text-align: center; margin: 50px 0; padding: 50px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(203, 166, 97, 0.1) 100%); border-radius: 15px; border: 2px solid rgba(139, 92, 246, 0.4);">
+                <img src="images/macgonical2.gif" alt="Professor McGonagall Teaching" style="width: 400px; height: 300px; border-radius: 15px; border: 4px solid rgba(139, 92, 246, 0.6); box-shadow: 0 15px 50px rgba(139, 92, 246, 0.5); margin-bottom: 25px;">
+                <p style="font-size: 1.5em; color: #8b5cf6; font-style: italic; font-weight: 600; margin: 0;">
+                    "Observe carefully. This is how AI transforms data into intelligence, much like transfiguration changes one form to another."
+                </p>
+            </div>
+
+            <div class="section" style="position: relative;">
+                <img src="images/ron.gif" alt="Ron" style="position: absolute; left: -70px; top: 50px; width: 145px; height: 145px; border-radius: 50%; border: 4px solid rgba(203, 166, 97, 0.6); box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4); animation: gentleFloat 4.5s ease-in-out infinite; opacity: 0.9; z-index: 5;">
                 <h2>What Can You Build? 🛠️</h2>
-                <p><strong>Just like each Dholakpur friend has unique skills, AI can handle different tasks:</strong></p>
+                <p><strong>Just like each Hogwarts house has unique strengths, AI can handle different magical tasks:</strong></p>
 
                 <div class="use-case-grid">
                     <div class="use-case-card">
@@ -473,11 +801,20 @@
                 </div>
             </div>
 
+            <!-- McGonagall Walking to Next Topic -->
+            <div style="text-align: center; margin: 60px 0; padding: 60px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(203, 166, 97, 0.08) 100%); border-radius: 15px;">
+                <img src="images/macgonical3.gif" alt="McGonagall Walking" style="width: 450px; height: auto; border-radius: 15px; box-shadow: 0 20px 60px rgba(139, 92, 246, 0.5); margin-bottom: 30px;">
+                <p style="font-size: 1.4em; color: #8b5cf6; font-style: italic; font-weight: 600;">
+                    *Professor McGonagall strides purposefully across the classroom*<br>
+                    "Now, let us examine some... practical applications of this transfiguration."
+                </p>
+            </div>
+
             <div class="section">
                 <h2>Real-World Examples 🌍</h2>
 
                 <div class="highlight-box">
-                    <strong>💬 Customer Support (Like Helping Villagers!)</strong>
+                    <strong>💬 Customer Support (Like Helping Students!)</strong>
                     <p style="margin-top: 16px;"><strong>Customer:</strong> "My order #12345 hasn't arrived, it's been 2 weeks!"</p>
                     <p><strong>AI System:</strong></p>
                     <ul style="margin-top: 12px;">
@@ -487,11 +824,11 @@
                         <li>Provides tracking information</li>
                         <li>Offers solutions (refund, replacement, expedited shipping)</li>
                     </ul>
-                    <p style="margin-top: 16px;"><strong>Result:</strong> Instant, accurate help without waiting for a human - just like Bheem solving problems quickly!</p>
+                    <p style="margin-top: 16px;"><strong>Result:</strong> Instant, accurate help without waiting - just like magic solving problems quickly!</p>
                 </div>
 
                 <div class="highlight-box">
-                    <strong>💻 Code Assistant (Like Raju's Strategic Planning!)</strong>
+                    <strong>💻 Code Assistant (Like Hermione's Brilliant Solutions!)</strong>
                     <p style="margin-top: 16px;"><strong>Request:</strong> "Write Python code to validate email addresses"</p>
                     <p><strong>AI Creates:</strong></p>
                     <ul style="margin-top: 12px;">
@@ -508,25 +845,34 @@
             <div class="section">
                 <h2>Popular AI Models 🌟</h2>
                 <ul style="font-size: 1.15em;">
-                    <li><strong>GPT-4 / GPT-3.5 (OpenAI):</strong> The most powerful! GPT-4 is like Bheem after eating laddoos - super strong for complex tasks. GPT-3.5 is faster and cheaper for everyday use.</li>
+                    <li><strong>GPT-4 / GPT-3.5 (OpenAI):</strong> The most powerful! GPT-4 is like Felix Felicis - extremely powerful for complex tasks. GPT-3.5 is faster and cheaper for everyday use.</li>
                     <li><strong>Claude (Anthropic):</strong> Very safe and thoughtful. Great for analysis and has amazing memory (100k+ tokens).</li>
                     <li><strong>Gemini (Google):</strong> Can work with text, images, and video all at once - truly multimodal!</li>
                     <li><strong>Llama (Meta):</strong> Open-source and free! You can even run it on your own computer.</li>
-                    <li><strong>DALL-E / Midjourney:</strong> Create images from text descriptions - amazing for art!</li>
+                    <li><strong>DALL-E / Midjourney:</strong> Create images from text descriptions - like magical portraits that move!</li>
                     <li><strong>Whisper (OpenAI):</strong> Best speech recognition - turns audio into text perfectly.</li>
                 </ul>
             </div>
 
+            <!-- McGonagall's Inspiring Moment -->
+            <div style="text-align: center; margin: 60px 0; padding: 60px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(203, 166, 97, 0.15) 100%); border-radius: 15px; border: 3px solid rgba(139, 92, 246, 0.5); box-shadow: 0 20px 60px rgba(139, 92, 246, 0.3);">
+                <img src="images/macgonical4.gif" alt="McGonagall Inspiring" style="width: 400px; height: auto; border-radius: 15px; border: 5px solid rgba(139, 92, 246, 0.7); box-shadow: 0 0 50px rgba(139, 92, 246, 0.8), 0 20px 60px rgba(0, 0, 0, 0.6); margin-bottom: 30px;">
+                <p style="font-size: 1.5em; color: #8b5cf6; font-style: italic; font-weight: 700;">
+                    "The future belongs to those who master this magic...<br>
+                    And I have every confidence that you can become such a wizard."
+                </p>
+            </div>
+
             <div class="section">
-                <h2>Why Learn Gen AI? 🎯</h2>
+                <h2>Why Learn Gen AI? ⚡</h2>
                 <div class="insight-box">
-                    <strong>🌟 Amazing Opportunities Await!</strong>
+                    <strong>✨ Amazing Magical Opportunities Await!</strong>
                     <ul style="margin-top: 16px;">
-                        <li><strong>🚀 High Demand:</strong> Every company wants AI developers - from startups to giants!</li>
+                        <li><strong>🚀 High Demand:</strong> Every company wants AI wizards - from startups to giants!</li>
                         <li><strong>💰 Great Pay:</strong> AI skills command premium salaries and exciting opportunities.</li>
-                        <li><strong>🎓 Easy to Start:</strong> No PhD needed! Just Python and APIs - you can learn it!</li>
+                        <li><strong>🎓 Easy to Start:</strong> No N.E.W.T.s needed! Just Python and APIs - you can learn it!</li>
                         <li><strong>🔮 Future-Ready:</strong> AI is transforming every industry. Be ahead of the curve!</li>
-                        <li><strong>⚡ Quick Results:</strong> Build working apps in hours, not months. See results fast!</li>
+                        <li><strong>⚡ Quick Results:</strong> Build working apps in hours, not months. See magic happen fast!</li>
                         <li><strong>🌍 Global Impact:</strong> Create solutions that help millions of people worldwide!</li>
                     </ul>
                 </div>
@@ -534,7 +880,7 @@
 
             <div class="section">
                 <h2>What We'll Build Together! 🏗️</h2>
-                <p><strong>Throughout this series, you'll create real, working applications:</strong></p>
+                <p><strong>Throughout this series, you'll create real, working magical applications:</strong></p>
                 <ul style="font-size: 1.15em;">
                     <li><strong>CLI Chatbot with Memory:</strong> A talking assistant that remembers your conversations</li>
                     <li><strong>Document Q&A System (RAG):</strong> Ask questions about your documents in plain English</li>
@@ -544,25 +890,135 @@
                 </ul>
             </div>
 
-            <div class="section" style="text-align: center; padding: 60px 40px; background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); border-radius: 20px; border: 4px solid #4CAF50;">
-                <h2 style="color: #2E7D32; margin-bottom: 25px;">Ready for Setup? 🛠️</h2>
-                <p style="font-size: 1.2em; color: #4A4A4A; max-width: 700px; margin: 0 auto 35px;">
-                    Now that you understand the AI landscape, let's set up your development environment and get ready to build!
+            <!-- Professor McGonagall's Class Dismissal -->
+            <div class="section fade-in-section" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(203, 166, 97, 0.1) 100%); border: 3px solid rgba(139, 92, 246, 0.4); border-radius: 15px; padding: 40px; margin: 50px 0; position: relative; box-shadow: 0 15px 50px rgba(139, 92, 246, 0.25);">
+                <img src="images/macgonical.gif" alt="Professor McGonagall" style="float: right; width: 150px; height: 150px; border-radius: 50%; border: 4px solid rgba(139, 92, 246, 0.7); margin-left: 30px; box-shadow: 0 10px 40px rgba(139, 92, 246, 0.5); animation: gentleFloat 4.5s ease-in-out infinite;">
+                <h3 style="color: #8b5cf6; font-family: 'Cinzel', serif; font-size: 1.6em; margin-bottom: 15px;">📚 Class Evaluation</h3>
+                <p style="font-size: 1.1em; line-height: 1.8; color: #1e293b; font-style: italic;">
+                    <strong style="color: #8b5cf6; font-size: 1.15em;">"Excellent work, class."</strong> You now possess a firm understanding of what Generative AI truly is—not mere parlor tricks, but genuine transfiguration of data into intelligence. 
+                    <br><br>
+                    I expect you to master the environment setup in your next lesson with the same discipline you've shown today. Remember: Artificial Intelligence, much like Transfiguration, 
+                    requires both theoretical knowledge and practical application.
+                    <br><br>
+                    <em style="color: rgba(30, 41, 59, 0.8); font-size: 0.95em;">Twenty points to your house for completing this lesson. Now, off you go to your next class!</em>
                 </p>
-                <a href="setup.html" class="cta-button">
+                <div style="clear: both;"></div>
+            </div>
+
+            <div class="section" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 50px 60px 50px 200px; border-radius: 15px; border: 2px solid rgba(203, 166, 97, 0.3); position: relative; overflow: hidden;">
+                <div style="content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 50% 50%, rgba(203, 166, 97, 0.1) 0%, transparent 70%);"></div>
+                <img src="images/bye_harry.gif" alt="Harry Waving" style="position: absolute; left: 30px; top: 50%; transform: translateY(-50%); width: 135px; height: 135px; border-radius: 50%; border: 4px solid rgba(203, 166, 97, 0.6); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); animation: gentleFloat 5.5s ease-in-out infinite; opacity: 0.9; z-index: 1;">
+                
+                <div class="success-box" style="position: relative; z-index: 2; margin-top: 0;">
+                    <strong>✅ What You've Learned</strong>
+                    <ul style="margin-top: 12px;">
+                        <li>✅ What Generative AI is and how it works</li>
+                        <li>✅ The difference between training and using AI</li>
+                        <li>✅ Real-world applications and use cases</li>
+                        <li>✅ Popular AI models and their strengths</li>
+                        <li>✅ Why Gen AI skills are valuable for your career</li>
+                        <li>✅ What exciting projects you'll build in this course</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 30px; font-size: 1.15em; color: rgba(203, 166, 97, 0.9); position: relative; z-index: 2;">
+                    <strong>McGonagall concludes:</strong> "You have demonstrated excellent understanding. The next lesson awaits—let us prepare your workspace for the practical magic ahead."
+                </p>
+            </div>
+
+            <div class="section fade-in-section" style="text-align: center; padding: 70px 50px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 20px; border: 2px solid rgba(203, 166, 97, 0.3); position: relative; overflow: hidden;">
+                <div style="content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 50% 50%, rgba(203, 166, 97, 0.1) 0%, transparent 70%);"></div>
+                <img src="images/dumbledore.gif" alt="Dumbledore" style="position: absolute; left: 30px; bottom: 30px; width: 140px; height: 140px; border-radius: 50%; border: 4px solid rgba(203, 166, 97, 0.6); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); animation: gentleFloat 5.5s ease-in-out infinite; opacity: 0.9; z-index: 1;">
+                <img src="images/hogwarts.gif" alt="Hogwarts" style="position: absolute; right: 30px; bottom: 30px; width: 140px; height: 140px; border-radius: 50%; border: 4px solid rgba(203, 166, 97, 0.6); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); animation: gentleFloat 6s ease-in-out infinite; opacity: 0.9; z-index: 1;">
+                <h2 style="color: rgba(203, 166, 97, 1); margin-bottom: 25px; position: relative; z-index: 2;">Ready for Setup? 🛠️</h2>
+                <p style="font-size: 1.2em; color: rgba(203, 166, 97, 0.9); max-width: 700px; margin: 0 auto 35px; position: relative; z-index: 2;">
+                    Now that you understand the AI landscape, let's set up your magical development environment and get ready to build!
+                </p>
+                <a href="setup.html" class="cta-button" style="position: relative; z-index: 2;">
                     ⚙️ Next: Environment Setup →
                 </a>
             </div>
         </div>
 
         <div class="footer">
-            <p><strong>Gen AI Mastery - Chota Bheem Edition</strong> | Module 1 of 12</p>
-            <p style="font-size: 0.9em; margin-top: 12px; opacity: 0.9;">Chota Bheem © Green Gold Animation Pvt. Ltd.</p>
+            <p><strong>Gen AI Mastery - Harry Potter Edition</strong> | Module 1 of 12</p>
+            <p style="margin-top: 15px; font-size: 1em;">
+                Created with ✨ by <strong><a href="https://youtube.com/@tokenlal" target="_blank" style="color: rgba(203, 166, 97, 1); text-decoration: none; border-bottom: 2px solid rgba(203, 166, 97, 0.5);">@tokenlal</a></strong>
+            </p>
+            <p style="margin-top: 8px; font-size: 0.95em;">
+                🎥 <a href="https://youtube.com/@tokenlal" target="_blank">YouTube Channel</a> | 
+                🌐 <a href="https://tokenlal.com" target="_blank">tokenlal.com</a>
+            </p>
+            <p style="font-size: 0.9em; margin-top: 12px; opacity: 0.9;">Harry Potter © Warner Bros. Entertainment Inc.</p>
         </div>
     </div>
 
     <script>
         hljs.highlightAll();
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = (window.scrollY / documentHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        });
+
+        // Sticky Navigation
+        const stickyNav = document.getElementById('stickyNav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                stickyNav.classList.add('scrolled');
+            } else {
+                stickyNav.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll Fade-In Animations
+        const fadeInSections = document.querySelectorAll('.fade-in-section');
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        fadeInSections.forEach(section => fadeInObserver.observe(section));
+
+        // Cursor Trail Effect
+        let trailTimeout;
+        document.addEventListener('mousemove', (e) => {
+            clearTimeout(trailTimeout);
+            trailTimeout = setTimeout(() => {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = e.pageX + 'px';
+                trail.style.top = e.pageY + 'px';
+                document.body.appendChild(trail);
+                setTimeout(() => trail.remove(), 800);
+            }, 50);
+        });
+
+        // 3D Card Tilt Effect
+        const cards3D = document.querySelectorAll('.card-3d, .use-case-card');
+        cards3D.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+
+        console.log('%c⚡ Gen AI Overview - Harry Potter Edition!', 'font-size: 18px; color: #8b5cf6; font-weight: bold;');
     </script>
 </body>
 

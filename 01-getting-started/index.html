@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gen AI Mastery - Chota Bheem Edition</title>
+    <title>Gen AI Mastery - Harry Potter Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,25 +16,99 @@
         }
 
         body {
-            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             min-height: 100vh;
-            color: #2C1810;
+            color: #1e293b;
             line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Magical floating particles */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, rgba(203, 166, 97, 0.4), transparent),
+                radial-gradient(2px 2px at 60% 70%, rgba(203, 166, 97, 0.3), transparent),
+                radial-gradient(1px 1px at 50% 50%, rgba(203, 166, 97, 0.4), transparent),
+                radial-gradient(1px 1px at 80% 10%, rgba(203, 166, 97, 0.3), transparent),
+                radial-gradient(3px 3px at 10% 80%, rgba(139, 92, 246, 0.2), transparent);
+            background-size: 200% 200%;
+            animation: magicFloat 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Golden Snitch Animation */
+        body::after {
+            content: "⚡";
+            position: fixed;
+            font-size: 20px;
+            color: rgba(203, 166, 97, 0.6);
+            animation: snitchFly 15s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes magicFloat {
+            0%, 100% { 
+                background-position: 0% 0%, 100% 100%, 50% 50%, 0% 100%, 100% 0%;
+                opacity: 0.5;
+            }
+            50% { 
+                background-position: 100% 100%, 0% 0%, 100% 0%, 100% 0%, 0% 100%;
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes snitchFly {
+            0% {
+                left: -50px;
+                top: 20%;
+                transform: rotate(0deg);
+            }
+            25% {
+                left: 30%;
+                top: 60%;
+                transform: rotate(180deg);
+            }
+            50% {
+                left: 70%;
+                top: 30%;
+                transform: rotate(360deg);
+            }
+            75% {
+                left: 50%;
+                top: 70%;
+                transform: rotate(540deg);
+            }
+            100% {
+                left: 110%;
+                top: 40%;
+                transform: rotate(720deg);
+            }
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
+            background: #ffffff;
             min-height: 100vh;
-            box-shadow: 0 0 60px rgba(255, 140, 0, 0.15);
+            box-shadow: 0 0 100px rgba(139, 92, 46, 0.3);
+            position: relative;
+            z-index: 2;
         }
 
         .header {
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FFB84D 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
             color: white;
-            padding: 70px 40px;
+            padding: 80px 60px;
             position: relative;
             overflow: hidden;
         }
@@ -46,14 +120,15 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="3" fill="%23FFD700" opacity="0.3"/><circle cx="80" cy="40" r="2" fill="%23FFD700" opacity="0.3"/><circle cx="40" cy="80" r="2.5" fill="%23FFD700" opacity="0.3"/><circle cx="60" cy="30" r="2" fill="%23FFD700" opacity="0.3"/></svg>') repeat;
-            background-size: 100px;
-            animation: sparkle 20s linear infinite;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 20 L52 28 L60 28 L54 33 L56 41 L50 36 L44 41 L46 33 L40 28 L48 28 Z" fill="rgba(203,166,97,0.2)"/></svg>') repeat;
+            background-size: 80px;
+            animation: sparkleMove 30s linear infinite;
+            opacity: 0.6;
         }
 
-        @keyframes sparkle {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-100px); }
+        @keyframes sparkleMove {
+            from { background-position: 0 0; }
+            to { background-position: 80px 80px; }
         }
 
         .header-content {
@@ -63,75 +138,72 @@
             z-index: 1;
             display: flex;
             align-items: center;
-            gap: 40px;
+            gap: 50px;
         }
 
         .header-text {
             flex: 1;
         }
 
-        .header-bheem {
-            width: 150px;
-            height: 150px;
+        .header-wizard {
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
-            border: 5px solid #FFD700;
-            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
+            border: 4px solid rgba(203, 166, 97, 0.8);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(203, 166, 97, 0.3);
             object-fit: cover;
-            animation: float 3s ease-in-out infinite;
+            animation: gentleFloat 4s ease-in-out infinite;
+            transition: transform 0.3s ease;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+        .header-wizard:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
         }
 
         .header h1 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 3.2em;
-            margin-bottom: 16px;
-            font-weight: 800;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            font-family: 'Cinzel', serif;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
         }
 
         .header p {
             font-size: 1.4em;
-            font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+            font-weight: 400;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+            opacity: 0.95;
         }
 
         .character-showcase {
-            background: linear-gradient(to bottom, #4CAF50 0%, #66BB6A 100%);
-            padding: 50px 40px;
-            border-bottom: 5px solid #FFD700;
+            background: linear-gradient(to bottom, #1e293b 0%, #0f172a 100%);
+            padding: 70px 60px;
+            border-bottom: 3px solid rgba(203, 166, 97, 0.4);
             position: relative;
-        }
-
-        .character-showcase::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #FF8C00, #FFD700, #FF8C00);
         }
 
         .showcase-title {
             text-align: center;
-            color: white;
-            font-size: 2em;
-            font-weight: 800;
-            margin-bottom: 40px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            font-family: 'Poppins', sans-serif;
+            color: rgba(203, 166, 97, 1);
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 50px;
+            font-family: 'Cinzel', serif;
+            text-shadow: 0 2px 10px rgba(203, 166, 97, 0.3);
         }
 
         .character-grid {
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 40px;
             align-items: center;
         }
 
@@ -142,28 +214,28 @@
         }
 
         .character-card:hover {
-            transform: translateY(-10px) scale(1.05);
+            transform: translateY(-10px);
         }
 
         .character-image {
-            width: 130px;
-            height: 130px;
-            margin: 0 auto 16px;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 20px;
             border-radius: 50%;
-            border: 5px solid #FFD700;
+            border: 3px solid rgba(203, 166, 97, 0.6);
             background: white;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 30px rgba(203, 166, 97, 0.2);
             transition: all 0.3s ease;
         }
 
         .character-card:hover .character-image {
-            border-color: #FF8C00;
-            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.5);
-            transform: rotate(5deg);
+            border-color: rgba(203, 166, 97, 1);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 50px rgba(203, 166, 97, 0.5);
+            transform: scale(1.05);
         }
 
         .character-image img {
@@ -173,20 +245,19 @@
         }
 
         .character-name {
-            color: white;
-            font-weight: 700;
+            color: rgba(203, 166, 97, 1);
+            font-weight: 600;
             font-size: 1.1em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Cinzel', serif;
         }
 
         .nav {
             background: white;
-            border-bottom: 3px solid #FFD700;
+            border-bottom: 2px solid rgba(139, 92, 46, 0.2);
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .nav-content {
@@ -194,49 +265,49 @@
             margin: 0 auto;
             display: flex;
             gap: 0;
-            padding: 0 40px;
+            padding: 0 60px;
         }
 
         .nav a {
-            padding: 20px 32px;
-            color: #5D4037;
+            padding: 22px 35px;
+            color: #334155;
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 1em;
-            transition: all 0.3s;
-            border-bottom: 4px solid transparent;
-            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            position: relative;
         }
 
         .nav a:hover {
-            color: #FF8C00;
-            background: #FFF9E6;
-            border-bottom-color: #FF8C00;
+            color: #8b5cf6;
+            background: linear-gradient(to bottom, transparent, rgba(139, 92, 246, 0.05));
+            border-bottom-color: rgba(203, 166, 97, 0.5);
         }
 
         .nav a.active {
-            color: #FF8C00;
-            background: #FFF9E6;
-            border-bottom-color: #FFD700;
+            color: #8b5cf6;
+            background: linear-gradient(to bottom, transparent, rgba(139, 92, 246, 0.08));
+            border-bottom-color: rgba(203, 166, 97, 1);
         }
 
         .content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 80px 40px;
+            padding: 80px 60px;
         }
 
         .section {
-            margin-bottom: 60px;
+            margin-bottom: 70px;
             position: relative;
         }
 
         .section h2 {
-            color: #FF8C00;
-            font-size: 2.6em;
-            margin-bottom: 24px;
-            font-weight: 800;
-            font-family: 'Poppins', sans-serif;
+            color: #8b5cf6;
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
             position: relative;
             display: inline-block;
         }
@@ -244,33 +315,33 @@
         .section h2::after {
             content: "";
             position: absolute;
-            bottom: -8px;
+            bottom: -10px;
             left: 0;
             width: 60%;
-            height: 4px;
-            background: linear-gradient(90deg, #FFD700, transparent);
+            height: 3px;
+            background: linear-gradient(90deg, rgba(203, 166, 97, 0.8), transparent);
         }
 
         .section p {
-            font-size: 1.15em;
+            font-size: 1.1em;
             line-height: 1.8;
-            color: #4A4A4A;
+            color: #475569;
             margin-bottom: 20px;
         }
 
         .demo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 32px;
-            margin: 50px 0;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 35px;
+            margin: 60px 0;
         }
 
         .demo-card {
-            background: linear-gradient(135deg, #FFFBF0 0%, white 100%);
-            border: 3px solid #FFD700;
-            padding: 40px;
-            border-radius: 15px;
-            transition: all 0.3s;
+            background: linear-gradient(135deg, #ffffff 0%, #fafaf9 100%);
+            border: 2px solid rgba(139, 92, 46, 0.15);
+            padding: 45px;
+            border-radius: 16px;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
@@ -281,103 +352,175 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, #FF8C00, #FFD700, #4CAF50);
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, rgba(203, 166, 97, 0.8));
         }
 
         .demo-card:hover {
-            border-color: #FF8C00;
-            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.3);
-            transform: translateY(-8px);
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 20px 50px rgba(139, 92, 246, 0.15), 0 0 30px rgba(203, 166, 97, 0.3);
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .demo-card:hover::after {
+            content: "✨";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            animation: sparkle 1s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Magical spell effect on hover */
+        .section:hover::before {
+            content: "✨ 🌟 ✨";
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            animation: spellCast 2s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes spellCast {
+            0% { transform: translateX(-50%) translateY(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateX(-50%) translateY(-20px); opacity: 0; }
         }
 
         .demo-card .icon {
             font-size: 3.5em;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: block;
-            filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.15));
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
         }
 
         .demo-card h3 {
-            color: #FF8C00;
-            margin-bottom: 16px;
+            color: #8b5cf6;
+            margin-bottom: 18px;
             font-size: 1.6em;
             font-weight: 700;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Cinzel', serif;
         }
 
         .demo-card p {
-            color: #5D4037;
+            color: #64748b;
             margin: 0;
             font-size: 1.05em;
         }
 
         .cta-section {
             text-align: center;
-            padding: 60px 40px;
-            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            padding: 70px 50px;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             border-radius: 20px;
-            border: 4px solid #4CAF50;
-            margin: 60px 0;
+            border: 2px solid rgba(203, 166, 97, 0.3);
+            margin: 70px 0;
             position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(203, 166, 97, 0.1) 0%, transparent 70%);
+        }
+
+        .cta-section h2 {
+            color: rgba(203, 166, 97, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section p {
+            color: rgba(203, 166, 97, 0.9);
+            position: relative;
+            z-index: 1;
         }
 
         .cta-button {
             display: inline-block;
-            padding: 20px 50px;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             color: white;
             text-decoration: none;
             border-radius: 50px;
-            font-size: 1.3em;
-            font-weight: 700;
-            transition: all 0.3s;
-            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
-            border: 3px solid #FFD700;
-            font-family: 'Poppins', sans-serif;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            border: 2px solid rgba(203, 166, 97, 0.3);
+            position: relative;
+            z-index: 1;
         }
 
         .cta-button:hover {
-            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
-            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5);
-            transform: translateY(-3px) scale(1.05);
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.6), 0 0 30px rgba(203, 166, 97, 0.5);
+            transform: translateY(-3px) scale(1.02);
+            border-color: rgba(203, 166, 97, 0.8);
+            animation: buttonGlow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes buttonGlow {
+            0%, 100% { box-shadow: 0 15px 40px rgba(139, 92, 246, 0.6), 0 0 20px rgba(203, 166, 97, 0.5); }
+            50% { box-shadow: 0 15px 40px rgba(139, 92, 246, 0.8), 0 0 40px rgba(203, 166, 97, 0.8); }
         }
 
         .footer {
-            background: linear-gradient(135deg, #795548 0%, #8D6E63 100%);
-            color: #FFE4C4;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: rgba(203, 166, 97, 0.9);
             text-align: center;
-            padding: 40px;
-            margin-top: 80px;
-            border-top: 5px solid #FFD700;
+            padding: 50px;
+            margin-top: 0;
+            border-top: 3px solid rgba(203, 166, 97, 0.3);
         }
 
         .footer p {
-            margin: 8px 0;
+            margin: 10px 0;
+            color: rgba(203, 166, 97, 0.8);
         }
 
         .license-banner {
-            background: linear-gradient(135deg, #2C1810 0%, #3E2723 100%);
-            color: #FFE4C4;
-            padding: 20px 40px;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: rgba(203, 166, 97, 0.8);
+            padding: 25px 60px;
             text-align: center;
-            border-bottom: 3px solid #FFD700;
+            border-bottom: 2px solid rgba(203, 166, 97, 0.2);
             font-size: 0.9em;
         }
 
         .license-banner a {
-            color: #FFD700;
+            color: rgba(203, 166, 97, 1);
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
         }
 
         .license-banner a:hover {
+            opacity: 0.8;
             text-decoration: underline;
         }
 
         @media (max-width: 768px) {
             .header {
-                padding: 50px 24px;
+                padding: 60px 30px;
             }
 
             .header-content {
@@ -386,20 +529,20 @@
             }
 
             .header h1 {
-                font-size: 2.2em;
+                font-size: 2.5em;
             }
 
-            .header-bheem {
-                width: 120px;
-                height: 120px;
+            .header-wizard {
+                width: 140px;
+                height: 140px;
             }
 
             .content {
-                padding: 60px 24px;
+                padding: 60px 30px;
             }
 
             .nav-content {
-                padding: 0 24px;
+                padding: 0 30px;
                 overflow-x: auto;
             }
 
@@ -409,76 +552,649 @@
 
             .character-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
+                gap: 25px;
             }
 
             .character-image {
-                width: 100px;
-                height: 100px;
+                width: 110px;
+                height: 110px;
+            }
+        }
+
+        /* ========== NEW ENHANCEMENTS ========== */
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #cba661 0%, #8b5cf6 100%);
+            z-index: 9999;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px rgba(203, 166, 97, 0.8);
+        }
+
+        /* Progress Tracker */
+        .progress-tracker {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(203, 166, 97, 0.4);
+            border-radius: 15px;
+            padding: 15px 20px;
+            z-index: 9998;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            min-width: 200px;
+        }
+
+        .progress-tracker h4 {
+            color: rgba(203, 166, 97, 1);
+            font-family: 'Cinzel', serif;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .progress-bar-container {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 10px;
+            height: 12px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #cba661 0%, #8b5cf6 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(203, 166, 97, 0.6);
+        }
+
+        .progress-text {
+            color: rgba(203, 166, 97, 0.8);
+            font-size: 0.85em;
+            text-align: center;
+        }
+
+        /* Achievement Badges */
+        .badges {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 1.2em;
+            opacity: 0.3;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .badge.earned {
+            opacity: 1;
+            animation: badgePop 0.5s ease;
+        }
+
+        .badge:hover::after {
+            content: attr(data-title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.95);
+            color: rgba(203, 166, 97, 1);
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 0.7em;
+            border: 1px solid rgba(203, 166, 97, 0.3);
+        }
+
+        @keyframes badgePop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 3D Card Tilt Effect */
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+
+        .card-3d:hover {
+            transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);
+        }
+
+        /* Scroll Fade In Animation */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Cursor Trail */
+        .cursor-trail {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(203, 166, 97, 0.6) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 9997;
+            animation: trailFade 0.8s ease forwards;
+        }
+
+        @keyframes trailFade {
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            cursor: help;
+            color: #8b5cf6;
+            font-weight: 600;
+            border-bottom: 2px dotted #8b5cf6;
+        }
+
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.98);
+            color: rgba(203, 166, 97, 1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            white-space: nowrap;
+            font-size: 0.85em;
+            font-weight: 400;
+            border: 2px solid rgba(203, 166, 97, 0.4);
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Social Proof Counter */
+        .social-proof {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(203, 166, 97, 0.1) 100%);
+            border: 2px solid rgba(203, 166, 97, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .social-proof .counter {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #8b5cf6;
+            font-family: 'Cinzel', serif;
+        }
+
+        .social-proof .label {
+            color: rgba(30, 41, 59, 0.8);
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 3px solid rgba(139, 92, 246, 0.3);
+            box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2);
+        }
+
+        .quiz-container h3 {
+            color: #8b5cf6;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .quiz-question {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-question h4 {
+            color: #1e293b;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            background: #f1f5f9;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: #e2e8f0;
+            border-color: #8b5cf6;
+            transform: translateX(5px);
+        }
+
+        .quiz-option.selected {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: #8b5cf6;
+        }
+
+        .quiz-option.correct {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+        }
+
+        .quiz-option.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+        }
+
+        .quiz-submit {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .quiz-result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .quiz-result.success {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border: 2px solid #22c55e;
+        }
+
+        .quiz-result.partial {
+            background: rgba(234, 179, 8, 0.1);
+            color: #eab308;
+            border: 2px solid #eab308;
+        }
+
+        /* Navigation Enhancement */
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .sticky-nav.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-arrows {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            gap: 20px;
+        }
+
+        .nav-arrow {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(203, 166, 97, 0.1) 100%);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: #1e293b;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-arrow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+            border-color: rgba(139, 92, 246, 0.6);
+        }
+
+        .nav-arrow .arrow {
+            font-size: 2em;
+            color: #8b5cf6;
+        }
+
+        .nav-arrow .text {
+            flex: 1;
+        }
+
+        .nav-arrow .title {
+            font-weight: 700;
+            color: #8b5cf6;
+            font-size: 1.1em;
+        }
+
+        .nav-arrow .desc {
+            font-size: 0.9em;
+            color: rgba(30, 41, 59, 0.7);
+        }
+
+        /* Reading Time */
+        .reading-time {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        /* Particle Burst Effect */
+        @keyframes particleBurst {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .particle {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(203, 166, 97, 1) 0%, rgba(139, 92, 246, 1) 100%);
+            pointer-events: none;
+            z-index: 9999;
+            animation: particleBurst 1s ease forwards;
+        }
+
+        /* Marauder's Map Style Module Overview */
+        .module-map {
+            background: linear-gradient(135deg, #f8f4e8 0%, #e8dfc5 100%);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 50px 0;
+            border: 3px solid rgba(139, 92, 246, 0.3);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-map::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(139, 92, 246, 0.05) 0px, transparent 1px, transparent 20px),
+                repeating-linear-gradient(90deg, rgba(139, 92, 246, 0.05) 0px, transparent 1px, transparent 20px);
+            pointer-events: none;
+        }
+
+        .module-map h2 {
+            color: #8b5cf6;
+            font-family: 'Cinzel', serif;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .map-path {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .map-module {
+            background: white;
+            border: 3px solid rgba(139, 92, 246, 0.3);
+            border-radius: 15px;
+            padding: 25px 30px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-module.completed {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
+            border-color: #22c55e;
+        }
+
+        .map-module.current {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(203, 166, 97, 0.15) 100%);
+            border-color: #8b5cf6;
+            border-width: 4px;
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3);
+        }
+
+        .map-module.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .map-module:hover:not(.locked) {
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
+            border-color: #8b5cf6;
+        }
+
+        .map-module-icon {
+            font-size: 2.5em;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .map-module-content {
+            flex: 1;
+        }
+
+        .map-module-number {
+            font-size: 0.85em;
+            color: #8b5cf6;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .map-module-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 5px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .map-module-desc {
+            font-size: 0.95em;
+            color: rgba(30, 41, 59, 0.7);
+        }
+
+        .map-module-status {
+            font-size: 2em;
+        }
+
+        .map-connector {
+            height: 30px;
+            width: 4px;
+            background: linear-gradient(180deg, rgba(139, 92, 246, 0.5) 0%, rgba(203, 166, 97, 0.5) 100%);
+            margin-left: 80px;
+        }
+
+        /* Mobile Responsive Updates */
+        @media (max-width: 768px) {
+            .progress-tracker {
+                top: 10px;
+                right: 10px;
+                padding: 10px 15px;
+                min-width: 150px;
+            }
+
+            .nav-arrows {
+                flex-direction: column;
+            }
+
+            .quiz-container {
+                padding: 20px;
+            }
+
+            .module-map {
+                padding: 25px;
+            }
+
+            .map-module {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .map-connector {
+                margin-left: 50%;
             }
         }
     </style>
 </head>
 
 <body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Progress Tracker -->
+    <div class="progress-tracker">
+        <h4>⚡ Getting Started Progress</h4>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBar" style="width: 25%;"></div>
+        </div>
+        <div class="progress-text" id="progressText">Lesson 1 of 4 (25%)</div>
+        <div class="badges">
+            <span class="badge earned" data-title="Home">🏠</span>
+            <span class="badge" data-title="Overview">📚</span>
+            <span class="badge" data-title="Setup">⚙️</span>
+            <span class="badge" data-title="First API Call">🔌</span>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
             <div class="header-content">
                 <div class="header-text">
-                    <h1>🏹 Gen AI Mastery</h1>
-                    <p>Learn AI Development with the Power of Dholakpur</p>
+                    <h1>⚡ Gen AI Mastery</h1>
+                    <p>Learn AI Development with the Magic of Hogwarts</p>
                 </div>
-                <img src="images/bheem.jpeg" alt="Bheem" class="header-bheem">
+                <img src="images/harry.gif" alt="Harry Potter" class="header-wizard">
             </div>
         </div>
 
         <div class="character-showcase">
-            <h2 class="showcase-title">⭐ Meet Your Learning Team ⭐</h2>
+            <h2 class="showcase-title">✨ Meet Your Magical Learning Team ✨</h2>
             <div class="character-grid">
                 <div class="character-card">
                     <div class="character-image">
-                        <img src="images/bheem.jpeg" alt="Bheem">
+                        <img src="images/harry.gif" alt="Harry Potter">
                     </div>
-                    <div class="character-name">Bheem</div>
+                    <div class="character-name">Harry Potter</div>
                 </div>
                 <div class="character-card">
                     <div class="character-image">
-                        <img src="images/chutki.jpeg" alt="Chutki">
+                        <img src="images/hermione.gif" alt="Hermione">
                     </div>
-                    <div class="character-name">Chutki</div>
+                    <div class="character-name">Hermione</div>
                 </div>
                 <div class="character-card">
                     <div class="character-image">
-                        <img src="images/raju.jpeg" alt="Raju">
+                        <img src="images/ron.gif" alt="Ron">
                     </div>
-                    <div class="character-name">Raju</div>
+                    <div class="character-name">Ron</div>
                 </div>
                 <div class="character-card">
                     <div class="character-image">
-                        <img src="images/kalia.jpeg" alt="Kalia">
+                        <img src="images/luna.gif" alt="Luna">
                     </div>
-                    <div class="character-name">Kalia</div>
+                    <div class="character-name">Luna</div>
                 </div>
                 <div class="character-card">
                     <div class="character-image">
-                        <img src="images/dholu_molu.jpeg" alt="Dholu & Bholu">
+                        <img src="images/twins.gif" alt="Fred & George">
                     </div>
-                    <div class="character-name">Dholu & Bholu</div>
+                    <div class="character-name">Fred & George</div>
                 </div>
                 <div class="character-card">
                     <div class="character-image">
-                        <img src="images/jaggu.jpeg" alt="Jaggu">
+                        <img src="images/hedwig.gif" alt="Hedwig">
                     </div>
-                    <div class="character-name">Jaggu</div>
+                    <div class="character-name">Hedwig</div>
                 </div>
             </div>
         </div>
 
         <div class="license-banner">
-            Chota Bheem and all related characters © <a href="https://www.greengold.tv" target="_blank">Green Gold Animation Pvt. Ltd.</a> | Educational content inspired by themes of teamwork and learning
+            Harry Potter and all related characters © <a href="https://www.warnerbros.com" target="_blank">Warner Bros. Entertainment Inc.</a> | Educational content inspired by themes of magic and learning
         </div>
 
-        <div class="nav">
+        <div class="nav sticky-nav" id="stickyNav">
             <div class="nav-content">
                 <a href="index.html" class="active">🏠 Home</a>
                 <a href="overview.html">📚 Overview</a>
@@ -488,33 +1204,41 @@
         </div>
 
         <div class="content">
-            <div class="section">
-                <h2>Welcome to Your AI Adventure! 🚀</h2>
+            <div class="section fade-in-section" style="position: relative;">
+                <img src="images/hogwarts.gif" alt="Hogwarts" style="position: absolute; right: -20px; top: 0; width: 160px; height: 160px; border-radius: 50%; border: 4px solid rgba(203, 166, 97, 0.6); box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4); animation: gentleFloat 5s ease-in-out infinite; opacity: 0.9;">
+                <h2>Welcome to Your Magical AI Journey! ⚡ <span class="reading-time">⏱️ 5 min read</span></h2>
                 <p>
-                    Join Bheem and his friends on an exciting journey into Generative AI! Just like the heroes of Dholakpur 
-                    work together to solve challenges, you'll learn to build powerful AI applications through practical, 
+                    Join Harry, Hermione, Ron, and the wizarding world on an enchanting adventure into <span class="tooltip" data-tooltip="AI that creates new content: text, images, code, etc.">Generative AI</span>! Just like the students of Hogwarts 
+                    master spells and potions, you'll learn to wield powerful AI magic through practical, 
                     hands-on development.
                 </p>
                 <p>
-                    This comprehensive tutorial series takes you from complete beginner to proficient AI developer. 
-                    No overwhelming theory - just clear, actionable lessons that you can apply immediately to real-world projects.
+                    This comprehensive tutorial series takes you from muggle to AI wizard. 
+                    No overwhelming theory - just clear, magical lessons that you can cast immediately in real-world projects.
                 </p>
             </div>
 
-            <div class="section">
+            <!-- Social Proof -->
+            <div class="social-proof fade-in-section">
+                <div class="counter" id="studentCounter">2,847</div>
+                <div class="label">✨ Wizards learning AI magic today</div>
+            </div>
+
+            <div class="section fade-in-section" style="position: relative;">
+                <img src="images/snape.gif" alt="Professor Snape" style="position: absolute; right: -70px; top: 50px; width: 150px; height: 150px; border-radius: 50%; border: 4px solid rgba(45, 27, 78, 0.8); box-shadow: 0 10px 30px rgba(45, 27, 78, 0.6), 0 0 30px rgba(139, 92, 246, 0.4); animation: gentleFloat 5.2s ease-in-out infinite; opacity: 0.95; z-index: 5;">
                 <h2>What You'll Learn Today 📖</h2>
                 <div class="demo-grid">
-                    <div class="demo-card">
+                    <div class="demo-card card-3d">
                         <span class="icon">📚</span>
                         <h3>Overview</h3>
-                        <p>Discover the landscape of Generative AI, its capabilities, and real-world applications across industries.</p>
+                        <p>Discover the landscape of <span class="tooltip" data-tooltip="Artificial Intelligence">Generative AI</span>, its capabilities, and real-world applications across industries.</p>
                     </div>
-                    <div class="demo-card">
+                    <div class="demo-card card-3d">
                         <span class="icon">⚙️</span>
                         <h3>Environment Setup</h3>
-                        <p>Configure your development environment with Python, virtual environments, and API access in under 10 minutes.</p>
+                        <p>Configure your development environment with Python, virtual environments, and <span class="tooltip" data-tooltip="Application Programming Interface">API</span> access in under 10 minutes.</p>
                     </div>
-                    <div class="demo-card">
+                    <div class="demo-card card-3d">
                         <span class="icon">🔌</span>
                         <h3>First API Call</h3>
                         <p>Connect to OpenAI's API and generate your first AI response with production-ready code patterns.</p>
@@ -522,25 +1246,367 @@
                 </div>
             </div>
 
-            <div class="cta-section">
-                <h2 style="color: #2E7D32; margin-bottom: 25px;">Ready to Begin Your Journey? 🎯</h2>
-                <p style="font-size: 1.2em; color: #4A4A4A; max-width: 700px; margin: 0 auto 35px;">
-                    Start your adventure into AI development with structured, professional guidance from the Dholakpur team!
+            <!-- Marauder's Map - Module Overview -->
+            <div class="module-map fade-in-section">
+                <h2>🗺️ The Marauder's Map - Your Learning Path</h2>
+                <div class="map-path">
+                    <div class="map-module current" onclick="window.location.href='index.html'">
+                        <div class="map-module-icon">🏠</div>
+                        <div class="map-module-content">
+                            <div class="map-module-number">Module 1</div>
+                            <div class="map-module-title">Getting Started</div>
+                            <div class="map-module-desc">Welcome to your magical AI journey</div>
+                        </div>
+                        <div class="map-module-status">⚡</div>
+                    </div>
+
+                    <div class="map-connector"></div>
+
+                    <div class="map-module" onclick="window.location.href='overview.html'">
+                        <div class="map-module-icon">📚</div>
+                        <div class="map-module-content">
+                            <div class="map-module-number">Module 2</div>
+                            <div class="map-module-title">Gen AI Overview</div>
+                            <div class="map-module-desc">Discover the magic of Artificial Intelligence</div>
+                        </div>
+                        <div class="map-module-status">→</div>
+                    </div>
+
+                    <div class="map-connector"></div>
+
+                    <div class="map-module" onclick="window.location.href='setup.html'">
+                        <div class="map-module-icon">⚙️</div>
+                        <div class="map-module-content">
+                            <div class="map-module-number">Module 3</div>
+                            <div class="map-module-title">Environment Setup</div>
+                            <div class="map-module-desc">Prepare your development cauldron</div>
+                        </div>
+                        <div class="map-module-status">→</div>
+                    </div>
+
+                    <div class="map-connector"></div>
+
+                    <div class="map-module" onclick="window.location.href='first-api-call.html'">
+                        <div class="map-module-icon">🔌</div>
+                        <div class="map-module-content">
+                            <div class="map-module-number">Module 4</div>
+                            <div class="map-module-title">First API Call</div>
+                            <div class="map-module-desc">Cast your first AI spell</div>
+                        </div>
+                        <div class="map-module-status">→</div>
+                    </div>
+
+                    <div class="map-connector"></div>
+
+                    <div class="map-module locked">
+                        <div class="map-module-icon">📦</div>
+                        <div class="map-module-content">
+                            <div class="map-module-number">Module 5-12</div>
+                            <div class="map-module-title">Advanced Spells</div>
+                            <div class="map-module-desc">Embeddings, RAG, Fine-tuning & More...</div>
+                        </div>
+                        <div class="map-module-status">🔒</div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 30px; color: rgba(30, 41, 59, 0.7); font-style: italic;">
+                    "I solemnly swear that I am up to learning!" ✨
                 </p>
-                <a href="overview.html" class="cta-button">
-                    🚀 Start Learning Now →
+            </div>
+
+            <!-- Quick Knowledge Check -->
+            <div class="quiz-container fade-in-section">
+                <h3>🧙 Quick Knowledge Check</h3>
+                <p style="text-align: center; color: rgba(30, 41, 59, 0.8); margin-bottom: 20px;">Test your understanding before moving forward!</p>
+                
+                <div class="quiz-question">
+                    <h4>1. What is Generative AI primarily used for?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-question="1" data-correct="false">A) Only analyzing existing data</div>
+                        <div class="quiz-option" data-question="1" data-correct="true">B) Creating new content like text, images, and code</div>
+                        <div class="quiz-option" data-question="1" data-correct="false">C) Running databases</div>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>2. In this course, which characters will guide your learning?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-question="2" data-correct="false">A) Game of Thrones characters</div>
+                        <div class="quiz-option" data-question="2" data-correct="true">B) Harry Potter characters</div>
+                        <div class="quiz-option" data-question="2" data-correct="false">C) Marvel superheroes</div>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>3. What will you learn to do in the First API Call module?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-question="3" data-correct="false">A) Build a complete app</div>
+                        <div class="quiz-option" data-question="3" data-correct="true">B) Connect to OpenAI's API and generate responses</div>
+                        <div class="quiz-option" data-question="3" data-correct="false">C) Create a website</div>
+                    </div>
+                </div>
+
+                <button class="quiz-submit" onclick="checkQuiz()">✨ Submit Answers</button>
+                <div class="quiz-result" id="quizResult" style="display: none;"></div>
+            </div>
+
+            <!-- Navigation Arrows -->
+            <div class="nav-arrows fade-in-section">
+                <a href="#" class="nav-arrow" style="visibility: hidden;">
+                    <div class="arrow">←</div>
+                    <div class="text">
+                        <div class="desc">Previous</div>
+                        <div class="title">No previous lesson</div>
+                    </div>
+                </a>
+                <a href="overview.html" class="nav-arrow">
+                    <div class="text">
+                        <div class="desc">Next Lesson</div>
+                        <div class="title">Gen AI Overview →</div>
+                    </div>
+                    <div class="arrow">→</div>
+                </a>
+            </div>
+
+            <div class="cta-section fade-in-section" style="position: relative;">
+                <img src="images/hagrid.gif" alt="Hagrid" style="position: absolute; left: 30px; bottom: 20px; width: 140px; height: 140px; border-radius: 50%; border: 4px solid rgba(203, 166, 97, 0.6); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); animation: gentleFloat 5.5s ease-in-out infinite; opacity: 0.9; z-index: 1;">
+                <img src="images/bye_harry.gif" alt="Harry Waving" style="position: absolute; right: 30px; bottom: 20px; width: 140px; height: 140px; border-radius: 50%; border: 4px solid rgba(203, 166, 97, 0.6); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); animation: gentleFloat 6s ease-in-out infinite; opacity: 0.9; z-index: 1;">
+                <h2 style="margin-bottom: 25px; position: relative; z-index: 2;">Ready to Begin Your Magical Journey? ⚡</h2>
+                <p style="font-size: 1.2em; max-width: 700px; margin: 0 auto 35px; position: relative; z-index: 2;">
+                    Start your magical adventure into AI development with expert guidance from Hogwarts' finest wizards!
+                </p>
+                <a href="overview.html" class="cta-button" id="ctaButton" style="position: relative; z-index: 2;">
+                    ✨ Start Learning Now →
                 </a>
             </div>
         </div>
 
         <div class="footer">
-            <p><strong>Gen AI Mastery - Chota Bheem Edition</strong> | Module 1 of 12</p>
-            <p style="font-size: 0.9em; margin-top: 12px; opacity: 0.9;">Chota Bheem © Green Gold Animation Pvt. Ltd.</p>
+            <p><strong>Gen AI Mastery - Harry Potter Edition</strong> | Module 1 of 12</p>
+            <p style="margin-top: 15px; font-size: 1em;">
+                Created with ✨ by <strong><a href="https://youtube.com/@tokenlal" target="_blank" style="color: rgba(203, 166, 97, 1); text-decoration: none; border-bottom: 2px solid rgba(203, 166, 97, 0.5);">@tokenlal</a></strong>
+            </p>
+            <p style="margin-top: 8px; font-size: 0.95em;">
+                🎥 <a href="https://youtube.com/@tokenlal" target="_blank">YouTube Channel</a> | 
+                🌐 <a href="https://tokenlal.com" target="_blank">tokenlal.com</a>
+            </p>
+            <p style="font-size: 0.9em; margin-top: 12px; opacity: 0.9;">Harry Potter © Warner Bros. Entertainment Inc.</p>
         </div>
     </div>
 
     <script>
         hljs.highlightAll();
+
+        // ========== INTERACTIVE FEATURES ==========
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = (window.scrollY / documentHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        });
+
+        // Sticky Navigation
+        const stickyNav = document.getElementById('stickyNav');
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.scrollY;
+            if (currentScroll > 100) {
+                stickyNav.classList.add('scrolled');
+            } else {
+                stickyNav.classList.remove('scrolled');
+            }
+            lastScroll = currentScroll;
+        });
+
+        // Scroll Fade-In Animations
+        const fadeInSections = document.querySelectorAll('.fade-in-section');
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeInSections.forEach(section => {
+            fadeInObserver.observe(section);
+        });
+
+        // Cursor Trail Effect
+        let trailTimeout;
+        document.addEventListener('mousemove', (e) => {
+            clearTimeout(trailTimeout);
+            trailTimeout = setTimeout(() => {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = e.pageX + 'px';
+                trail.style.top = e.pageY + 'px';
+                document.body.appendChild(trail);
+                setTimeout(() => trail.remove(), 800);
+            }, 50);
+        });
+
+        // Particle Burst on CTA Button Click
+        const ctaButton = document.getElementById('ctaButton');
+        if (ctaButton) {
+            ctaButton.addEventListener('click', (e) => {
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    const angle = (Math.PI * 2 * i) / 20;
+                    const velocity = 100 + Math.random() * 100;
+                    particle.style.cssText = `
+                        left: ${e.pageX}px;
+                        top: ${e.pageY}px;
+                        --tx: ${Math.cos(angle) * velocity}px;
+                        --ty: ${Math.sin(angle) * velocity}px;
+                    `;
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 1000);
+                }
+            });
+        }
+
+        // Quiz Functionality
+        const quizOptions = document.querySelectorAll('.quiz-option');
+        const selectedAnswers = {};
+
+        quizOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const question = this.dataset.question;
+                // Remove selected class from all options in this question
+                document.querySelectorAll(`[data-question="${question}"]`).forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                selectedAnswers[question] = this.dataset.correct === 'true';
+            });
+        });
+
+        function checkQuiz() {
+            const totalQuestions = 3;
+            const answeredQuestions = Object.keys(selectedAnswers).length;
+            
+            if (answeredQuestions < totalQuestions) {
+                alert('⚡ Please answer all questions before submitting!');
+                return;
+            }
+
+            let correctCount = 0;
+            quizOptions.forEach(option => {
+                const question = option.dataset.question;
+                const isCorrect = option.dataset.correct === 'true';
+                const wasSelected = option.classList.contains('selected');
+
+                if (wasSelected) {
+                    if (isCorrect) {
+                        option.classList.add('correct');
+                        correctCount++;
+                    } else {
+                        option.classList.add('incorrect');
+                    }
+                }
+                
+                // Show correct answer
+                if (isCorrect && !wasSelected) {
+                    option.classList.add('correct');
+                }
+            });
+
+            const resultDiv = document.getElementById('quizResult');
+            resultDiv.style.display = 'block';
+            
+            if (correctCount === totalQuestions) {
+                resultDiv.className = 'quiz-result success';
+                resultDiv.innerHTML = '🎉 Perfect! You\'re ready for the next lesson! All badges earned! ⚡';
+                // Earn badge
+                const badges = document.querySelectorAll('.badge');
+                if (badges[2]) badges[2].classList.add('earned');
+            } else if (correctCount >= 2) {
+                resultDiv.className = 'quiz-result partial';
+                resultDiv.innerHTML = `⭐ Good job! You got ${correctCount} out of ${totalQuestions} correct. Review and try again!`;
+            } else {
+                resultDiv.className = 'quiz-result';
+                resultDiv.style.background = 'rgba(239, 68, 68, 0.1)';
+                resultDiv.style.color = '#ef4444';
+                resultDiv.style.border = '2px solid #ef4444';
+                resultDiv.innerHTML = `📚 You got ${correctCount} out of ${totalQuestions}. Read the content again and retry!`;
+            }
+
+            // Disable quiz after submission
+            quizOptions.forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+        }
+
+        // Animated Counter for Social Proof
+        function animateCounter() {
+            const counter = document.getElementById('studentCounter');
+            const target = 2847;
+            let current = 2500;
+            const increment = 5;
+            const duration = 2000;
+            const steps = duration / 16;
+            const incrementValue = (target - current) / steps;
+
+            const timer = setInterval(() => {
+                current += incrementValue;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                counter.textContent = Math.floor(current).toLocaleString();
+            }, 16);
+        }
+
+        // Trigger counter animation when visible
+        const socialProof = document.querySelector('.social-proof');
+        if (socialProof) {
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter();
+                        counterObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            counterObserver.observe(socialProof);
+        }
+
+        // Save Progress (using localStorage)
+        function saveProgress(module, percentage) {
+            localStorage.setItem('genai_progress_module', module);
+            localStorage.setItem('genai_progress_percentage', percentage);
+        }
+
+        // Mark current page as visited
+        saveProgress(1, 8);
+
+        // Add 3D tilt effect to cards
+        const cards3D = document.querySelectorAll('.card-3d');
+        cards3D.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+
+        console.log('%c⚡ Welcome to Gen AI Mastery!', 'font-size: 20px; color: #8b5cf6; font-weight: bold;');
+        console.log('%cHarry Potter Edition - Made with magic! 🪄', 'font-size: 14px; color: #cba661;');
     </script>
 </body>
 

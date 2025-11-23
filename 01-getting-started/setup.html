@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Environment Setup - Chota Bheem Edition</title>
+    <title>Environment Setup - Harry Potter Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,25 +16,75 @@
         }
 
         body {
-            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #FFF9E6 0%, #FFFAED 100%);
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             min-height: 100vh;
-            color: #2C1810;
+            color: #1e293b;
             line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, rgba(203, 166, 97, 0.4), transparent),
+                radial-gradient(2px 2px at 60% 70%, rgba(203, 166, 97, 0.3), transparent),
+                radial-gradient(3px 3px at 10% 80%, rgba(139, 92, 246, 0.2), transparent);
+            background-size: 200% 200%;
+            animation: magicFloat 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        body::after {
+            content: "📚";
+            position: fixed;
+            font-size: 20px;
+            color: rgba(203, 166, 97, 0.6);
+            animation: bookFloat 18s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes magicFloat {
+            0%, 100% { 
+                background-position: 0% 0%, 100% 100%, 100% 0%;
+                opacity: 0.5;
+            }
+            50% { 
+                background-position: 100% 100%, 0% 0%, 0% 100%;
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes bookFloat {
+            0% { left: -50px; top: 30%; transform: rotate(0deg); }
+            25% { left: 25%; top: 70%; transform: rotate(90deg); }
+            50% { left: 60%; top: 20%; transform: rotate(180deg); }
+            75% { left: 80%; top: 65%; transform: rotate(270deg); }
+            100% { left: 110%; top: 45%; transform: rotate(360deg); }
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
+            background: #ffffff;
             min-height: 100vh;
-            box-shadow: 0 0 60px rgba(255, 140, 0, 0.15);
+            box-shadow: 0 0 100px rgba(139, 92, 46, 0.3);
+            position: relative;
+            z-index: 2;
         }
 
         .header {
-            background: linear-gradient(135deg, #E91E63 0%, #F06292 50%, #F8BBD0 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
             color: white;
-            padding: 70px 40px;
+            padding: 80px 60px;
             position: relative;
             overflow: hidden;
         }
@@ -46,8 +96,15 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="3" fill="%23FFD700" opacity="0.3"/><circle cx="80" cy="40" r="2" fill="%23FFD700" opacity="0.3"/><circle cx="40" cy="80" r="2.5" fill="%23FFD700" opacity="0.3"/></svg>') repeat;
-            background-size: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 20 L52 28 L60 28 L54 33 L56 41 L50 36 L44 41 L46 33 L40 28 L48 28 Z" fill="rgba(203,166,97,0.2)"/></svg>') repeat;
+            background-size: 80px;
+            animation: sparkleMove 30s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes sparkleMove {
+            from { background-position: 0 0; }
+            to { background-position: 80px 80px; }
         }
 
         .header-content {
@@ -65,41 +122,48 @@
         }
 
         .header-character {
-            width: 140px;
-            height: 140px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
-            border: 5px solid #FFD700;
-            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
+            border: 4px solid rgba(203, 166, 97, 0.8);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(203, 166, 97, 0.3);
             object-fit: cover;
-            animation: float 3s ease-in-out infinite;
+            animation: gentleFloat 4s ease-in-out infinite;
+            transition: transform 0.3s ease;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+        .header-character:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
         }
 
         .header h1 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 3.2em;
-            margin-bottom: 16px;
-            font-weight: 800;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            font-family: 'Cinzel', serif;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
         }
 
         .header p {
             font-size: 1.4em;
-            font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+            font-weight: 400;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+            opacity: 0.95;
         }
 
         .nav {
             background: white;
-            border-bottom: 3px solid #FFD700;
+            border-bottom: 3px solid #D3A625;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(116, 0, 1, 0.15);
         }
 
         .nav-content {
@@ -112,25 +176,25 @@
 
         .nav a {
             padding: 20px 32px;
-            color: #5D4037;
+            color: #2C1810;
             text-decoration: none;
             font-weight: 700;
             font-size: 1em;
             transition: all 0.3s;
             border-bottom: 4px solid transparent;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Cinzel', sans-serif;
         }
 
         .nav a:hover {
-            color: #E91E63;
-            background: #FFF9E6;
-            border-bottom-color: #E91E63;
+            color: #B8860B;
+            background: #fff5e6;
+            border-bottom-color: #B8860B;
         }
 
         .nav a.active {
-            color: #E91E63;
-            background: #FFF9E6;
-            border-bottom-color: #FFD700;
+            color: #B8860B;
+            background: #fff5e6;
+            border-bottom-color: #D3A625;
         }
 
         .content {
@@ -141,16 +205,15 @@
 
         .step-indicator {
             display: inline-block;
-            background: linear-gradient(135deg, #E91E63, #F06292);
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
             color: white;
             padding: 14px 32px;
             border-radius: 50px;
-            font-weight: 700;
+            font-weight: 600;
             font-size: 1em;
             margin-bottom: 40px;
-            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.3);
-            font-family: 'Poppins', sans-serif;
-            border: 3px solid #FFD700;
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+            border: 2px solid rgba(203, 166, 97, 0.3);
         }
 
         .section {
@@ -159,11 +222,11 @@
         }
 
         .section h2 {
-            color: #E91E63;
-            font-size: 2.6em;
-            margin-bottom: 28px;
-            font-weight: 800;
-            font-family: 'Poppins', sans-serif;
+            color: #8b5cf6;
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
             position: relative;
             display: inline-block;
         }
@@ -171,26 +234,26 @@
         .section h2::after {
             content: "";
             position: absolute;
-            bottom: -8px;
+            bottom: -10px;
             left: 0;
             width: 60%;
-            height: 4px;
-            background: linear-gradient(90deg, #FFD700, transparent);
+            height: 3px;
+            background: linear-gradient(90deg, rgba(203, 166, 97, 0.8), transparent);
         }
 
         .section h3 {
-            color: #FF8C00;
+            color: #6d28d9;
             font-size: 1.8em;
             margin: 35px 0 16px 0;
-            font-weight: 700;
-            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-family: 'Cinzel', serif;
         }
 
         .section p,
         .section li {
-            font-size: 1.15em;
-            line-height: 1.9;
-            color: #4A4A4A;
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #475569;
             margin-bottom: 20px;
         }
 
@@ -218,7 +281,7 @@
             display: block;
             margin-bottom: 16px;
             font-weight: 800;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Cinzel', sans-serif;
         }
 
         .warning-box {
@@ -236,7 +299,7 @@
             display: block;
             margin-bottom: 16px;
             font-weight: 800;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Cinzel', sans-serif;
         }
 
         .success-box {
@@ -254,16 +317,16 @@
             display: block;
             margin-bottom: 16px;
             font-weight: 800;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Cinzel', sans-serif;
         }
 
         .step-box {
-            background: linear-gradient(135deg, #FFFBF0 0%, white 100%);
-            border: 3px solid #FFD700;
+            background: linear-gradient(135deg, #fff5e6 0%, white 100%);
+            border: 3px solid #D3A625;
             padding: 40px;
             margin: 32px 0;
             border-radius: 15px;
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 6px 20px rgba(211, 166, 37, 0.2);
         }
 
         .step-number {
@@ -272,31 +335,31 @@
             justify-content: center;
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, #E91E63, #F06292);
+            background: linear-gradient(135deg, #B8860B, #D4AF37);
             color: white;
             border-radius: 50%;
             font-weight: 700;
             font-size: 1.4em;
             margin-right: 16px;
-            box-shadow: 0 6px 15px rgba(233, 30, 99, 0.3);
-            border: 3px solid #FFD700;
+            box-shadow: 0 6px 15px rgba(184, 134, 11, 0.4);
+            border: 3px solid #740001;
         }
 
         code {
-            background: #FFF9E6;
+            background: #fff5e6;
             padding: 4px 10px;
             border-radius: 5px;
             font-family: 'SF Mono', 'Monaco', monospace;
-            color: #E91E63;
+            color: #B8860B;
             font-size: 0.9em;
-            border: 2px solid #FFD700;
+            border: 2px solid #D3A625;
         }
 
         pre {
             margin: 24px 0;
             border-radius: 12px;
             overflow: hidden;
-            border: 3px solid #FFD700;
+            border: 3px solid #D3A625;
         }
 
         pre code {
@@ -313,31 +376,32 @@
         .cta-button {
             display: inline-block;
             padding: 20px 50px;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            background: linear-gradient(135deg, #740001 0%, #ae0001 100%);
             color: white;
             text-decoration: none;
             border-radius: 50px;
             font-size: 1.3em;
             font-weight: 700;
             transition: all 0.3s;
-            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
-            border: 3px solid #FFD700;
-            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 8px 25px rgba(116, 0, 1, 0.4);
+            border: 3px solid #D3A625;
+            font-family: 'Cinzel', sans-serif;
         }
 
         .cta-button:hover {
-            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
-            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5);
+            background: linear-gradient(135deg, #D3A625 0%, #ffd700 100%);
+            color: #740001;
+            box-shadow: 0 12px 35px rgba(211, 166, 37, 0.6);
             transform: translateY(-3px) scale(1.05);
         }
 
         .footer {
-            background: linear-gradient(135deg, #795548 0%, #8D6E63 100%);
-            color: #FFE4C4;
+            background: linear-gradient(135deg, #1a0033 0%, #2d1b4e 100%);
+            color: #D3A625;
             text-align: center;
             padding: 40px;
             margin-top: 80px;
-            border-top: 5px solid #FFD700;
+            border-top: 5px solid #D3A625;
         }
 
         @media (max-width: 768px) {
@@ -363,22 +427,59 @@
                 overflow-x: auto;
             }
         }
+
+        /* Enhanced Features */
+        .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: linear-gradient(90deg, #cba661 0%, #8b5cf6 100%); z-index: 9999; transition: width 0.1s ease; box-shadow: 0 0 10px rgba(203, 166, 97, 0.8); }
+        .progress-tracker { position: fixed; top: 20px; right: 20px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(203, 166, 97, 0.4); border-radius: 15px; padding: 15px 20px; z-index: 9998; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); min-width: 200px; }
+        .progress-tracker h4 { color: rgba(203, 166, 97, 1); font-family: 'Cinzel', serif; margin-bottom: 10px; font-size: 0.9em; }
+        .progress-bar-container { background: rgba(30, 41, 59, 0.8); border-radius: 10px; height: 12px; overflow: hidden; margin-bottom: 8px; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #cba661 0%, #8b5cf6 100%); border-radius: 10px; transition: width 0.5s ease; box-shadow: 0 0 10px rgba(203, 166, 97, 0.6); }
+        .progress-text { color: rgba(203, 166, 97, 0.8); font-size: 0.85em; text-align: center; }
+        .badges { display: flex; gap: 5px; margin-top: 10px; flex-wrap: wrap; }
+        .badge { font-size: 1.2em; opacity: 0.3; transition: all 0.3s ease; cursor: pointer; position: relative; }
+        .badge.earned { opacity: 1; animation: badgePop 0.5s ease; }
+        .badge:hover::after { content: attr(data-title); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.95); color: rgba(203, 166, 97, 1); padding: 5px 10px; border-radius: 5px; white-space: nowrap; font-size: 0.7em; border: 1px solid rgba(203, 166, 97, 0.3); }
+        @keyframes badgePop { 0% { transform: scale(0); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+        .fade-in-section { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .fade-in-section.visible { opacity: 1; transform: translateY(0); }
+        .cursor-trail { position: fixed; width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle, rgba(203, 166, 97, 0.6) 0%, transparent 70%); pointer-events: none; z-index: 9997; animation: trailFade 0.8s ease forwards; }
+        @keyframes trailFade { to { transform: scale(2); opacity: 0; } }
+        .tooltip { position: relative; cursor: help; color: #8b5cf6; font-weight: 600; border-bottom: 2px dotted #8b5cf6; }
+        .tooltip:hover::after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.98); color: rgba(203, 166, 97, 1); padding: 10px 15px; border-radius: 8px; white-space: nowrap; font-size: 0.85em; font-weight: 400; border: 2px solid rgba(203, 166, 97, 0.4); z-index: 1000; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+        .sticky-nav { position: sticky; top: 0; z-index: 999; transition: all 0.3s ease; }
+        .sticky-nav.scrolled { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); }
+        .reading-time { display: inline-block; background: rgba(139, 92, 246, 0.1); color: #8b5cf6; padding: 5px 12px; border-radius: 20px; font-size: 0.9em; margin-left: 10px; }
+        @media (max-width: 768px) { .progress-tracker { top: 10px; right: 10px; padding: 10px 15px; min-width: 150px; } }
     </style>
 </head>
 
 <body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="progress-tracker">
+        <h4>⚡ Getting Started Progress</h4>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: 75%;"></div>
+        </div>
+        <div class="progress-text">Lesson 3 of 4 (75%)</div>
+        <div class="badges">
+            <span class="badge earned" data-title="Home">🏠</span>
+            <span class="badge earned" data-title="Overview">📚</span>
+            <span class="badge earned" data-title="Setup">⚙️</span>
+            <span class="badge" data-title="First API Call">🔌</span>
+        </div>
+    </div>
     <div class="container">
         <div class="header">
             <div class="header-content">
                 <div class="header-text">
-                    <h1>👧 Chutki's Workshop</h1>
+                    <h1>📚 Hermione's Library</h1>
                     <p>Setting Up Your AI Development Environment</p>
                 </div>
-                <img src="images/chutki.jpeg" alt="Chutki" class="header-character">
+                <img src="images/hermione.gif" alt="Hermione" class="header-character">
             </div>
         </div>
 
-        <div class="nav">
+        <div class="nav sticky-nav" id="stickyNav">
             <div class="nav-content">
                 <a href="index.html">🏠 Home</a>
                 <a href="overview.html">📚 Overview</a>
@@ -388,11 +489,12 @@
         </div>
 
         <div class="content">
-            <div class="step-indicator">Step 2: Chutki's Smart Environment Setup 🛠️</div>
+            <div class="step-indicator">Step 2: Hermione's Methodical Environment Setup 📚</div>
 
-            <div class="section">
+            <div class="section" style="position: relative;">
+                <img src="images/luna.gif" alt="Luna" style="position: absolute; right: -60px; top: 0; width: 145px; height: 145px; border-radius: 50%; border: 4px solid rgba(203, 166, 97, 0.6); box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4); animation: gentleFloat 5s ease-in-out infinite; opacity: 0.9; z-index: 5;">
                 <h2>What We'll Set Up Today 📋</h2>
-                <p><strong>Chutki says:</strong> "Just like preparing ingredients before cooking laddoos, we need our tools ready before coding!"</p>
+                <p><strong>Hermione says:</strong> "Just like preparing the right ingredients for a complex potion, we need our tools ready before coding!"</p>
                 <ul style="font-size: 1.15em; margin-top: 24px;">
                     <li>✅ <strong>Python 3.8+</strong> - Our main programming language</li>
                     <li>✅ <strong>Virtual Environment</strong> - Keeps project packages organized</li>
@@ -415,14 +517,14 @@ python3 --version
                     <div class="success-box">
                         <strong>✅ Perfect!</strong>
                         <p>You should see: Python 3.8.0 or higher</p>
-                        <p style="font-style: italic; margin-top: 10px;">"Great! Your Python is ready!" - Chutki</p>
+                        <p style="font-style: italic; margin-top: 10px;">"Excellent! Your Python is ready!" - Hermione</p>
                     </div>
 
                     <div class="warning-box">
                         <strong>⚠️ Python Not Installed?</strong>
                         <p><strong>Install instructions:</strong></p>
                         <ul style="margin-top: 16px;">
-                            <li><strong>Windows:</strong> Download from <a href="https://www.python.org/downloads/" target="_blank" style="color: #E91E63; font-weight: 700;">python.org</a></li>
+                            <li><strong>Windows:</strong> Download from <a href="https://www.python.org/downloads/" target="_blank" style="color: #B8860B; font-weight: 700;">python.org</a></li>
                             <li><strong>Mac:</strong> <code>brew install python3</code></li>
                             <li><strong>Linux:</strong> <code>sudo apt install python3 python3-pip python3-venv</code></li>
                         </ul>
@@ -446,8 +548,8 @@ cd 01-getting-started
 </code></pre>
 
                     <div class="highlight-box">
-                        <strong>💡 Chutki's Organization Tip</strong>
-                        <p>"Keeping code organized in folders makes everything easier to find and manage, just like organizing the kitchen!"</p>
+                        <strong>📚 Hermione's Organization Tip</strong>
+                        <p>"Keeping code organized in folders makes everything easier to find and manage, just like organizing the Hogwarts library!"</p>
                     </div>
                 </div>
             </div>
@@ -477,12 +579,12 @@ venv\Scripts\activate
                     <div class="success-box">
                         <strong>✅ You Did It!</strong>
                         <p>You should see <code>(venv)</code> at the start of your terminal!</p>
-                        <p style="font-style: italic; margin-top: 10px;">"Perfect! Now we have our own workspace!" - Chutki</p>
+                        <p style="font-style: italic; margin-top: 10px;">"Perfect! Now we have our own magical workspace!" - Hermione</p>
                     </div>
 
                     <div class="highlight-box">
-                        <strong>💡 Why Virtual Environments?</strong>
-                        <p>"Think of it like separate bowls for different recipes - each project gets its own set of packages so they don't mix and cause problems!"</p>
+                        <strong>📚 Why Virtual Environments?</strong>
+                        <p>"Think of it like separate cauldrons for different potions - each project gets its own set of packages so they don't mix and cause magical mishaps!"</p>
                     </div>
                 </div>
             </div>
@@ -516,10 +618,10 @@ pip list | grep python-dotenv
                 <h2>Step 5: Get Your API Key 🔑</h2>
 
                 <div class="step-box">
-                    <p><span class="step-number">5</span> <strong>Get your magic key from OpenAI:</strong></p>
+                    <p><span class="step-number">5</span> <strong>Get your magical key from OpenAI:</strong></p>
 
                     <ol style="font-size: 1.1em; line-height: 2;">
-                        <li>Visit <a href="https://platform.openai.com/signup" target="_blank" style="color: #E91E63; font-weight: 700;">platform.openai.com/signup</a></li>
+                        <li>Visit <a href="https://platform.openai.com/signup" target="_blank" style="color: #B8860B; font-weight: 700;">platform.openai.com/signup</a></li>
                         <li>Create an account or sign in</li>
                         <li>Go to <strong>API Keys</strong> section</li>
                         <li>Click <strong>"Create new secret key"</strong></li>
@@ -532,7 +634,7 @@ pip list | grep python-dotenv
                             <li><strong>Never</strong> share your API key publicly</li>
                             <li><strong>Never</strong> commit it to GitHub</li>
                             <li><strong>Always</strong> use environment variables</li>
-                            <li><strong>Keep it secret</strong> like a special recipe!</li>
+                            <li><strong>Keep it secret</strong> like the Room of Requirement!</li>
                         </ul>
                     </div>
                 </div>
@@ -569,7 +671,7 @@ __pycache__/
                     <div class="success-box">
                         <strong>✅ Super Safe!</strong>
                         <p>Your API key is protected and won't accidentally get shared!</p>
-                        <p style="font-style: italic; margin-top: 10px;">"Excellent! Your secret is safe!" - Chutki</p>
+                        <p style="font-style: italic; margin-top: 10px;">"Excellent! Your secret is as safe as the Marauder's Map!" - Hermione</p>
                     </div>
                 </div>
             </div>
@@ -592,7 +694,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 if api_key:
     print("✅ API key loaded successfully!")
     print(f"🔑 Key starts with: {api_key[:12]}...")
-    print("\n🎉 Chutki says: Your workshop is ready!")
+    print("\n🎉 Hermione says: Your library is ready!")
 else:
     print("❌ API key not found")
     print("💡 Check your .env file!")
@@ -608,7 +710,7 @@ else:
 ✅ API key loaded successfully!
 🔑 Key starts with: sk-proj-...
 
-🎉 Chutki says: Your workshop is ready!
+🎉 Hermione says: Your library is ready!
 </pre>
                     </div>
                 </div>
@@ -627,7 +729,7 @@ else:
 </code></pre>
 
                 <div class="highlight-box">
-                    <strong>🎯 Chutki's Success Tips</strong>
+                    <strong>📚 Hermione's Success Tips</strong>
                     <ul style="margin-top: 16px;">
                         <li>Always activate virtual environment before coding</li>
                         <li>Never move the .env file outside the project</li>
@@ -664,25 +766,76 @@ pip install -r requirements.txt
                 </div>
             </div>
 
-            <div class="section" style="text-align: center; padding: 60px 40px; background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); border-radius: 20px; border: 4px solid #4CAF50;">
-                <h2 style="color: #2E7D32; margin-bottom: 25px;">Workshop Complete! 🎊</h2>
-                <p style="font-size: 1.2em; color: #4A4A4A; max-width: 700px; margin: 0 auto 35px;">
-                    <strong>Chutki says:</strong> "Fantastic! Your development environment is all set. Now let's make your first API call!"
+            <div class="section" style="text-align: center; padding: 70px 50px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 20px; border: 2px solid rgba(203, 166, 97, 0.3); position: relative; overflow: hidden;">
+                <div style="content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 50% 50%, rgba(203, 166, 97, 0.1) 0%, transparent 70%);"></div>
+                <img src="images/hedwig.gif" alt="Hedwig" style="position: absolute; left: 30px; top: 30px; width: 130px; height: 130px; border-radius: 50%; border: 4px solid rgba(203, 166, 97, 0.6); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); animation: gentleFloat 5.5s ease-in-out infinite; opacity: 0.9; z-index: 1;">
+                <img src="images/twins.gif" alt="Fred & George" style="position: absolute; right: 30px; bottom: 30px; width: 135px; height: 135px; border-radius: 50%; border: 4px solid rgba(203, 166, 97, 0.6); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); animation: gentleFloat 6s ease-in-out infinite; opacity: 0.9; z-index: 1;">
+                <h2 style="color: rgba(203, 166, 97, 1); margin-bottom: 25px; position: relative; z-index: 2;">Library Setup Complete! 🎊</h2>
+                <p style="font-size: 1.2em; color: rgba(203, 166, 97, 0.9); max-width: 700px; margin: 0 auto 35px; position: relative; z-index: 2;">
+                    <strong>Hermione says:</strong> "Fantastic! Your development environment is all set. Now let's make your first API call!"
                 </p>
-                <a href="first-api-call.html" class="cta-button">
+                <a href="first-api-call.html" class="cta-button" style="position: relative; z-index: 2;">
                     🔌 Next: First API Call →
                 </a>
             </div>
         </div>
 
         <div class="footer">
-            <p><strong>Gen AI Mastery - Chota Bheem Edition</strong> | Module 1 of 12</p>
-            <p style="font-size: 0.9em; margin-top: 12px; opacity: 0.9;">Chota Bheem © Green Gold Animation Pvt. Ltd.</p>
+            <p><strong>Gen AI Mastery - Harry Potter Edition</strong> | Module 1 of 12</p>
+            <p style="margin-top: 15px; font-size: 1em;">
+                Created with ✨ by <strong><a href="https://youtube.com/@tokenlal" target="_blank" style="color: rgba(203, 166, 97, 1); text-decoration: none; border-bottom: 2px solid rgba(203, 166, 97, 0.5);">@tokenlal</a></strong>
+            </p>
+            <p style="margin-top: 8px; font-size: 0.95em;">
+                🎥 <a href="https://youtube.com/@tokenlal" target="_blank">YouTube Channel</a> | 
+                🌐 <a href="https://tokenlal.com" target="_blank">tokenlal.com</a>
+            </p>
+            <p style="font-size: 0.9em; margin-top: 12px; opacity: 0.9;">Harry Potter © Warner Bros. Entertainment Inc.</p>
         </div>
     </div>
 
     <script>
         hljs.highlightAll();
+
+        // Scroll Progress & Interactive Features
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = (window.scrollY / documentHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+            
+            const stickyNav = document.getElementById('stickyNav');
+            if (window.scrollY > 100) {
+                stickyNav.classList.add('scrolled');
+            } else {
+                stickyNav.classList.remove('scrolled');
+            }
+        });
+
+        // Fade-In Animations
+        const fadeInSections = document.querySelectorAll('.fade-in-section');
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        fadeInSections.forEach(section => fadeInObserver.observe(section));
+
+        // Cursor Trail
+        let trailTimeout;
+        document.addEventListener('mousemove', (e) => {
+            clearTimeout(trailTimeout);
+            trailTimeout = setTimeout(() => {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = e.pageX + 'px';
+                trail.style.top = e.pageY + 'px';
+                document.body.appendChild(trail);
+                setTimeout(() => trail.remove(), 800);
+            }, 50);
+        });
+
+        console.log('%c⚙️ Setup Guide - Harry Potter Edition!', 'font-size: 18px; color: #8b5cf6; font-weight: bold;');
     </script>
 </body>
 
