@@ -1,4 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Form
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from app.milvus_client import create_collection, insert_embeddings, search_embeddings
 from app.embedding_utils import get_embedding
 from app.chunk_utils import chunk_text
@@ -12,6 +14,14 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GEMINI_MODEL = "gemini-2.0-flash"
 
 app = FastAPI()
+
+# Mount static files
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+@app.get("/", response_class=HTMLResponse)
+async def read_root():
+    with open("app/static/index.html", "r") as f:
+        return f.read()
 
 @app.on_event("startup")
 def startup_event():
