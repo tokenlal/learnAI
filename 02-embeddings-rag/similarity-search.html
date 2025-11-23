@@ -888,70 +888,87 @@ pip install pymilvus
 </code></pre>
 
                 <h3>Basic Usage</h3>
-                <pre><code class="language-python">from pymilvus import connections, Collection, FieldSchema, CollectionSchema, DataType, utility
-from sentence_transformers import SentenceTransformer
+                <pre><code class="language-python">from pymilvus import connections, FieldSchema, CollectionSchema, DataType, Collection, utility
+from app.config import MILVUS_HOST, MILVUS_PORT, COLLECTION_NAME, DIMENSION
 
-# Setup - Load the embedding model locally
-model = SentenceTransformer("all-mpnet-base-v2")
+def connect_milvus():
+    connections.connect("default", host=MILVUS_HOST, port=MILVUS_PORT)
 
-# Connect to Milvus
-connections.connect("default", host="localhost", port="19530")
-
-def get_embedding(text):
-    """Get embedding using Sentence Transformers."""
-    return model.encode(text).tolist()
-
-# Define collection schema
-fields = [
-    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
-    FieldSchema(name="chunk", dtype=DataType.VARCHAR, max_length=2048),
-    FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=768)  # all-mpnet-base-v2 is 768 dimensions
-]
-
-schema = CollectionSchema(fields=fields, description="Document collection")
-
-# Create collection
-collection_name = "my_documents"
-if utility.has_collection(collection_name):
-    utility.drop_collection(collection_name)
+def create_collection():
+    connect_milvus()
     
-collection = Collection(name=collection_name, schema=schema)
-
-# Add documents to the collection
-documents = [
-    "Python is great for machine learning and data science.",
-    "I love cooking pasta with fresh ingredients.",
-    "Machine learning algorithms can predict patterns in data.",
-    "The best pizza has thin crust and quality toppings.",
-    "Data scientists use statistical methods to analyze information."
-]
-
-# Prepare data
-embeddings = [get_embedding(doc) for doc in documents]
-
-# Insert data
-collection.insert([documents, embeddings])
-
-# Create index for fast similarity search
-index_params = {
-    "index_type": "IVF_FLAT",
-    "metric_type": "L2",
-    "params": {"nlist": 128}
-}
-collection.create_index(field_name="embedding", index_params=index_params)
-collection.load()
-
-print(f"Added {len(documents)} documents to Milvus")
+    # If the collection exists, check the dimension of the "embedding" field.
+    if utility.has_collection(COLLECTION_NAME):
+        collection = Collection(COLLECTION_NAME)
+        # Lookup the embedding field by iterating over the fields list.
+        embedding_field = next((field for field in collection.schema.fields if field.name == "embedding"), None)
+        current_dim = None
+        if embedding_field:
+            # Try to get the dimension either as an attribute or from params.
+            current_dim = getattr(embedding_field, "dim", None) or (embedding_field.params.get("dim") if hasattr(embedding_field, "params") else None)
+        if current_dim != DIMENSION:
+            print(f"Collection exists but dimension ({current_dim}) does not match expected {DIMENSION}. Dropping collection...")
+            utility.drop_collection(COLLECTION_NAME)
+        else:
+            print("Collection already exists with the correct dimension.")
+    
+    # Create collection if it doesn't exist now
+    if not utility.has_collection(COLLECTION_NAME):
+        print("Creating new collection...")
+        fields = [
+            FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
+            FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=DIMENSION),
+            FieldSchema(name="chunk", dtype=DataType.VARCHAR, max_length=2048)
+        ]
+        schema = CollectionSchema(fields, description="Document chunks for RAG")
+        collection = Collection(name=COLLECTION_NAME, schema=schema)
+        
+        print("Creating index on embedding field...")
+        collection.create_index(
+            field_name="embedding",
+            index_params={
+                "metric_type": "COSINE",
+                "index_type": "IVF_FLAT",
+                "params": {"nlist": 128}
+            }
+        )
+        print("Index created.")
+    else:
+        print("Using existing collection.")
+        collection = Collection(COLLECTION_NAME)
+        # If the index is missing, create it.
+        if not collection.has_index():
+            print("Index not found, creating index...")
+            collection.create_index(
+                field_name="embedding",
+                index_params={
+                    "metric_type": "COSINE",
+                    "index_type": "IVF_FLAT",
+                    "params": {"nlist": 128}
+                }
+            )
+            print("Index created.")
+    
+    # Load the collection if it contains data.
+    if collection.num_entities > 0:
+        print("Loading collection...")
+        collection.load()
+        print("Collection loaded.")
+    else:
+        print("Collection is empty; skipping load().")
+    
+    return collection
 </code></pre>
 
                 <div class="demo-box">
-                    <strong>✅ What Just Happened?</strong>
+                    <strong>✅ What This Code Does</strong>
                     <ul>
-                        <li>Connected to Milvus database</li>
-                        <li>Defined a schema for the collection</li>
-                        <li>Generated embeddings for each document</li>
-                        <li>Stored both embeddings and original text</li>
-                        <li>Created an index for fast similarity search</li>
+                        <li><strong>Smart Connection:</strong> Connects to Milvus with configurable host/port</li>
+                        <li><strong>Dimension Checking:</strong> Validates embedding dimensions and recreates collection if needed</li>
+                        <li><strong>Schema Definition:</strong> Creates fields for ID, embedding vector, and text chunks</li>
+                        <li><strong>COSINE Indexing:</strong> Uses cosine similarity (better for normalized embeddings)</li>
+                        <li><strong>Efficient Search:</strong> IVF_FLAT index with nlist=128 for fast approximate search</li>
+                        <li><strong>Auto-Loading:</strong> Loads collection into memory only when it has data</li>
                     </ul>
                 </div>
             </div>
@@ -961,47 +978,43 @@ print(f"Added {len(documents)} documents to Milvus")
                 
                 <p>Now the magic happens - fast similarity search:</p>
 
-                <pre><code class="language-python">def search_documents(query, n_results=3):
-    """Search for similar documents."""
-    # Get embedding for the query
-    query_embedding = get_embedding(query)
-    
-    # Define search parameters
-    search_params = {
-        "metric_type": "L2",
-        "params": {"nprobe": 10}
-    }
-    
-    # Search the collection
+                <pre><code class="language-python">def insert_embeddings(embeddings, chunks):
+    collection = Collection(COLLECTION_NAME)
+    # Since 'id' is auto-generated, only provide values for 'embedding' and 'chunk'
+    collection.insert([embeddings, chunks])
+    collection.flush()
+
+def search_embeddings(query_embedding, k=5):
+    collection = Collection(COLLECTION_NAME)
+    if collection.num_entities > 0:
+        collection.load()
     results = collection.search(
         data=[query_embedding],
         anns_field="embedding",
-        param=search_params,
-        limit=n_results,
+        param={"metric_type": "COSINE", "params": {"nprobe": 10}},
+        limit=k,
         output_fields=["chunk"]
     )
-    
-    return results
+    return [hit.entity.get("chunk") for hit in results[0]]
 
-# Test the search
-query = "What programming language is good for AI?"
-print(f"Query: {query}")
-print("\nResults:")
-
-results = search_documents(query)
-
-for i, hits in enumerate(results):
-    for rank, hit in enumerate(hits):
-        distance = hit.distance
-        similarity = 1 / (1 + distance)  # Convert L2 distance to similarity
-        print(f"{rank+1}. Similarity: {similarity:.3f}")
-        print(f"   Document: {hit.entity.get('chunk')}")
-        print()
+# Example Usage:
+# query_embedding = get_embedding("What is machine learning?")
+# top_results = search_embeddings(query_embedding, k=3)
+# 
+# print("Search Results:")
+# for i, chunk in enumerate(top_results):
+#     print(f"{i+1}. {chunk}")
 </code></pre>
 
                 <div class="demo-box">
-                    <strong>🎯 Expected Results</strong>
-                    <p>Should find Python/ML documents first, even though the query doesn't contain "Python"!</p>
+                    <strong>🎯 Key Features of This Implementation</strong>
+                    <ul>
+                        <li><strong>COSINE Similarity:</strong> Using cosine metric for normalized embeddings (better for semantic search)</li>
+                        <li><strong>Auto-ID Generation:</strong> Primary keys are automatically generated</li>
+                        <li><strong>Smart Loading:</strong> Only loads collection if it contains data</li>
+                        <li><strong>Dimension Validation:</strong> Automatically checks and recreates collection if dimensions don't match</li>
+                        <li><strong>Production-Ready:</strong> Includes proper error handling and index creation</li>
+                    </ul>
                 </div>
             </div>
 
