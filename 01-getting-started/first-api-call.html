@@ -796,6 +796,94 @@
                 <div style="clear: both;"></div>
             </div>
 
+            <div class="step-indicator">Step 2: Getting Your API Keys 🔑</div>
+
+            <div class="section fade-in-section">
+                <h2>Obtaining Your Magical Keys 🔑</h2>
+                <p>
+                    Before we can cast our first spell, we need permission to access the AI services. Think of API keys like your Hogwarts acceptance letter - they prove you're allowed to use the magic!
+                </p>
+
+                <div class="api-comparison-grid">
+                    <!-- OpenAI Column -->
+                    <div class="api-card">
+                        <h3>🤖 OpenAI API Key</h3>
+                        <div style="text-align: center; color: #64748b; padding: 15px; background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-radius: 8px; margin-bottom: 20px;">
+                            <strong>💰 Cost:</strong> $5 free credits, then pay-as-you-go<br>
+                            <strong>⚡ Power:</strong> GPT-3.5 & GPT-4 models
+                        </div>
+
+                        <p><strong>How to Get Your OpenAI Key:</strong></p>
+                        <ol style="margin-left: 25px; line-height: 2; font-size: 1.05em;">
+                            <li>Go to <a href="https://platform.openai.com/signup" target="_blank" style="color: #8b5cf6; font-weight: 600; text-decoration: underline;">platform.openai.com/signup</a></li>
+                            <li>Sign up with your email or Google account (free!)</li>
+                            <li>Once logged in, click on your profile (top right corner)</li>
+                            <li>Select <strong>"API keys"</strong> from the dropdown menu</li>
+                            <li>Click the <strong>"Create new secret key"</strong> button</li>
+                            <li>Give it a name (e.g., "My First AI Project")</li>
+                            <li><strong style="color: #dc2626;">⚠️ IMPORTANT:</strong> Copy the key immediately! You won't see it again!</li>
+                            <li>Save it in your <code style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px;">.env</code> file as <code style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px;">OPENAI_API_KEY</code></li>
+                        </ol>
+
+                        <div style="background: rgba(251, 146, 60, 0.1); border-left: 4px solid #fb923c; padding: 15px; margin-top: 20px; border-radius: 6px;">
+                            <strong style="color: #ea580c;">⚠️ Security Warning:</strong>
+                            <ul style="margin-top: 10px; line-height: 1.8;">
+                                <li>Never share your API key publicly</li>
+                                <li>Never commit it to GitHub</li>
+                                <li>Keep it in <code>.env</code> file only</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Gemini Column -->
+                    <div class="api-card">
+                        <h3>🆓 Google Gemini API Key</h3>
+                        <div style="text-align: center; color: #047857; padding: 15px; background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border-radius: 8px; margin-bottom: 20px;">
+                            <strong>💰 Cost:</strong> 100% FREE (1500 requests/day)<br>
+                            <strong>⚡ Perfect for:</strong> Learning & practice!
+                        </div>
+
+                        <p><strong>How to Get Your Gemini Key (Google AI Studio):</strong></p>
+                        <ol style="margin-left: 25px; line-height: 2; font-size: 1.05em;">
+                            <li>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #8b5cf6; font-weight: 600; text-decoration: underline;">aistudio.google.com/app/apikey</a></li>
+                            <li>Sign in with your Google account</li>
+                            <li>Click the <strong>"Get API key"</strong> or <strong>"Create API key"</strong> button</li>
+                            <li>Select <strong>"Create API key in new project"</strong> (recommended for beginners)</li>
+                            <li>Your key will appear immediately - <strong>copy it!</strong></li>
+                            <li>Save it in your <code style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px;">.env</code> file as <code style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px;">GEMINI_API_KEY</code></li>
+                        </ol>
+
+                        <div style="background: rgba(34, 197, 94, 0.1); border-left: 4px solid #22c55e; padding: 15px; margin-top: 20px; border-radius: 6px;">
+                            <strong style="color: #16a34a;">✨ Pro Tip:</strong>
+                            <p style="margin-top: 8px; line-height: 1.7;">
+                                Gemini is completely FREE with generous limits - perfect for learning without worrying about costs! 
+                                Use this while practicing, then switch to OpenAI for production if needed.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 40px;">
+                    <strong style="font-size: 1.15em;">📝 Your .env File Should Look Like This:</strong>
+                    <pre style="background: #1e293b; color: #cbd5e1; padding: 20px; border-radius: 8px; margin-top: 15px; overflow-x: auto; font-size: 1.05em;"><code># .env file - Keep this secret and secure!
+
+# OpenAI API Key (get from platform.openai.com)
+OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Google Gemini API Key (get from aistudio.google.com)
+GEMINI_API_KEY=AIzaSyxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code></pre>
+                    <p style="margin-top: 15px; font-size: 0.95em; color: #64748b; line-height: 1.7;">
+                        <strong>Remember:</strong> Replace the x's with your actual keys! And <strong style="color: #dc2626;">never share this file or commit it to GitHub!</strong>
+                    </p>
+                </div>
+
+                <div style="text-align: center; margin-top: 40px; padding: 30px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(203, 166, 97, 0.15) 100%); border-radius: 12px; border: 2px solid rgba(139, 92, 246, 0.3);">
+                    <p style="font-size: 1.2em; color: #1e293b; margin: 0; font-weight: 600;">
+                        ✅ <strong>Got both keys saved in your .env file?</strong> Perfect! Now let's use them to cast our first AI spell! 🪄
+                    </p>
+                </div>
+            </div>
+
             <div class="step-indicator">Step 3: Professor Snape's Advanced API Brewing 🧪</div>
 
             <div class="section fade-in-section" style="position: relative;">
