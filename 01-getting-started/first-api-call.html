@@ -8,7 +8,7 @@
     <title>Your First LLM API Call - Harry Potter Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -17,73 +17,23 @@
         }
 
         body {
-            font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             min-height: 100vh;
             color: #1e293b;
             line-height: 1.6;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(2px 2px at 20% 30%, rgba(203, 166, 97, 0.4), transparent),
-                radial-gradient(2px 2px at 60% 70%, rgba(203, 166, 97, 0.3), transparent),
-                radial-gradient(3px 3px at 10% 80%, rgba(139, 92, 246, 0.2), transparent);
-            background-size: 200% 200%;
-            animation: magicFloat 20s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        body::after {
-            content: "🪄";
-            position: fixed;
-            font-size: 22px;
-            color: rgba(203, 166, 97, 0.6);
-            animation: wandFloat 16s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        @keyframes magicFloat {
-            0%, 100% { 
-                background-position: 0% 0%, 100% 100%, 100% 0%;
-                opacity: 0.5;
-            }
-            50% { 
-                background-position: 100% 100%, 0% 0%, 0% 100%;
-                opacity: 0.7;
-            }
-        }
-
-        @keyframes wandFloat {
-            0% { left: -50px; top: 25%; transform: rotate(-45deg); }
-            25% { left: 35%; top: 65%; transform: rotate(45deg); }
-            50% { left: 65%; top: 25%; transform: rotate(135deg); }
-            75% { left: 45%; top: 70%; transform: rotate(225deg); }
-            100% { left: 110%; top: 40%; transform: rotate(315deg); }
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: #ffffff;
+            background: white;
             min-height: 100vh;
-            box-shadow: 0 0 100px rgba(139, 92, 46, 0.3);
-            position: relative;
-            z-index: 2;
+            box-shadow: 0 0 60px rgba(15, 23, 42, 0.08);
         }
 
         .header {
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
             color: white;
             padding: 80px 60px;
             position: relative;
@@ -97,15 +47,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 20 L52 28 L60 28 L54 33 L56 41 L50 36 L44 41 L46 33 L40 28 L48 28 Z" fill="rgba(203,166,97,0.2)"/></svg>') repeat;
-            background-size: 80px;
-            animation: sparkleMove 30s linear infinite;
-            opacity: 0.6;
-        }
-
-        @keyframes sparkleMove {
-            from { background-position: 0 0; }
-            to { background-position: 80px 80px; }
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%2364748b" opacity="0.15"/><circle cx="80" cy="40" r="1.5" fill="%2364748b" opacity="0.15"/></svg>') repeat;
+            background-size: 100px;
         }
 
         .header-content {
@@ -126,7 +69,7 @@
             width: 180px;
             height: 180px;
             border-radius: 50%;
-            border: 4px solid rgba(203, 166, 97, 0.8);
+            border: 4px solid #94a3b8;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(203, 166, 97, 0.3);
             object-fit: cover;
             animation: float 3s ease-in-out infinite;
@@ -138,7 +81,7 @@
         }
 
         .header h1 {
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             font-size: 3.5em;
             margin-bottom: 20px;
             font-weight: 700;
@@ -182,15 +125,15 @@
         }
 
         .nav a:hover {
-            color: #8b5cf6;
+            color: #0f172a;
             background: linear-gradient(to bottom, transparent, rgba(139, 92, 246, 0.05));
             border-bottom-color: rgba(203, 166, 97, 0.5);
         }
 
         .nav a.active {
-            color: #8b5cf6;
+            color: #0f172a;
             background: linear-gradient(to bottom, transparent, rgba(139, 92, 246, 0.08));
-            border-bottom-color: rgba(203, 166, 97, 1);
+            border-bottom-color: #cbd5e1;
         }
 
         .content {
@@ -218,11 +161,11 @@
         }
 
         .section h2 {
-            color: #8b5cf6;
+            color: #0f172a;
             font-size: 2.8em;
             margin-bottom: 30px;
             font-weight: 700;
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             position: relative;
             display: inline-block;
         }
@@ -234,7 +177,7 @@
             left: 0;
             width: 60%;
             height: 3px;
-            background: linear-gradient(90deg, rgba(203, 166, 97, 0.8), transparent);
+            background: linear-gradient(90deg, #94a3b8, transparent);
         }
 
         .section h3 {
@@ -242,7 +185,7 @@
             font-size: 1.8em;
             margin: 35px 0 16px 0;
             font-weight: 600;
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
         }
 
         .section p,
@@ -263,66 +206,140 @@
         }
 
         .highlight-box {
-            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
-            border-left: 6px solid #2196F3;
-            padding: 32px;
-            margin: 35px 0;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #93c5fd;
+            padding: 30px;
+            margin: 30px 0;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.12);
         }
 
         .highlight-box strong {
-            color: #1565C0;
+            color: #1e40af;
             font-size: 1.3em;
             display: block;
             margin-bottom: 16px;
-            font-weight: 800;
-            font-family: 'Cinzel', sans-serif;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
         }
 
         .warning-box {
-            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
-            border-left: 6px solid #FF9800;
-            padding: 32px;
-            margin: 35px 0;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #93c5fd;
+            padding: 30px;
+            margin: 30px 0;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.12);
         }
 
         .warning-box strong {
-            color: #E65100;
+            color: #1e40af;
             font-size: 1.3em;
             display: block;
             margin-bottom: 16px;
-            font-weight: 800;
-            font-family: 'Cinzel', sans-serif;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
         }
 
         .success-box {
-            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
-            border-left: 6px solid #4CAF50;
-            padding: 32px;
-            margin: 35px 0;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #93c5fd;
+            padding: 30px;
+            margin: 30px 0;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.12);
         }
 
         .success-box strong {
-            color: #2E7D32;
+            color: #1e40af;
             font-size: 1.3em;
             display: block;
             margin-bottom: 16px;
-            font-weight: 800;
-            font-family: 'Cinzel', sans-serif;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
         }
 
         .step-box {
-            background: linear-gradient(135deg, #fff5e6 0%, white 100%);
-            border: 3px solid #D3A625;
+            background: linear-gradient(135deg, #f8fafc 0%, white 100%);
+            border: 2px solid #cbd5e1;
             padding: 40px;
             margin: 32px 0;
-            border-radius: 15px;
-            box-shadow: 0 6px 20px rgba(211, 166, 37, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.08);
+        }
+
+        .api-comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+            align-items: start;
+        }
+
+        .api-card {
+            background: linear-gradient(135deg, #f8fafc 0%, white 100%);
+            border: 2px solid #cbd5e1;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.08);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .api-card h3 {
+            color: #1e40af;
+            font-size: 1.6em;
+            margin: 0 0 20px 0;
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+        }
+
+        .api-card > p {
+            margin: 0 0 15px 0;
+            line-height: 1.6;
+        }
+
+        .api-card > div:first-of-type {
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .api-card pre {
+            margin: 15px 0;
+            flex-grow: 0;
+        }
+
+        .api-card pre code {
+            display: block;
+        }
+
+        .api-card .highlight-box,
+        .api-card .success-box {
+            margin-top: 20px;
+            margin-bottom: 0;
+            padding: 20px;
+        }
+
+        .api-card .highlight-box p,
+        .api-card .success-box p {
+            line-height: 1.6;
+            font-size: 1em;
+        }
+
+        .api-card .highlight-box strong,
+        .api-card .success-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .api-card .highlight-box p:last-child,
+        .api-card .success-box p:last-child {
+            margin-bottom: 0;
         }
 
         .step-number {
@@ -363,11 +380,11 @@
         }
 
         .comparison-card h4 {
-            color: #8b5cf6;
+            color: #0f172a;
             margin-bottom: 16px;
             font-size: 1.6em;
             font-weight: 700;
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
         }
 
         .comparison-card p {
@@ -375,14 +392,14 @@
         }
 
         .output-box {
-            background: #F5F5F5;
-            border: 3px solid #FF6F00;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            border: 2px solid #94a3b8;
             padding: 24px;
             margin: 24px 0;
             border-radius: 12px;
             font-family: 'SF Mono', 'Monaco', monospace;
             font-size: 0.95em;
-            color: #2C2C2C;
+            color: #1e293b;
         }
 
         code {
@@ -390,7 +407,7 @@
             padding: 4px 10px;
             border-radius: 5px;
             font-family: 'SF Mono', 'Monaco', monospace;
-            color: #8b5cf6;
+            color: #0f172a;
             font-size: 0.9em;
             border: 1px solid rgba(139, 92, 246, 0.2);
         }
@@ -416,7 +433,7 @@
         .cta-button {
             display: inline-block;
             padding: 18px 50px;
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             color: white;
             text-decoration: none;
             border-radius: 50px;
@@ -435,7 +452,7 @@
         }
 
         .footer {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             color: rgba(203, 166, 97, 0.9);
             text-align: center;
             padding: 50px;
@@ -445,11 +462,11 @@
 
         .footer p {
             margin: 10px 0;
-            color: rgba(203, 166, 97, 0.8);
+            color: #94a3b8;
         }
 
         .footer a {
-            color: rgba(203, 166, 97, 1);
+            color: #cbd5e1;
             text-decoration: none;
             font-weight: 600;
         }
@@ -491,7 +508,7 @@
             position: absolute;
             right: 70px;
             background: rgba(15, 23, 42, 0.95);
-            color: rgba(203, 166, 97, 1);
+            color: #cbd5e1;
             padding: 8px 15px;
             border-radius: 8px;
             font-size: 0.5em;
@@ -500,7 +517,7 @@
             pointer-events: none;
             transition: opacity 0.3s;
             border: 2px solid rgba(203, 166, 97, 0.4);
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             font-weight: 600;
         }
 
@@ -511,6 +528,10 @@
         /* Tablet and below */
         @media (max-width: 1024px) {
             .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .api-comparison-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -660,26 +681,26 @@
         }
 
         /* Enhanced Features */
-        .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: linear-gradient(90deg, #cba661 0%, #8b5cf6 100%); z-index: 9999; transition: width 0.1s ease; box-shadow: 0 0 10px rgba(203, 166, 97, 0.8); }
+        .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: linear-gradient(90deg, #cba661 0%, #8b5cf6 100%); z-index: 9999; transition: width 0.1s ease; box-shadow: 0 0 10px #94a3b8; }
         .progress-tracker { position: fixed; top: 20px; right: 20px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(203, 166, 97, 0.4); border-radius: 15px; padding: 15px 20px; z-index: 9998; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); min-width: 200px; }
-        .progress-tracker h4 { color: rgba(203, 166, 97, 1); font-family: 'Cinzel', serif; margin-bottom: 10px; font-size: 0.9em; }
+        .progress-tracker h4 { color: #cbd5e1; font-family: 'Playfair Display', serif; margin-bottom: 10px; font-size: 0.9em; }
         .progress-bar-container { background: rgba(30, 41, 59, 0.8); border-radius: 10px; height: 12px; overflow: hidden; margin-bottom: 8px; }
         .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #cba661 0%, #8b5cf6 100%); border-radius: 10px; transition: width 0.5s ease; box-shadow: 0 0 10px rgba(203, 166, 97, 0.6); }
-        .progress-text { color: rgba(203, 166, 97, 0.8); font-size: 0.85em; text-align: center; }
+        .progress-text { color: #94a3b8; font-size: 0.85em; text-align: center; }
         .badges { display: flex; gap: 5px; margin-top: 10px; flex-wrap: wrap; }
         .badge { font-size: 1.2em; opacity: 0.3; transition: all 0.3s ease; cursor: pointer; position: relative; }
         .badge.earned { opacity: 1; animation: badgePop 0.5s ease; }
-        .badge:hover::after { content: attr(data-title); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.95); color: rgba(203, 166, 97, 1); padding: 5px 10px; border-radius: 5px; white-space: nowrap; font-size: 0.7em; border: 1px solid rgba(203, 166, 97, 0.3); }
+        .badge:hover::after { content: attr(data-title); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.95); color: #cbd5e1; padding: 5px 10px; border-radius: 5px; white-space: nowrap; font-size: 0.7em; border: 1px solid rgba(203, 166, 97, 0.3); }
         @keyframes badgePop { 0% { transform: scale(0); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
         .fade-in-section { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
         .fade-in-section.visible { opacity: 1; transform: translateY(0); }
         .cursor-trail { position: fixed; width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle, rgba(203, 166, 97, 0.6) 0%, transparent 70%); pointer-events: none; z-index: 9997; animation: trailFade 0.8s ease forwards; }
         @keyframes trailFade { to { transform: scale(2); opacity: 0; } }
-        .tooltip { position: relative; cursor: help; color: #8b5cf6; font-weight: 600; border-bottom: 2px dotted #8b5cf6; }
-        .tooltip:hover::after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.98); color: rgba(203, 166, 97, 1); padding: 10px 15px; border-radius: 8px; white-space: nowrap; font-size: 0.85em; font-weight: 400; border: 2px solid rgba(203, 166, 97, 0.4); z-index: 1000; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+        .tooltip { position: relative; cursor: help; color: #0f172a; font-weight: 600; border-bottom: 2px dotted #8b5cf6; }
+        .tooltip:hover::after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.98); color: #cbd5e1; padding: 10px 15px; border-radius: 8px; white-space: nowrap; font-size: 0.85em; font-weight: 400; border: 2px solid rgba(203, 166, 97, 0.4); z-index: 1000; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
         .sticky-nav { position: sticky; top: 0; z-index: 999; transition: all 0.3s ease; }
         .sticky-nav.scrolled { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); }
-        .reading-time { display: inline-block; background: rgba(139, 92, 246, 0.1); color: #8b5cf6; padding: 5px 12px; border-radius: 20px; font-size: 0.9em; margin-left: 10px; }
+        .reading-time { display: inline-block; background: rgba(139, 92, 246, 0.1); color: #0f172a; padding: 5px 12px; border-radius: 20px; font-size: 0.9em; margin-left: 10px; }
         @media (max-width: 768px) { 
             .progress-tracker { 
                 top: 10px; 
@@ -763,7 +784,7 @@
             <div class="section fade-in-section" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%); border-left: 5px solid rgba(45, 27, 78, 0.8); padding: 35px; border-radius: 12px; margin-bottom: 40px; border: 2px solid rgba(45, 27, 78, 0.4); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);">
                 <img src="images/snape_class.gif" alt="Professor Snape" style="float: left; width: 140px; height: 140px; border-radius: 50%; border: 3px solid rgba(45, 27, 78, 0.8); margin-right: 30px; box-shadow: 0 8px 30px rgba(45, 27, 78, 0.5);">
                 <p style="font-size: 1.15em; line-height: 1.8; color: rgba(203, 166, 97, 0.95); font-style: italic;">
-                    <strong style="color: rgba(203, 166, 97, 1); font-size: 1.2em;">"Turn to page 394... I mean, pay attention."</strong><br><br>
+                    <strong style="color: #cbd5e1; font-size: 1.2em;">"Turn to page 394... I mean, pay attention."</strong><br><br>
                     Today's lesson is of particular importance. We will be brewing—I mean, <em>crafting</em>—your first <span class="tooltip" data-tooltip="Application Programming Interface">API</span> connection. 
                     This is not child's play. One wrong parameter, one misplaced comma, and your entire potion—your code—will fail spectacularly.
                     <br><br>
@@ -788,10 +809,10 @@
                 </p>
 
                 <div class="highlight-box">
-                    <strong>🪄 The Simple 4-Step Process</strong>
+                    <strong>🪄 The Simple 4-Step Process (Works for both OpenAI & Gemini!)</strong>
                     <ol style="margin-top: 12px;">
-                        <li><strong>Import:</strong> Load the OpenAI tools and your API key</li>
-                        <li><strong>Initialize:</strong> Create a connection to OpenAI</li>
+                        <li><strong>Import:</strong> Load the OpenAI or Gemini tools and your API key</li>
+                        <li><strong>Initialize:</strong> Create a connection to the AI service</li>
                         <li><strong>Send:</strong> Make your API call with your question</li>
                         <li><strong>Receive:</strong> Get and display the AI's response</li>
                     </ol>
@@ -808,225 +829,291 @@
 
             <div class="section fade-in-section">
                 <h2>Your First Magical API Call! 🪄</h2>
+                <p style="text-align: center; font-size: 1.15em; color: #475569; margin-bottom: 30px;">
+                    Choose your path: OpenAI (paid, powerful) or Gemini (free, great for learning!)
+                </p>
 
-                <div class="step-box">
-                    <p><span class="step-number">1</span> <strong>Create <code>first_call.py</code>:</strong></p>
+                <div class="api-comparison-grid">
+                    <!-- OpenAI Column -->
+                    <div class="api-card">
+                        <h3>🤖 OpenAI (ChatGPT)</h3>
+                        <div style="text-align: center; color: #64748b; padding: 15px; background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-radius: 8px; margin-bottom: 20px;">
+                            <strong>Paid:</strong> ~$0.002 per 1K tokens<br>
+                            <strong>Model:</strong> gpt-3.5-turbo
+                        </div>
 
-                    <pre><code class="language-python">import os
+                        <p><strong>1. Create <code>first_openai.py</code>:</strong></p>
+                        <pre><code class="language-python">import os
 from dotenv import load_dotenv
 from openai import OpenAI
 
 # Load environment variables
 load_dotenv()
 
-# Initialize OpenAI client (Ron preparing his wand!)
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-# Make your first API call (Casting the spell!)
-response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "user", "content": "Say hello and introduce yourself in one sentence!"}
-    ]
+# Initialize OpenAI client
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY")
 )
 
-# Print the response (Spell succeeded!)
+# Make API call
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[{
+        "role": "user",
+        "content": "Say hello!"
+    }]
+)
+
+# Print response
 print("🪄 AI Response:")
 print(response.choices[0].message.content)
 </code></pre>
-                </div>
 
-                <div class="step-box">
-                    <p><span class="step-number">2</span> <strong>Run your first AI program:</strong></p>
+                        <p><strong>2. Run it:</strong></p>
+                        <pre><code class="language-bash">python first_openai.py</code></pre>
 
-                    <pre><code class="language-bash">python first_call.py
-</code></pre>
-
-                    <div class="success-box">
-                        <strong>✅ Brilliant!</strong>
-                        <p style="margin-top: 12px;">"Hello! I'm ChatGPT, an AI assistant created by OpenAI to help answer questions and assist with various tasks."</p>
-                        <p style="font-style: italic; margin-top: 12px;">"🪄 Wicked! You just talked to AI!" - Ron</p>
+                        <div class="success-box">
+                            <strong>✅ Output:</strong>
+                            <p style="margin: 10px 0 0 0;">"Hello! I'm ChatGPT, an AI assistant..."</p>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Snape Walking to Next Topic -->
-            <div style="text-align: center; margin: 60px 0; padding: 60px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.4) 0%, rgba(30, 41, 59, 0.4) 100%); border-radius: 15px;">
-                <img src="images/snape3_walking.gif" alt="Snape Walking" style="width: 450px; height: auto; border-radius: 15px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7); margin-bottom: 30px;">
-                <p style="font-size: 1.4em; color: rgba(203, 166, 97, 0.95); font-style: italic; font-weight: 600;">
-                    *Snape walks dramatically across the dungeon classroom*<br>
-                    "Now... let us examine the... <em>alternative</em> approach."
-                </p>
-            </div>
+                    <!-- Gemini Column -->
+                    <div class="api-card">
+                        <h3>🆓 Google Gemini</h3>
+                        <div style="text-align: center; color: #64748b; padding: 15px; background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-radius: 8px; margin-bottom: 20px;">
+                            <strong>FREE:</strong> 1500 requests/day<br>
+                            <strong>Model:</strong> gemini-2.0-flash
+                        </div>
 
-            <div class="section fade-in-section">
-                <h2>Alternative: Using Google Gemini (Free!) 🆓</h2>
-                <p>
-                    <strong>Snape notes:</strong> "Gemini is... adequate for practice. Free, which suits your presumably limited budget. Use it for experimentation before wasting resources on premium models."
-                </p>
+                        <p><strong>1. Install & Create <code>first_gemini.py</code>:</strong></p>
+                        <pre><code class="language-bash">pip install google-generativeai</code></pre>
 
-                <div class="highlight-box">
-                    <strong>🎁 Why Gemini is Great for Beginners</strong>
-                    <ul style="margin-top: 12px;">
-                        <li><strong>100% Free:</strong> No Galleons needed!</li>
-                        <li><strong>Generous Limits:</strong> 1500 requests per day</li>
-                        <li><strong>Powerful:</strong> Gemini 2.0 Flash is very capable</li>
-                        <li><strong>Easy Setup:</strong> Get API key in minutes</li>
-                    </ul>
-                </div>
-
-                <h3>Getting Your Gemini API Key 🔑</h3>
-                <div class="step-box">
-                    <p><span class="step-number">1</span> <strong>Visit:</strong></p>
-                    <p style="margin-left: 66px;"><a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #FF6F00; font-weight: 700;">https://aistudio.google.com/app/apikey</a></p>
-                </div>
-
-                <div class="step-box">
-                    <p><span class="step-number">2</span> <strong>Click "Create API Key" (No payment info required!)</strong></p>
-                </div>
-
-                <div class="step-box">
-                    <p><span class="step-number">3</span> <strong>Add to your <code>.env</code> file:</strong></p>
-                    <pre><code class="language-bash">GEMINI_API_KEY=your_gemini_key_here
-</code></pre>
-                </div>
-
-                <h3>Option 1: Using cURL (Terminal Command) 💻</h3>
-                <p>Test it instantly without any code!</p>
-
-                <pre><code class="language-bash">curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent" \
-  -H 'Content-Type: application/json' \
-  -H 'X-goog-api-key: YOUR_GEMINI_API_KEY' \
-  -X POST \
-  -d '{
-    "contents": [
-      {
-        "parts": [
-          {
-            "text": "Explain how AI works in a few words"
-          }
-        ]
-      }
-    ]
-  }'
-</code></pre>
-
-                <div class="success-box">
-                    <strong>✅ You'll Get Response Like This:</strong>
-                    <p style="margin-top: 12px; font-family: 'SF Mono', Monaco, monospace; font-size: 0.95em;">
-                        {<br>
-                        &nbsp;&nbsp;"candidates": [{<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;"content": {<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"parts": [{<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"text": "AI learns from data to find patterns and make predictions..."<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-                        &nbsp;&nbsp;}]<br>
-                        }
-                    </p>
-                </div>
-
-                <h3>Option 2: Using Python 🐍</h3>
-                <p><strong>First, install the Gemini SDK:</strong></p>
-                <pre><code class="language-bash">pip install google-generativeai
-</code></pre>
-
-                <p style="margin-top: 24px;"><strong>Create <code>first_gemini_call.py</code>:</strong></p>
-
-                <pre><code class="language-python">import os
+                        <pre><code class="language-python">import os
 from dotenv import load_dotenv
 import google.generativeai as genai
 
 # Load environment variables
 load_dotenv()
 
-# Configure Gemini (Ron preparing his wand!)
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+# Configure Gemini
+genai.configure(
+    api_key=os.getenv("GEMINI_API_KEY")
+)
 
-# Initialize the model
-model = genai.GenerativeModel('gemini-2.0-flash')
+# Initialize model
+model = genai.GenerativeModel(
+    'gemini-2.0-flash'
+)
 
-# Make your first API call (Casting the spell!)
-response = model.generate_content("Say hello and introduce yourself in one sentence!")
+# Make API call
+response = model.generate_content(
+    "Say hello!"
+)
 
-# Print the response (Spell succeeded!)
+# Print response
 print("🪄 AI Response:")
 print(response.text)
 </code></pre>
 
-                <div class="step-box">
-                    <p><span class="step-number">4</span> <strong>Run it:</strong></p>
-                    <pre><code class="language-bash">python first_gemini_call.py
-</code></pre>
+                        <p><strong>2. Run it:</strong></p>
+                        <pre><code class="language-bash">python first_gemini.py</code></pre>
 
-                    <div class="success-box">
-                        <strong>✅ Brilliant!</strong>
-                        <p style="margin-top: 12px;">"Hello! I'm Gemini, a large language model from Google AI, designed to help you with tasks like answering questions, creating content, and having conversations."</p>
-                        <p style="font-style: italic; margin-top: 12px;">"🪄 Wicked! And it's FREE!" - Ron</p>
+                        <div class="success-box">
+                            <strong>✅ Output:</strong>
+                            <p style="margin: 10px 0 0 0;">"Hello! I'm Gemini, a large language model..."</p>
+                        </div>
                     </div>
                 </div>
 
-                <h3>Gemini Advanced Example 🚀</h3>
-                <p>With error handling and better control:</p>
-
-                <pre><code class="language-python">import os
-from dotenv import load_dotenv
-import google.generativeai as genai
-
-load_dotenv()
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-
-try:
-    # Initialize model with settings
-    model = genai.GenerativeModel(
-        'gemini-2.0-flash',
-        generation_config={
-            "temperature": 0.7,      # Creativity control (0-2)
-            "max_output_tokens": 150,  # Response length limit
-        }
-    )
-    
-    # Generate content
-    response = model.generate_content(
-        "Write a short motivational quote about learning AI"
-    )
-    
-    print("✅ Success!")
-    print(response.text)
-    
-except Exception as e:
-    print(f"❌ Error: {e}")
-    print("💡 Ron suggests: Check your API key!")
-</code></pre>
-
-                <div class="comparison-grid" style="margin-top: 40px;">
-                    <div class="comparison-card">
-                        <h4>🤖 OpenAI GPT</h4>
-                        <p><strong>Cost:</strong> Paid (starts ~$0.002/1K tokens)</p>
-                        <p><strong>Best For:</strong> Production apps, complex tasks</p>
-                        <p><strong>Models:</strong> GPT-3.5, GPT-4, GPT-4-turbo</p>
-                        <p style="margin-top: 16px; font-weight: 700; color: #FF6F00;">"Industry standard, proven reliability!" - Ron</p>
-                    </div>
-
-                    <div class="comparison-card">
-                        <h4>✨ Google Gemini</h4>
-                        <p><strong>Cost:</strong> FREE! (1500 requests/day)</p>
-                        <p><strong>Best For:</strong> Learning, prototyping, personal projects</p>
-                        <p><strong>Models:</strong> Gemini 2.0 Flash, Gemini Pro</p>
-                        <p style="margin-top: 16px; font-weight: 700; color: #4CAF50;">"Perfect for practice without spending Galleons!" - Ron</p>
-                    </div>
-                </div>
-
-                <div class="highlight-box" style="margin-top: 30px;">
-                    <strong>💡 Ron's Recommendation</strong>
-                    <p>Start with Gemini for learning (it's FREE!), then switch to OpenAI when building real applications or need specific features.</p>
+                <div class="highlight-box">
+                    <strong>🎯 Which Should You Use?</strong>
+                    <ul style="margin-top: 12px;">
+                        <li><strong>Gemini:</strong> Perfect for learning & practice (FREE!)</li>
+                        <li><strong>OpenAI:</strong> For production apps & advanced features</li>
+                        <li><strong>Best Practice:</strong> Learn with Gemini, deploy with OpenAI</li>
+                    </ul>
                 </div>
             </div>
+
+            <!-- Hermione Teaching -->
+            <div style="text-align: center; margin: 60px 0; padding: 50px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.5) 0%, rgba(30, 41, 59, 0.5) 100%); border-radius: 15px;">
+                <img src="images/hermione.gif" alt="Hermione Teaching" style="width: 350px; height: auto; border-radius: 15px; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6); margin-bottom: 25px;">
+                <p style="font-size: 1.4em; color: #cbd5e1; font-style: italic; font-weight: 600;">
+                    "Now let me show you the proper way to structure your prompts!"<br>
+                    - Hermione
+                </p>
+            </div>
+
+            <div class="section fade-in-section">
+                <h2>1️⃣ System & User Prompts 🎯</h2>
+                <p style="text-align: center; font-size: 1.15em; color: #475569; margin-bottom: 30px;">
+                    <strong>System prompts</strong> set AI's behavior, <strong>User prompts</strong> are your questions
+                </p>
+
+                <div class="api-comparison-grid">
+                    <!-- OpenAI Column -->
+                    <div class="api-card">
+                        <h3>🤖 OpenAI</h3>
+                        <p><strong>Using System & User Roles:</strong></p>
+                        <pre><code class="language-python">from openai import OpenAI
+import os
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {
+            "role": "system",
+            "content": "You are a helpful Python teacher."
+        },
+        {
+            "role": "user",
+            "content": "Explain what a variable is"
+        }
+    ]
+)
+
+print(response.choices[0].message.content)
+</code></pre>
+
+                        <div class="highlight-box">
+                            <strong>💡 Key Points:</strong>
+                            <p style="margin: 10px 0 5px 0;"><strong>system role:</strong> Sets AI's personality</p>
+                            <p style="margin: 5px 0 0 0;"><strong>user role:</strong> Your actual question</p>
+                        </div>
+                    </div>
+
+                    <!-- Gemini Column -->
+                    <div class="api-card">
+                        <h3>🆓 Google Gemini</h3>
+                        <p><strong>Using System Instructions:</strong></p>
+                        <pre><code class="language-python">import google.generativeai as genai
+import os
+
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+model = genai.GenerativeModel(
+    'gemini-2.0-flash',
+    system_instruction="You are a helpful Python teacher."
+)
+
+response = model.generate_content(
+    "Explain what a variable is"
+)
+
+print(response.text)
+</code></pre>
+
+                        <div class="highlight-box">
+                            <strong>💡 Key Points:</strong>
+                            <p style="margin: 10px 0 5px 0;"><strong>system_instruction:</strong> Sets AI's personality</p>
+                            <p style="margin: 5px 0 0 0;"><strong>generate_content:</strong> Your actual question</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <strong>✅ Example Output (Both APIs):</strong>
+                    <p style="margin-top: 12px;">"A variable in Python is like a labeled container that stores data. For example: <code>name = "Harry"</code> creates a variable called 'name' that holds the text "Harry"."</p>
+                </div>
+            </div>
+
+            <!-- Ron's Turn -->
+            <div style="text-align: center; margin: 60px 0; padding: 50px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.5) 0%, rgba(30, 41, 59, 0.5) 100%); border-radius: 15px;">
+                <img src="images/ron.gif" alt="Ron" style="width: 350px; height: auto; border-radius: 15px; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6); margin-bottom: 25px;">
+                <p style="font-size: 1.4em; color: #cbd5e1; font-style: italic; font-weight: 600;">
+                    "Blimey! Now let's control how creative the AI gets!"<br>
+                    - Ron
+                </p>
+            </div>
+
+            <div class="section fade-in-section">
+                <h2>2️⃣ Temperature Control 🌡️</h2>
+                <p style="text-align: center; font-size: 1.15em; color: #475569; margin-bottom: 30px;">
+                    <strong>Temperature</strong> controls creativity: 0 = focused, 2 = creative
+                </p>
+
+                <div class="api-comparison-grid">
+                    <!-- OpenAI Column -->
+                    <div class="api-card">
+                        <h3>🤖 OpenAI</h3>
+                        <p><strong>Setting Temperature (0-2):</strong></p>
+                        <pre><code class="language-python">from openai import OpenAI
+import os
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[{
+        "role": "user",
+        "content": "Write a creative story about AI"
+    }],
+    temperature=1.5,  # 🎨 More creative!
+    max_tokens=100    # Response length limit
+)
+
+print(response.choices[0].message.content)
+</code></pre>
+
+                        <div class="highlight-box">
+                            <strong>🌡️ Temperature Guide:</strong>
+                            <p style="margin: 10px 0 5px 0;"><strong>0.0-0.3:</strong> Factual, consistent</p>
+                            <p style="margin: 5px 0;"><strong>0.7-1.0:</strong> Balanced</p>
+                            <p style="margin: 5px 0 0 0;"><strong>1.5-2.0:</strong> Creative, varied</p>
+                        </div>
+                    </div>
+
+                    <!-- Gemini Column -->
+                    <div class="api-card">
+                        <h3>🆓 Google Gemini</h3>
+                        <p><strong>Setting Temperature (0-2):</strong></p>
+                        <pre><code class="language-python">import google.generativeai as genai
+import os
+
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+model = genai.GenerativeModel(
+    'gemini-2.0-flash',
+    generation_config={
+        "temperature": 1.5,  # 🎨 More creative!
+        "max_output_tokens": 100  # Response length
+    }
+)
+
+response = model.generate_content(
+    "Write a creative story about AI"
+)
+
+print(response.text)
+</code></pre>
+
+                        <div class="highlight-box">
+                            <strong>🌡️ Temperature Guide:</strong>
+                            <p style="margin: 10px 0 5px 0;"><strong>0.0-0.3:</strong> Factual, consistent</p>
+                            <p style="margin: 5px 0;"><strong>0.7-1.0:</strong> Balanced</p>
+                            <p style="margin: 5px 0 0 0;"><strong>1.5-2.0:</strong> Creative, varied</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>💡 When to Use What Temperature?</strong>
+                    <ul style="margin-top: 12px;">
+                        <li><strong>Low (0-0.3):</strong> Math, code, factual answers</li>
+                        <li><strong>Medium (0.7-1.0):</strong> General conversation</li>
+                        <li><strong>High (1.5-2.0):</strong> Creative writing, brainstorming</li>
+                    </ul>
+                </div>
+            </div>
+
 
             <!-- Snape's Magical Demonstration -->
             <div style="text-align: center; margin: 60px 0; padding: 60px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.8) 100%); border-radius: 15px; border: 3px solid rgba(45, 27, 78, 0.7); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);">
                 <img src="images/snape_2.gif" alt="Snape's Magic" style="width: 400px; height: auto; border-radius: 15px; border: 5px solid rgba(139, 92, 246, 0.6); box-shadow: 0 0 50px rgba(139, 92, 246, 0.9), 0 20px 60px rgba(0, 0, 0, 0.8); margin-bottom: 30px;">
-                <p style="font-size: 1.5em; color: rgba(203, 166, 97, 1); font-style: italic; font-weight: 700;">
+                <p style="font-size: 1.5em; color: #cbd5e1; font-style: italic; font-weight: 700;">
                     "Observe the flow of magical energy...<br>
                     This is how properly executed code channels AI power."
                 </p>
@@ -1093,70 +1180,10 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
                 </div>
             </div>
 
-            <div class="section">
-                <h2>Adding Instructions 🎭</h2>
-                <p><strong>Guide the AI's behavior with system messages:</strong></p>
-
-                <pre><code class="language-python">response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {
-            "role": "system", 
-            "content": "You are Ron - loyal, practical, and helpful!"
-        },
-        {
-            "role": "user", 
-            "content": "Give me a quick coding tip!"
-        }
-    ]
-)
-
-print(response.choices[0].message.content)
-</code></pre>
-
-                <div class="highlight-box">
-                    <strong>🎭 Message Types</strong>
-                    <ul style="margin-top: 12px;">
-                        <li><strong>system:</strong> Sets AI's personality and style</li>
-                        <li><strong>user:</strong> Your actual question</li>
-                        <li><strong>assistant:</strong> Previous AI responses (for conversation memory)</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2>Controlling Output 🎛️</h2>
-                <p><strong>Fine-tune how AI responds:</strong></p>
-
-                <pre><code class="language-python">response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "user", "content": "Write a short poem about Hogwarts"}
-    ],
-    temperature=0.8,      # Creativity (0-2, default 1)
-    max_tokens=100,       # Maximum response length
-)
-</code></pre>
-
-                <div class="highlight-box">
-                    <strong>🪄 Key Parameters</strong>
-                    <ul style="margin-top: 12px;">
-                        <li><strong>temperature:</strong> Controls creativity
-                            <ul style="margin-left: 20px; margin-top: 8px;">
-                                <li>0 = Very focused, same every time</li>
-                                <li>1 = Balanced (default)</li>
-                                <li>2 = Super creative, different each time</li>
-                            </ul>
-                        </li>
-                        <li><strong>max_tokens:</strong> Limits response length (1 token ≈ 0.75 words)</li>
-                    </ul>
-                </div>
-            </div>
-
             <!-- Snape's Stern Warning -->
             <div style="text-align: center; margin: 60px 0; padding: 60px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(30, 41, 59, 0.7) 100%); border-radius: 15px; border: 3px solid rgba(45, 27, 78, 0.6);">
                 <img src="images/snape4.gif" alt="Snape Stern Look" style="width: 350px; height: auto; border-radius: 15px; border: 4px solid rgba(45, 27, 78, 0.8); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8); margin-bottom: 30px;">
-                <p style="font-size: 1.4em; color: rgba(203, 166, 97, 1); font-style: italic; font-weight: 700;">
+                <p style="font-size: 1.4em; color: #cbd5e1; font-style: italic; font-weight: 700;">
                     *Snape glares intensely*<br>
                     "Now... about the inevitable mistakes you WILL make..."
                 </p>
@@ -1270,7 +1297,7 @@ print(f"💰 Cost: ${cost:.6f}")
             <!-- Professor Snape's Final Assessment -->
             <div class="section fade-in-section" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%); border: 3px solid rgba(45, 27, 78, 0.5); border-radius: 15px; padding: 40px; margin: 50px 0; position: relative; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);">
                 <img src="images/snape_class.gif" alt="Professor Snape" style="float: right; width: 150px; height: 150px; border-radius: 50%; border: 4px solid rgba(45, 27, 78, 0.8); margin-left: 30px; box-shadow: 0 10px 40px rgba(45, 27, 78, 0.6); animation: gentleFloat 4.5s ease-in-out infinite;">
-                <h3 style="color: rgba(203, 166, 97, 1); font-family: 'Cinzel', serif; font-size: 1.6em; margin-bottom: 15px;">🧪 Class Evaluation</h3>
+                <h3 style="color: #cbd5e1; font-family: 'Playfair Display', serif; font-size: 1.6em; margin-bottom: 15px;">🧪 Class Evaluation</h3>
                 <p style="font-size: 1.1em; line-height: 1.8; color: rgba(203, 166, 97, 0.9); font-style: italic;">
                     <strong>"Adequate."</strong> That is... surprisingly competent work. Your API call executed without catastrophic failure, which is more than I can say for most first attempts.
                     <br><br>
@@ -1320,7 +1347,7 @@ print(f"💰 Cost: ${cost:.6f}")
         <div class="footer">
             <p><strong>Learn AI Development - Harry Potter Edition</strong> | Module 1: Getting Started | <a href="index.html">🏠 Back to Home</a></p>
             <p style="margin-top: 15px; font-size: 1em;">
-                Created with ✨ by <strong><a href="https://youtube.com/@tokenlal" target="_blank" style="color: rgba(203, 166, 97, 1); text-decoration: none; border-bottom: 2px solid rgba(203, 166, 97, 0.5);">@tokenlal</a></strong>
+                Created with ✨ by <strong><a href="https://youtube.com/@tokenlal" target="_blank" style="color: #cbd5e1; text-decoration: none; border-bottom: 2px solid rgba(203, 166, 97, 0.5);">@tokenlal</a></strong>
             </p>
             <p style="margin-top: 8px; font-size: 0.95em;">
                 🎥 <a href="https://youtube.com/@tokenlal" target="_blank">YouTube Channel</a> | 
@@ -1372,7 +1399,7 @@ print(f"💰 Cost: ${cost:.6f}")
             }, 50);
         });
 
-        console.log('%c🔮 Your First LLM API Call - Harry Potter Edition!', 'font-size: 18px; color: #8b5cf6; font-weight: bold;');
+        console.log('%c🔮 Your First LLM API Call - Harry Potter Edition!', 'font-size: 18px; color: #0f172a; font-weight: bold;');
     </script>
 </body>
 

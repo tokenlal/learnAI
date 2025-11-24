@@ -7,7 +7,7 @@
     <title>Understanding Generative AI - Harry Potter Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,74 +16,23 @@
         }
 
         body {
-            font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             min-height: 100vh;
             color: #1e293b;
             line-height: 1.6;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(2px 2px at 20% 30%, rgba(203, 166, 97, 0.4), transparent),
-                radial-gradient(2px 2px at 60% 70%, rgba(203, 166, 97, 0.3), transparent),
-                radial-gradient(1px 1px at 50% 50%, rgba(203, 166, 97, 0.4), transparent),
-                radial-gradient(3px 3px at 10% 80%, rgba(139, 92, 246, 0.2), transparent);
-            background-size: 200% 200%;
-            animation: magicFloat 20s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        body::after {
-            content: "🪄";
-            position: fixed;
-            font-size: 22px;
-            color: rgba(203, 166, 97, 0.6);
-            animation: wandFloat 16s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        @keyframes magicFloat {
-            0%, 100% { 
-                background-position: 0% 0%, 100% 100%, 100% 0%;
-                opacity: 0.5;
-            }
-            50% { 
-                background-position: 100% 100%, 0% 0%, 0% 100%;
-                opacity: 0.7;
-            }
-        }
-
-        @keyframes wandFloat {
-            0% { left: -50px; top: 25%; transform: rotate(-45deg); }
-            25% { left: 35%; top: 65%; transform: rotate(45deg); }
-            50% { left: 65%; top: 25%; transform: rotate(135deg); }
-            75% { left: 45%; top: 70%; transform: rotate(225deg); }
-            100% { left: 110%; top: 40%; transform: rotate(315deg); }
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: #ffffff;
+            background: white;
             min-height: 100vh;
-            box-shadow: 0 0 100px rgba(139, 92, 46, 0.3);
-            position: relative;
-            z-index: 2;
+            box-shadow: 0 0 60px rgba(15, 23, 42, 0.08);
         }
 
         .header {
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
             color: white;
             padding: 80px 60px;
             position: relative;
@@ -97,7 +46,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 20 L52 28 L60 28 L54 33 L56 41 L50 36 L44 41 L46 33 L40 28 L48 28 Z" fill="rgba(203,166,97,0.2)"/></svg>') repeat;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%2364748b" opacity="0.15"/><circle cx="80" cy="40" r="1.5" fill="%2364748b" opacity="0.15"/></svg>') repeat;
             background-size: 80px;
             animation: sparkleMove 30s linear infinite;
             opacity: 0.6;
@@ -126,7 +75,7 @@
             width: 180px;
             height: 180px;
             border-radius: 50%;
-            border: 4px solid rgba(203, 166, 97, 0.8);
+            border: 4px solid #94a3b8;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(203, 166, 97, 0.3);
             object-fit: cover;
             animation: float 3s ease-in-out infinite;
@@ -143,7 +92,7 @@
         }
 
         .header h1 {
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             font-size: 3.5em;
             margin-bottom: 20px;
             font-weight: 700;
@@ -160,7 +109,7 @@
 
         .nav {
             background: white;
-            border-bottom: 2px solid rgba(139, 92, 46, 0.2);
+            border-bottom: 1px solid #e2e8f0;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -187,15 +136,15 @@
         }
 
         .nav a:hover {
-            color: #8b5cf6;
+            color: #0f172a;
             background: linear-gradient(to bottom, transparent, rgba(139, 92, 246, 0.05));
             border-bottom-color: rgba(203, 166, 97, 0.5);
         }
 
         .nav a.active {
-            color: #8b5cf6;
+            color: #0f172a;
             background: linear-gradient(to bottom, transparent, rgba(139, 92, 246, 0.08));
-            border-bottom-color: rgba(203, 166, 97, 1);
+            border-bottom-color: #cbd5e1;
         }
 
         .content {
@@ -223,11 +172,11 @@
         }
 
         .section h2 {
-            color: #8b5cf6;
+            color: #0f172a;
             font-size: 2.8em;
             margin-bottom: 30px;
             font-weight: 700;
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             position: relative;
             display: inline-block;
         }
@@ -239,7 +188,7 @@
             left: 0;
             width: 60%;
             height: 3px;
-            background: linear-gradient(90deg, rgba(203, 166, 97, 0.8), transparent);
+            background: linear-gradient(90deg, #94a3b8, transparent);
         }
 
         .section h3 {
@@ -247,7 +196,7 @@
             font-size: 1.8em;
             margin: 35px 0 16px 0;
             font-weight: 600;
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
         }
 
         .section p,
@@ -267,66 +216,66 @@
         }
 
         .highlight-box {
-            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
-            border-left: 6px solid #2196F3;
-            padding: 32px;
-            margin: 35px 0;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #93c5fd;
+            padding: 30px;
+            margin: 30px 0;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.12);
         }
 
         .highlight-box strong {
-            color: #1565C0;
+            color: #1e40af;
             font-size: 1.3em;
             display: block;
             margin-bottom: 16px;
-            font-weight: 800;
-            font-family: 'Cinzel', sans-serif;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
         }
 
         .warning-box {
-            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
-            border-left: 6px solid #FF9800;
-            padding: 32px;
-            margin: 35px 0;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #93c5fd;
+            padding: 30px;
+            margin: 30px 0;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.12);
         }
 
         .warning-box strong {
-            color: #E65100;
+            color: #1e40af;
             font-size: 1.3em;
             display: block;
             margin-bottom: 16px;
-            font-weight: 800;
-            font-family: 'Cinzel', sans-serif;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
         }
 
         .success-box {
-            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
-            border-left: 6px solid #4CAF50;
-            padding: 32px;
-            margin: 35px 0;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #93c5fd;
+            padding: 30px;
+            margin: 30px 0;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.12);
         }
 
         .success-box strong {
-            color: #2E7D32;
+            color: #1e40af;
             font-size: 1.3em;
             display: block;
             margin-bottom: 16px;
-            font-weight: 800;
-            font-family: 'Cinzel', sans-serif;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
         }
 
         .step-box {
-            background: linear-gradient(135deg, #fff5e6 0%, white 100%);
-            border: 3px solid #D3A625;
+            background: linear-gradient(135deg, #f8fafc 0%, white 100%);
+            border: 2px solid #cbd5e1;
             padding: 40px;
             margin: 32px 0;
-            border-radius: 15px;
-            box-shadow: 0 6px 20px rgba(211, 166, 37, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.08);
         }
 
         .step-number {
@@ -367,11 +316,11 @@
         }
 
         .comparison-card h4 {
-            color: #8b5cf6;
+            color: #0f172a;
             margin-bottom: 16px;
             font-size: 1.6em;
             font-weight: 700;
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
         }
 
         .comparison-card p {
@@ -398,7 +347,7 @@
 
         .use-case-card {
             background: linear-gradient(135deg, #ffffff 0%, #fafaf9 100%);
-            border: 2px solid rgba(139, 92, 46, 0.15);
+            border: 2px solid #e2e8f0;
             padding: 40px;
             border-radius: 16px;
             transition: all 0.3s ease;
@@ -413,7 +362,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #8b5cf6, rgba(203, 166, 97, 0.8));
+            background: linear-gradient(90deg, #8b5cf6, #94a3b8);
         }
 
         .use-case-card:hover {
@@ -429,11 +378,11 @@
         }
 
         .use-case-card h3 {
-            color: #8b5cf6;
+            color: #0f172a;
             margin: 0 0 18px 0;
             font-size: 1.5em;
             font-weight: 700;
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
         }
 
         .use-case-card p {
@@ -465,12 +414,12 @@
         }
 
         .insight-box strong {
-            color: rgba(203, 166, 97, 1);
+            color: #cbd5e1;
             font-size: 1.4em;
             display: block;
             margin-bottom: 18px;
             font-weight: 700;
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             position: relative;
             z-index: 1;
         }
@@ -491,7 +440,7 @@
         .cta-button {
             display: inline-block;
             padding: 18px 50px;
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             color: white;
             text-decoration: none;
             border-radius: 50px;
@@ -514,7 +463,7 @@
             padding: 4px 10px;
             border-radius: 5px;
             font-family: 'SF Mono', 'Monaco', monospace;
-            color: #8b5cf6;
+            color: #0f172a;
             font-size: 0.9em;
             border: 1px solid rgba(139, 92, 246, 0.2);
         }
@@ -548,11 +497,11 @@
 
         .footer p {
             margin: 10px 0;
-            color: rgba(203, 166, 97, 0.8);
+            color: #94a3b8;
         }
 
         .footer a {
-            color: rgba(203, 166, 97, 1);
+            color: #cbd5e1;
             text-decoration: none;
             font-weight: 600;
         }
@@ -578,7 +527,7 @@
             font-size: 1.8em;
             text-decoration: none;
             box-shadow: 0 8px 25px rgba(203, 166, 97, 0.5);
-            border: 3px solid rgba(203, 166, 97, 0.6);
+            border: 3px solid #cbd5e1;
             z-index: 9997;
             transition: all 0.3s ease;
         }
@@ -594,7 +543,7 @@
             position: absolute;
             right: 70px;
             background: rgba(15, 23, 42, 0.95);
-            color: rgba(203, 166, 97, 1);
+            color: #cbd5e1;
             padding: 8px 15px;
             border-radius: 8px;
             font-size: 0.5em;
@@ -603,7 +552,7 @@
             pointer-events: none;
             transition: opacity 0.3s;
             border: 2px solid rgba(203, 166, 97, 0.4);
-            font-family: 'Cinzel', serif;
+            font-family: 'Playfair Display', serif;
             font-weight: 600;
         }
 
@@ -759,16 +708,16 @@
         }
 
         /* ========== ENHANCED FEATURES (Same as index.html) ========== */
-        .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: linear-gradient(90deg, #cba661 0%, #8b5cf6 100%); z-index: 9999; transition: width 0.1s ease; box-shadow: 0 0 10px rgba(203, 166, 97, 0.8); }
+        .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: linear-gradient(90deg, #cba661 0%, #8b5cf6 100%); z-index: 9999; transition: width 0.1s ease; box-shadow: 0 0 10px #94a3b8; }
         .progress-tracker { position: fixed; top: 20px; right: 20px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(203, 166, 97, 0.4); border-radius: 15px; padding: 15px 20px; z-index: 9998; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); min-width: 200px; }
-        .progress-tracker h4 { color: rgba(203, 166, 97, 1); font-family: 'Cinzel', serif; margin-bottom: 10px; font-size: 0.9em; }
+        .progress-tracker h4 { color: #cbd5e1; font-family: 'Playfair Display', serif; margin-bottom: 10px; font-size: 0.9em; }
         .progress-bar-container { background: rgba(30, 41, 59, 0.8); border-radius: 10px; height: 12px; overflow: hidden; margin-bottom: 8px; }
         .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #cba661 0%, #8b5cf6 100%); border-radius: 10px; transition: width 0.5s ease; box-shadow: 0 0 10px rgba(203, 166, 97, 0.6); }
-        .progress-text { color: rgba(203, 166, 97, 0.8); font-size: 0.85em; text-align: center; }
+        .progress-text { color: #94a3b8; font-size: 0.85em; text-align: center; }
         .badges { display: flex; gap: 5px; margin-top: 10px; flex-wrap: wrap; }
         .badge { font-size: 1.2em; opacity: 0.3; transition: all 0.3s ease; cursor: pointer; position: relative; }
         .badge.earned { opacity: 1; animation: badgePop 0.5s ease; }
-        .badge:hover::after { content: attr(data-title); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.95); color: rgba(203, 166, 97, 1); padding: 5px 10px; border-radius: 5px; white-space: nowrap; font-size: 0.7em; border: 1px solid rgba(203, 166, 97, 0.3); }
+        .badge:hover::after { content: attr(data-title); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.95); color: #cbd5e1; padding: 5px 10px; border-radius: 5px; white-space: nowrap; font-size: 0.7em; border: 1px solid rgba(203, 166, 97, 0.3); }
         @keyframes badgePop { 0% { transform: scale(0); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
         .card-3d { transform-style: preserve-3d; transition: transform 0.3s ease; }
         .card-3d:hover { transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02); }
@@ -776,22 +725,22 @@
         .fade-in-section.visible { opacity: 1; transform: translateY(0); }
         .cursor-trail { position: fixed; width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle, rgba(203, 166, 97, 0.6) 0%, transparent 70%); pointer-events: none; z-index: 9997; animation: trailFade 0.8s ease forwards; }
         @keyframes trailFade { to { transform: scale(2); opacity: 0; } }
-        .tooltip { position: relative; cursor: help; color: #8b5cf6; font-weight: 600; border-bottom: 2px dotted #8b5cf6; }
-        .tooltip:hover::after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.98); color: rgba(203, 166, 97, 1); padding: 10px 15px; border-radius: 8px; white-space: nowrap; font-size: 0.85em; font-weight: 400; border: 2px solid rgba(203, 166, 97, 0.4); z-index: 1000; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+        .tooltip { position: relative; cursor: help; color: #0f172a; font-weight: 600; border-bottom: 2px dotted #8b5cf6; }
+        .tooltip:hover::after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.98); color: #cbd5e1; padding: 10px 15px; border-radius: 8px; white-space: nowrap; font-size: 0.85em; font-weight: 400; border: 2px solid rgba(203, 166, 97, 0.4); z-index: 1000; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
         .social-proof { background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(203, 166, 97, 0.1) 100%); border: 2px solid rgba(203, 166, 97, 0.2); border-radius: 12px; padding: 20px; margin: 30px 0; text-align: center; }
-        .social-proof .counter { font-size: 2.5em; font-weight: 700; color: #8b5cf6; font-family: 'Cinzel', serif; }
+        .social-proof .counter { font-size: 2.5em; font-weight: 700; color: #0f172a; font-family: 'Playfair Display', serif; }
         .social-proof .label { color: rgba(30, 41, 59, 0.8); font-size: 1.1em; margin-top: 5px; }
         .quiz-container { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 15px; padding: 40px; margin: 40px 0; border: 3px solid rgba(139, 92, 246, 0.3); box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2); }
-        .quiz-container h3 { color: #8b5cf6; font-family: 'Cinzel', serif; margin-bottom: 25px; font-size: 1.8em; text-align: center; }
+        .quiz-container h3 { color: #0f172a; font-family: 'Playfair Display', serif; margin-bottom: 25px; font-size: 1.8em; text-align: center; }
         .quiz-question { background: white; border-radius: 12px; padding: 25px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
         .quiz-question h4 { color: #1e293b; margin-bottom: 15px; font-size: 1.1em; }
         .quiz-options { display: flex; flex-direction: column; gap: 10px; }
         .quiz-option { background: #f1f5f9; border: 2px solid transparent; border-radius: 8px; padding: 15px; cursor: pointer; transition: all 0.3s ease; }
-        .quiz-option:hover { background: #e2e8f0; border-color: #8b5cf6; transform: translateX(5px); }
-        .quiz-option.selected { background: rgba(139, 92, 246, 0.1); border-color: #8b5cf6; }
+        .quiz-option:hover { background: #e2e8f0; border-color: #0f172a; transform: translateX(5px); }
+        .quiz-option.selected { background: rgba(139, 92, 246, 0.1); border-color: #0f172a; }
         .quiz-option.correct { background: rgba(34, 197, 94, 0.1); border-color: #22c55e; }
         .quiz-option.incorrect { background: rgba(239, 68, 68, 0.1); border-color: #ef4444; }
-        .quiz-submit { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; border: none; border-radius: 10px; padding: 15px 40px; font-size: 1.1em; font-weight: 600; cursor: pointer; margin-top: 20px; transition: all 0.3s ease; }
+        .quiz-submit { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; border: none; border-radius: 10px; padding: 15px 40px; font-size: 1.1em; font-weight: 600; cursor: pointer; margin-top: 20px; transition: all 0.3s ease; }
         .quiz-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4); }
         .quiz-result { margin-top: 20px; padding: 20px; border-radius: 10px; text-align: center; font-size: 1.2em; font-weight: 600; }
         .quiz-result.success { background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 2px solid #22c55e; }
@@ -801,13 +750,13 @@
         .nav-arrows { display: flex; justify-content: space-between; margin: 30px 0; gap: 20px; }
         .nav-arrow { flex: 1; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(203, 166, 97, 0.1) 100%); border: 2px solid rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 20px; text-decoration: none; color: #1e293b; transition: all 0.3s ease; display: flex; align-items: center; gap: 15px; }
         .nav-arrow:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3); border-color: rgba(139, 92, 246, 0.6); }
-        .nav-arrow .arrow { font-size: 2em; color: #8b5cf6; }
+        .nav-arrow .arrow { font-size: 2em; color: #0f172a; }
         .nav-arrow .text { flex: 1; }
-        .nav-arrow .title { font-weight: 700; color: #8b5cf6; font-size: 1.1em; }
+        .nav-arrow .title { font-weight: 700; color: #0f172a; font-size: 1.1em; }
         .nav-arrow .desc { font-size: 0.9em; color: rgba(30, 41, 59, 0.7); }
-        .reading-time { display: inline-block; background: rgba(139, 92, 246, 0.1); color: #8b5cf6; padding: 5px 12px; border-radius: 20px; font-size: 0.9em; margin-left: 10px; }
+        .reading-time { display: inline-block; background: rgba(139, 92, 246, 0.1); color: #0f172a; padding: 5px 12px; border-radius: 20px; font-size: 0.9em; margin-left: 10px; }
         @keyframes particleBurst { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } }
-        .particle { position: fixed; width: 8px; height: 8px; border-radius: 50%; background: radial-gradient(circle, rgba(203, 166, 97, 1) 0%, rgba(139, 92, 246, 1) 100%); pointer-events: none; z-index: 9999; animation: particleBurst 1s ease forwards; }
+        .particle { position: fixed; width: 8px; height: 8px; border-radius: 50%; background: radial-gradient(circle, #cbd5e1 0%, rgba(139, 92, 246, 1) 100%); pointer-events: none; z-index: 9999; animation: particleBurst 1s ease forwards; }
         @media (max-width: 768px) { 
             .progress-tracker { 
                 top: 10px; 
@@ -898,7 +847,7 @@
             <div class="section fade-in-section" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(203, 166, 97, 0.05) 100%); border-left: 5px solid rgba(139, 92, 246, 0.6); padding: 30px; border-radius: 12px; margin-bottom: 40px;">
                 <img src="images/macgonical.gif" alt="Professor McGonagall" style="float: left; width: 120px; height: 120px; border-radius: 50%; border: 3px solid rgba(139, 92, 246, 0.6); margin-right: 25px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);">
                 <p style="font-size: 1.15em; line-height: 1.8; color: #1e293b; font-style: italic;">
-                    <strong style="color: #8b5cf6; font-size: 1.2em;">"Welcome to your first proper lesson in Artificial Intelligence."</strong><br><br>
+                    <strong style="color: #0f172a; font-size: 1.2em;">"Welcome to your first proper lesson in Artificial Intelligence."</strong><br><br>
                     Today, we shall be exploring the fascinating world of <span class="tooltip" data-tooltip="AI that creates new content">Generative AI</span>. 
                     Pay close attention, as this knowledge will form the foundation of your entire magical—I mean, technical—journey. 
                     Unlike ordinary programming where every instruction must be explicitly written, Generative AI performs what appears to be... transfiguration of sorts.
@@ -961,7 +910,7 @@
             <!-- McGonagall's Transfiguration Demonstration -->
             <div style="text-align: center; margin: 50px 0; padding: 50px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(203, 166, 97, 0.1) 100%); border-radius: 15px; border: 2px solid rgba(139, 92, 246, 0.4);">
                 <img src="images/macgonical2.gif" alt="Professor McGonagall Teaching" style="width: 400px; height: 300px; border-radius: 15px; border: 4px solid rgba(139, 92, 246, 0.6); box-shadow: 0 15px 50px rgba(139, 92, 246, 0.5); margin-bottom: 25px;">
-                <p style="font-size: 1.5em; color: #8b5cf6; font-style: italic; font-weight: 600; margin: 0;">
+                <p style="font-size: 1.5em; color: #0f172a; font-style: italic; font-weight: 600; margin: 0;">
                     "Observe carefully. This is how AI transforms data into intelligence, much like transfiguration changes one form to another."
                 </p>
             </div>
@@ -1013,7 +962,7 @@
             <!-- McGonagall Walking to Next Topic -->
             <div style="text-align: center; margin: 60px 0; padding: 60px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(203, 166, 97, 0.08) 100%); border-radius: 15px;">
                 <img src="images/macgonical3.gif" alt="McGonagall Walking" style="width: 450px; height: auto; border-radius: 15px; box-shadow: 0 20px 60px rgba(139, 92, 246, 0.5); margin-bottom: 30px;">
-                <p style="font-size: 1.4em; color: #8b5cf6; font-style: italic; font-weight: 600;">
+                <p style="font-size: 1.4em; color: #0f172a; font-style: italic; font-weight: 600;">
                     *Professor McGonagall strides purposefully across the classroom*<br>
                     "Now, let us examine some... practical applications of this transfiguration."
                 </p>
@@ -1066,7 +1015,7 @@
             <!-- McGonagall's Inspiring Moment -->
             <div style="text-align: center; margin: 60px 0; padding: 60px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(203, 166, 97, 0.15) 100%); border-radius: 15px; border: 3px solid rgba(139, 92, 246, 0.5); box-shadow: 0 20px 60px rgba(139, 92, 246, 0.3);">
                 <img src="images/macgonical4.gif" alt="McGonagall Inspiring" style="width: 400px; height: auto; border-radius: 15px; border: 5px solid rgba(139, 92, 246, 0.7); box-shadow: 0 0 50px rgba(139, 92, 246, 0.8), 0 20px 60px rgba(0, 0, 0, 0.6); margin-bottom: 30px;">
-                <p style="font-size: 1.5em; color: #8b5cf6; font-style: italic; font-weight: 700;">
+                <p style="font-size: 1.5em; color: #0f172a; font-style: italic; font-weight: 700;">
                     "The future belongs to those who master this magic...<br>
                     And I have every confidence that you can become such a wizard."
                 </p>
@@ -1102,9 +1051,9 @@
             <!-- Professor McGonagall's Class Dismissal -->
             <div class="section fade-in-section" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(203, 166, 97, 0.1) 100%); border: 3px solid rgba(139, 92, 246, 0.4); border-radius: 15px; padding: 40px; margin: 50px 0; position: relative; box-shadow: 0 15px 50px rgba(139, 92, 246, 0.25);">
                 <img src="images/macgonical.gif" alt="Professor McGonagall" style="float: right; width: 150px; height: 150px; border-radius: 50%; border: 4px solid rgba(139, 92, 246, 0.7); margin-left: 30px; box-shadow: 0 10px 40px rgba(139, 92, 246, 0.5); animation: gentleFloat 4.5s ease-in-out infinite;">
-                <h3 style="color: #8b5cf6; font-family: 'Cinzel', serif; font-size: 1.6em; margin-bottom: 15px;">📚 Class Evaluation</h3>
+                <h3 style="color: #0f172a; font-family: 'Playfair Display', serif; font-size: 1.6em; margin-bottom: 15px;">📚 Class Evaluation</h3>
                 <p style="font-size: 1.1em; line-height: 1.8; color: #1e293b; font-style: italic;">
-                    <strong style="color: #8b5cf6; font-size: 1.15em;">"Excellent work, class."</strong> You now possess a firm understanding of what Generative AI truly is—not mere parlor tricks, but genuine transfiguration of data into intelligence. 
+                    <strong style="color: #0f172a; font-size: 1.15em;">"Excellent work, class."</strong> You now possess a firm understanding of what Generative AI truly is—not mere parlor tricks, but genuine transfiguration of data into intelligence. 
                     <br><br>
                     I expect you to master the environment setup in your next lesson with the same discipline you've shown today. Remember: Artificial Intelligence, much like Transfiguration, 
                     requires both theoretical knowledge and practical application.
@@ -1139,7 +1088,7 @@
                 <div style="content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 50% 50%, rgba(203, 166, 97, 0.1) 0%, transparent 70%);"></div>
                 <img src="images/dumbledore.gif" alt="Dumbledore" style="position: absolute; left: 30px; bottom: 30px; width: 140px; height: 140px; border-radius: 50%; border: 4px solid rgba(203, 166, 97, 0.6); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); animation: gentleFloat 5.5s ease-in-out infinite; opacity: 0.9; z-index: 1;">
                 <img src="images/hogwarts.gif" alt="Hogwarts" style="position: absolute; right: 30px; bottom: 30px; width: 140px; height: 140px; border-radius: 50%; border: 4px solid rgba(203, 166, 97, 0.6); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); animation: gentleFloat 6s ease-in-out infinite; opacity: 0.9; z-index: 1;">
-                <h2 style="color: rgba(203, 166, 97, 1); margin-bottom: 25px; position: relative; z-index: 2;">Ready for Setup? 🛠️</h2>
+                <h2 style="color: #cbd5e1; margin-bottom: 25px; position: relative; z-index: 2;">Ready for Setup? 🛠️</h2>
                 <p style="font-size: 1.2em; color: rgba(203, 166, 97, 0.9); max-width: 700px; margin: 0 auto 35px; position: relative; z-index: 2;">
                     Now that you understand the AI landscape, let's set up your magical development environment and get ready to build!
                 </p>
@@ -1152,7 +1101,7 @@
         <div class="footer">
             <p><strong>Learn AI Development - Harry Potter Edition</strong> | Module 1: Getting Started</p>
             <p style="margin-top: 15px; font-size: 1em;">
-                Created with ✨ by <strong><a href="https://youtube.com/@tokenlal" target="_blank" style="color: rgba(203, 166, 97, 1); text-decoration: none; border-bottom: 2px solid rgba(203, 166, 97, 0.5);">@tokenlal</a></strong>
+                Created with ✨ by <strong><a href="https://youtube.com/@tokenlal" target="_blank" style="color: #cbd5e1; text-decoration: none; border-bottom: 2px solid rgba(203, 166, 97, 0.5);">@tokenlal</a></strong>
             </p>
             <p style="margin-top: 8px; font-size: 0.95em;">
                 🎥 <a href="https://youtube.com/@tokenlal" target="_blank">YouTube Channel</a> | 
@@ -1227,7 +1176,7 @@
             });
         });
 
-        console.log('%c⚡ Gen AI Overview - Harry Potter Edition!', 'font-size: 18px; color: #8b5cf6; font-weight: bold;');
+        console.log('%c⚡ Gen AI Overview - Harry Potter Edition!', 'font-size: 18px; color: #0f172a; font-weight: bold;');
     </script>
 </body>
 
