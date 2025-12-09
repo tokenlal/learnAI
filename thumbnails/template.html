@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Thumbnail Generator - Gen AI Mastery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0a0a12;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            gap: 30px;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .controls {
+            background: rgba(255,255,255,0.05);
+            padding: 25px 35px;
+            border-radius: 16px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group label {
+            color: #888;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .control-group input, .control-group select {
+            padding: 12px 18px;
+            border-radius: 10px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            font-size: 1em;
+            min-width: 200px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .control-group input:focus, .control-group select:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .thumbnail-wrapper {
+            border: 3px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+        }
+
+        /* ============================================
+           THUMBNAIL - 1280x720 (YouTube Standard)
+           ============================================ */
+        .thumbnail {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            overflow: hidden;
+            background: #0a0a14;
+        }
+
+        /* Gradient mesh background */
+        .bg-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 20% 90%, rgba(99, 102, 241, 0.25) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 10%, rgba(139, 92, 246, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 30% at 60% 50%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        /* Subtle grid */
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 2;
+        }
+
+        /* Accent line */
+        .accent-line {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 8px;
+            background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+            z-index: 10;
+        }
+
+        /* Content container */
+        .content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            padding: 60px 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Top section */
+        .top-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Series title at top */
+        .series-title {
+            font-size: 2.2em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 50%, #67e8f9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.5));
+            padding: 10px 30px;
+            border: 2px solid rgba(6, 182, 212, 0.4);
+            border-radius: 8px;
+        }
+
+        /* Channel branding - right side */
+        .channel-brand {
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .youtube-logo {
+            width: 70px;
+            height: 50px;
+        }
+
+        .channel-handle {
+            font-size: 2.8em;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+
+        /* Main title area - center */
+        .title-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 0;
+        }
+
+        .main-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 6.5em;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+            letter-spacing: -2px;
+            margin-bottom: 25px;
+        }
+
+        .main-title span {
+            display: block;
+            word-spacing: 0.1em;
+        }
+
+        .main-title .highlight {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 40%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            word-spacing: 0.3em;
+        }
+
+        .subtitle {
+            font-size: 2em;
+            color: rgba(255,255,255,0.6);
+            font-weight: 500;
+            letter-spacing: 1px;
+            max-width: 700px;
+        }
+
+        /* Bottom section */
+        .bottom-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+
+        /* Tags */
+        .tags {
+            display: flex;
+            gap: 12px;
+        }
+
+        .tag {
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.7);
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Decorative elements */
+        .deco-circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(99, 102, 241, 0.15);
+            z-index: 5;
+        }
+
+        .deco-circle.c1 {
+            width: 400px;
+            height: 400px;
+            right: -100px;
+            top: -100px;
+        }
+
+        .deco-circle.c2 {
+            width: 300px;
+            height: 300px;
+            right: 50px;
+            bottom: -50px;
+        }
+
+        /* Helper text */
+        .helper {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        /* Download button */
+        .download-btn {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .download-btn.loading {
+            opacity: 0.7;
+            cursor: wait;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <h1>🎬 Thumbnail Generator - Gen AI Mastery</h1>
+
+    <div class="controls">
+        <div class="control-group">
+            <label>Title Line 1</label>
+            <input type="text" id="titleLine1" value="YOUR FIRST" oninput="updateThumbnail()">
+        </div>
+        <div class="control-group">
+            <label>Title Line 2 (Highlighted)</label>
+            <input type="text" id="titleLine2" value="API CALL" oninput="updateThumbnail()">
+        </div>
+        <div class="control-group">
+            <label>Subtitle</label>
+            <input type="text" id="subtitle" value="Build AI apps with Python & OpenAI" oninput="updateThumbnail()">
+        </div>
+    </div>
+
+    <div class="thumbnail-wrapper">
+        <div class="thumbnail" id="thumbnail">
+            <!-- Background layers -->
+            <div class="bg-gradient"></div>
+            <div class="bg-grid"></div>
+
+            <!-- Accent line -->
+            <div class="accent-line"></div>
+
+            <!-- Decorative circles -->
+            <div class="deco-circle c1"></div>
+            <div class="deco-circle c2"></div>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- Top section -->
+                <div class="top-section">
+                    <div class="series-title">Gen AI Mastery</div>
+                </div>
+
+                <!-- Channel branding - right -->
+                <div class="channel-brand">
+                    <svg class="youtube-logo" viewBox="0 0 71 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M69.5 7.8C68.7 4.8 66.3 2.4 63.3 1.6C57.7 0 35.5 0 35.5 0C35.5 0 13.3 0 7.7 1.6C4.7 2.4 2.3 4.8 1.5 7.8C0 13.4 0 25 0 25C0 25 0 36.6 1.5 42.2C2.3 45.2 4.7 47.6 7.7 48.4C13.3 50 35.5 50 35.5 50C35.5 50 57.7 50 63.3 48.4C66.3 47.6 68.7 45.2 69.5 42.2C71 36.6 71 25 71 25C71 25 71 13.4 69.5 7.8Z" fill="#FF0000"/>
+                        <path d="M28.4 35.7L46.8 25L28.4 14.3V35.7Z" fill="white"/>
+                    </svg>
+                    <span class="channel-handle">@tokenlal</span>
+                </div>
+
+                <!-- Title area -->
+                <div class="title-area">
+                    <div class="main-title">
+                        <span id="titleLine1Display">YOUR FIRST</span>
+                        <span class="highlight" id="titleLine2Display">API CALL</span>
+                    </div>
+                    <div class="subtitle" id="subtitleDisplay">Build AI apps with Python & OpenAI</div>
+                </div>
+
+                <!-- Bottom section -->
+                <div class="bottom-section">
+                    <div class="tags">
+                        <div class="tag">Python</div>
+                        <div class="tag">OpenAI</div>
+                        <div class="tag">Gemini</div>
+                        <div class="tag">Beginner</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="download-btn" id="downloadBtn" onclick="downloadThumbnail()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7,10 12,15 17,10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download Thumbnail
+    </button>
+
+    <p class="helper">💡 Click the button above to download as PNG (1280×720)</p>
+
+    <script>
+        function updateThumbnail() {
+            document.getElementById('titleLine1Display').textContent = document.getElementById('titleLine1').value;
+            document.getElementById('titleLine2Display').textContent = document.getElementById('titleLine2').value;
+            document.getElementById('subtitleDisplay').textContent = document.getElementById('subtitle').value;
+        }
+
+        async function downloadThumbnail() {
+            const btn = document.getElementById('downloadBtn');
+            const thumbnail = document.getElementById('thumbnail');
+            
+            btn.classList.add('loading');
+            btn.innerHTML = '⏳ Generating...';
+            
+            try {
+                const canvas = await html2canvas(thumbnail, {
+                    scale: 1,
+                    useCORS: true,
+                    allowTaint: true,
+                    width: 1280,
+                    height: 720
+                });
+                
+                const link = document.createElement('a');
+                const title = document.getElementById('titleLine2').value.toLowerCase().replace(/\s+/g, '-');
+                link.download = `thumbnail-${title}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                btn.innerHTML = '✅ Downloaded!';
+                setTimeout(() => {
+                    btn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7,10 12,15 17,10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg> Download Thumbnail`;
+                    btn.classList.remove('loading');
+                }, 2000);
+            } catch (error) {
+                console.error('Error:', error);
+                btn.innerHTML = '❌ Error - Try Again';
+                btn.classList.remove('loading');
+            }
+        }
+
+        updateThumbnail();
+    </script>
+</body>
+</html>
