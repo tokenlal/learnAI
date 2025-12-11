@@ -169,6 +169,75 @@
             gap: 40px;
         }
 
+        .short-video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .short-video-card {
+            background: linear-gradient(135deg, #f8fafc 0%, white 100%);
+            border: 2px solid #e2e8f0;
+            padding: 25px;
+            border-radius: 12px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .short-video-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #f97316);
+        }
+
+        .short-video-card:hover {
+            border-color: #f59e0b;
+            box-shadow: 0 12px 35px rgba(245, 158, 11, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .short-video-card .module-number {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            font-size: 0.7em;
+            padding: 6px 12px;
+            margin-bottom: 12px;
+        }
+
+        .short-video-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 12px;
+        }
+
+        .short-video-card p {
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .short-video-card .module-topics {
+            display: none;
+        }
+
+        .short-video-card .cta-button {
+            padding: 10px 24px;
+            font-size: 0.9em;
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+        }
+
+        .short-video-card .cta-button:hover {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+        }
+
         .module-card {
             background: linear-gradient(135deg, #f8fafc 0%, white 100%);
             border: 2px solid #e2e8f0;
@@ -330,6 +399,11 @@
             .module-grid {
                 grid-template-columns: 1fr;
                 gap: 25px;
+            }
+
+            .short-video-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
 
             .features-grid {
@@ -519,7 +593,27 @@
             </div>
 
             <div class="modules-section">
-                <h2 class="section-title">Course Modules 📚</h2>
+                <h2 class="section-title">⚡ 5-Minute Quick Concepts</h2>
+                <p style="text-align: center; font-size: 1.15em; color: #475569; margin-bottom: 35px; max-width: 700px; margin-left: auto; margin-right: auto;">
+                    Bite-sized explanations of key Gen AI concepts. Perfect for quick learning!
+                </p>
+                <div class="short-video-grid">
+                    <a href="short-videos/01-what-is-llm.html" class="short-video-card">
+                        <span class="module-number">5 MIN</span>
+                        <h3>🦜 What is an LLM?</h3>
+                        <p>
+                            Learn what Large Language Models are through a fun parrot analogy! Understand probability, RLHF, and popular models.
+                        </p>
+                        <span class="cta-button">Watch Now →</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="modules-section" style="margin-top: 80px;">
+                <h2 class="section-title">📚 Complete Course Modules</h2>
+                <p style="text-align: center; font-size: 1.2em; color: #475569; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                    Comprehensive, hands-on modules that take you from beginner to building production-ready AI applications.
+                </p>
                 <div class="module-grid">
                     <a href="01-getting-started/index.html" class="module-card">
                         <span class="module-number">MODULE 1</span>
